@@ -502,6 +502,55 @@ CBF:vehName(const playerid, const argumentIdx, const resultIdx)
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 CBF:vehModel(const playerid, const argumentIdx, const resultIdx)
 {
     new
