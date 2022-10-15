@@ -310,7 +310,7 @@ CBF:timestamp(const playerid, const argumentIdx, const resultIdx)
 {
     new value[MAX_VALUE_SIZE];
 
-    valstr(str, gettime() - 1577836800);
+    valstr(value, gettime() - 1577836800);
     WriteAmxMemoryArray(resultIdx, value);
     return true;
 }
@@ -321,7 +321,7 @@ CBF:team(const playerid, const argumentIdx, const resultIdx)
         value[MAX_VALUE_SIZE],
         targetid = resolveTargetOrSelf(playerid, argumentIdx);
 
-    valstr(str, pData[targetid][pTeam] + 1);
+    valstr(value, pData[targetid][pTeam] + 1);
     WriteAmxMemoryArray(resultIdx, value);
     return true;
 }
@@ -332,7 +332,7 @@ CBF:score(const playerid, const argumentIdx, const resultIdx)
         value[MAX_VALUE_SIZE],
         targetid = resolveTargetOrSelf(playerid, argumentIdx);
 
-    valstr(str, GetPlayerScore(targetid));
+    valstr(value, GetPlayerScore(targetid));
     WriteAmxMemoryArray(resultIdx, value);
     return true;
 }
@@ -343,7 +343,7 @@ CBF:money(const playerid, const argumentIdx, const resultIdx)
         value[MAX_VALUE_SIZE],
         targetid = resolveTargetOrSelf(playerid, argumentIdx);
 
-    valstr(str, pData[targetid][pMoney]);
+    valstr(value, pData[targetid][pMoney]);
     WriteAmxMemoryArray(resultIdx, value);
     return true;
 }
@@ -359,7 +359,7 @@ CBF:health(const playerid, const argumentIdx, const resultIdx)
     return true;
 }
 
-CBF:armour(const playerid, const argumentIdx, const resultIdx)
+CBF:health(const playerid, const argumentIdx, const resultIdx)
 {
     new
         value[MAX_VALUE_SIZE],
@@ -374,7 +374,7 @@ CBF:playerid(const playerid, const argumentIdx, const resultIdx)
 {
     new value[MAX_VALUE_SIZE];
 
-    valstr(str, playerid);
+    valstr(value, playerid);
     WriteAmxMemoryArray(resultIdx, value);
     return true;
 }
@@ -482,88 +482,285 @@ CBF:vehName(const playerid, const argumentIdx, const resultIdx)
     return true;
 }
 
-CBF:vehHealth(const playerid, const argumentIdx, const resultIdx)
+CBF:vehName(const playerid, const argumentIdx, const resultIdx)
 {
     new
-      value[MAX_VALUE_SIZE],
-      targetid = resolveTargetOrSelf(playerid, argumentIdx);
+        value[MAX_VALUE_SIZE],
+        targetid = resolveTargetOrSelf(playerid, argumentIdx);
 
     if (IsPlayerInAnyVehicle(targetid)) {
-      GetVehicleHealth(GetPlayerVehicleID(targetid), value)
+        ReturnVehicleNameEx(GetPlayerVehicleID(targetid), value);
     } else {
-      format(value, MAX_VALUE_SIZE, "-1");
+        format(value, MAX_VALUE_SIZE, "N/A");
     }
 
     WriteAmxMemoryArray(resultIdx, value);
     return true;
 }
 
-CBF:gunName(const playerid, const argumentIdx, const resultIdx)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CBF:vehModel(const playerid, const argumentIdx, const resultIdx)
 {
     new
-      value[MAX_VALUE_SIZE],
-      targetid = resolveTargetOrSelf(playerid, argumentIdx);
+        value[MAX_VALUE_SIZE],
+        targetid = resolveTargetOrSelf(playerid, argumentIdx);
 
-    GetWeaponName(GetPlayerWeapon(targetid), value);
+	if(IsPlayerInAnyVehicle(targetid)) {
+		format(value, MAX_VALUE_SIZE, GetVehicleModel(GetPlayerVehicleID(targetid)));
+	} else {
+		format(value, MAX_VALUE_SIZE, "-1");
+	}
 
-    WriteAmxMemoryArray(resultIdx, value);
-    return true;
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
 }
 
-CBF:time(const resultIdx)
+CBF:GetVehModel(const playerid, const argumentIdx, const resultIdx)
 {
     new
-      value[MAX_VALUE_SIZE];
-  
-    valstr(value, VW[world][vTime]);
-
-    WriteAmxMemoryArray(resultIdx, value);
-    return true;
+        value[MAX_VALUE_SIZE],
+	arguments[TEXT_FUNCTION_ARGUMENT],
+	vehModel;
+	
+	ReadAmxMemoryArray(argumentIdx, arguments);
+	
+	if (sscanf(arguments, "d", vehModel)) {
+		return false;
+	}
+	
+	format(value, MAX_VALUE_SIZE, "%s", ReturnVehicleName(vehModel, 1));
+	
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
 }
 
-CBF:weather(const resultIdx)
+CBF:vehSeat(const playerid, const argumentIdx, const resultIdx)
 {
     new
-      value[MAX_VALUE_SIZE];
-  
-    valstr(value, VW[world][vWeather])
-  
-    WriteAmxMemory(resultIdx, VW[world][vWeather]);
-    return true;
+        value[MAX_VALUE_SIZE],
+        targetid = resolveTargetOrSelf(playerid, argumentIdx);
+	
+	valstr(value, GetPlayerVehicleSeat(targetid));
+
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
 }
 
-CBF:wanted(const playerid, const argumentIdx, const resultIdx)
+CBF:waterlvl(const playerid, const argumentIdx, const resultIdx)
 {
     new
-      value[MAX_VALUE_SIZE],
-      targetid = resolveTargetOrSelf(playerid, argumentIdx);
+        value[MAX_VALUE_SIZE],
+        targetid = resolveTargetOrSelf(playerid, argumentIdx);
+	
+    new 
+	Float:depth,
+	Float:playerdepth;
+	
+	CA_IsPlayerInWater(targetid, depth, playerdepth);
+	format(value, MAX_VALUE_SIZE, "%.1f", playerdepth);
 
-    valstr(value, GetPlayerWantedLevel(targetid));
-
-    WriteAmxMemory(resultIdx, value);
-    return true;
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
 }
 
-CBF:drunk(const playerid, const argumentIdx, const resultIdx)
+CBF:omodel(const playerid, const argumentIdx, const resultIdx)
 {
-    new
-      value[MAX_VALUE_SIZE],
-      targetid = resolveTargetOrSelf(playerid, argumentIdx);
+    new 
+    	value[MAX_VALUE_SIZE],
+    	objectid,
+	world,
+        modelid;
 
-    valstr(value, GetPlayerDrunkLevel(targetid));
 
-    WriteAmxMemory(resultIdx, value);
-    return true;
+	world = GetPlayerVirtualWorld(playerid);
+	ReadAmxMemoryArray(argumentIdx, arguments);
+	
+	if (sscanf(arguments, "d", objectid)) {
+		return false;
+	}
+
+	objectid = VECTOR_get_val(WorldObjectSystem[world][wosObject], objectid);
+	
+	if(objectid <= 0) {
+		return false;
+	}
+
+        modelid = Streamer_GetIntData(STREAMER_TYPE_OBJECT, objectid, E_STREAMER_MODEL_ID);
+	valstr(value, modelid);
+	
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
 }
 
-CBF:channel(const playerid, const argumentIdx, const resultIdx)
+CBF:oxyz(const playerid, const argumentIdx, const resultIdx)
 {
-    new
-      value[MAX_VALUE_SIZE],
-      targetid = resolveTargetOrSelf(playerid, argumentIdx);
+    new 
+    	value[MAX_VALUE_SIZE],
+    	objectid,
+	world,
+        Float:x,
+	Float:y,
+	Float:z;
 
-    valstr(value, pData[targetid][pChannel]);
 
-    WriteAmxMemory(resultIdx, value);
-    return true;
+	world = GetPlayerVirtualWorld(playerid);
+	ReadAmxMemoryArray(argumentIdx, arguments);
+	
+	if (sscanf(arguments, "d", objectid)) {
+		return false;
+	}
+
+	objectid = VECTOR_get_val(WorldObjectSystem[world][wosObject], objectid);
+	
+	if(objectid <= 0) {
+		return false;
+	}
+
+        GetDynamicObjectPos(objectid, x, y, z);
+	format(value, MAX_VALUE_SIZE, "%.2f %.2f %.2f", x, y, z);
+	
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
+
+CBF:ox(const playerid, const argumentIdx, const resultIdx)
+{
+    new 
+    	value[MAX_VALUE_SIZE],
+    	objectid,
+	world,
+        Float:x;
+
+
+	world = GetPlayerVirtualWorld(playerid);
+	ReadAmxMemoryArray(argumentIdx, arguments);
+	
+	if (sscanf(arguments, "d", objectid)) {
+		return false;
+	}
+
+	objectid = VECTOR_get_val(WorldObjectSystem[world][wosObject], objectid);
+	
+	if(objectid <= 0) {
+		return false;
+	}
+
+        Streamer_GetFloatData(STREAMER_TYPE_OBJECT, objectid, E_STREAMER_X, x);
+	
+	format(value, MAX_VALUE_SIZE, "%.2f", x);
+	
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
+
+CBF:oy(const playerid, const argumentIdx, const resultIdx)
+{
+    new 
+    	value[MAX_VALUE_SIZE],
+    	objectid,
+	world,
+        Float:y;
+
+
+	world = GetPlayerVirtualWorld(playerid);
+	ReadAmxMemoryArray(argumentIdx, arguments);
+	
+	if (sscanf(arguments, "d", objectid)) {
+		return false;
+	}
+
+	objectid = VECTOR_get_val(WorldObjectSystem[world][wosObject], objectid);
+	
+	if(objectid <= 0) {
+		return false;
+	}
+
+        Streamer_GetFloatData(STREAMER_TYPE_OBJECT, objectid, E_STREAMER_Y, y);
+	
+	format(value, MAX_VALUE_SIZE, "%.2f", y);
+	
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
+
+CBF:oz(const playerid, const argumentIdx, const resultIdx)
+{
+    new 
+    	value[MAX_VALUE_SIZE],
+    	objectid,
+	world,
+        Float:z;
+
+
+	world = GetPlayerVirtualWorld(playerid);
+	ReadAmxMemoryArray(argumentIdx, arguments);
+	
+	if (sscanf(arguments, "d", objectid)) {
+		return false;
+	}
+
+	objectid = VECTOR_get_val(WorldObjectSystem[world][wosObject], objectid);
+	
+	if(objectid <= 0) {
+		return false;
+	}
+
+        Streamer_GetFloatData(STREAMER_TYPE_OBJECT, objectid, E_STREAMER_Z, z);
+	
+	format(value, MAX_VALUE_SIZE, "%.2f", z);
+	
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
 }
