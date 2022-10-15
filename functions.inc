@@ -359,7 +359,7 @@ CBF:health(const playerid, const argumentIdx, const resultIdx)
     return true;
 }
 
-CBF:health(const playerid, const argumentIdx, const resultIdx)
+CBF:armour(const playerid, const argumentIdx, const resultIdx)
 {
     new
         value[MAX_VALUE_SIZE],
