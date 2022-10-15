@@ -359,7 +359,7 @@ CBF:health(const playerid, const argumentIdx, const resultIdx)
     return true;
 }
 
-CBF:health(const playerid, const argumentIdx, const resultIdx)
+CBF:armour(const playerid, const argumentIdx, const resultIdx)
 {
     new
         value[MAX_VALUE_SIZE],
@@ -482,18 +482,88 @@ CBF:vehName(const playerid, const argumentIdx, const resultIdx)
     return true;
 }
 
-CBF:vehName(const playerid, const argumentIdx, const resultIdx)
+CBF:vehHealth(const playerid, const argumentIdx, const resultIdx)
 {
     new
-        value[MAX_VALUE_SIZE],
-        targetid = resolveTargetOrSelf(playerid, argumentIdx);
+      value[MAX_VALUE_SIZE],
+      targetid = resolveTargetOrSelf(playerid, argumentIdx);
 
     if (IsPlayerInAnyVehicle(targetid)) {
-        ReturnVehicleNameEx(GetPlayerVehicleID(targetid), value);
+      GetVehicleHealth(GetPlayerVehicleID(targetid), value)
     } else {
-        format(value, MAX_VALUE_SIZE, "N/A");
+      format(value, MAX_VALUE_SIZE, "-1");
     }
 
     WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+CBF:gunName(const playerid, const argumentIdx, const resultIdx)
+{
+    new
+      value[MAX_VALUE_SIZE],
+      targetid = resolveTargetOrSelf(playerid, argumentIdx);
+
+    GetWeaponName(GetPlayerWeapon(targetid), value);
+
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+CBF:time(const resultIdx)
+{
+    new
+      value[MAX_VALUE_SIZE];
+  
+    valstr(value, VW[world][vTime]);
+
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+CBF:weather(const resultIdx)
+{
+    new
+      value[MAX_VALUE_SIZE];
+  
+    valstr(value, VW[world][vWeather])
+  
+    WriteAmxMemory(resultIdx, VW[world][vWeather]);
+    return true;
+}
+
+CBF:wanted(const playerid, const argumentIdx, const resultIdx)
+{
+    new
+      value[MAX_VALUE_SIZE],
+      targetid = resolveTargetOrSelf(playerid, argumentIdx);
+
+    valstr(value, GetPlayerWantedLevel(targetid));
+
+    WriteAmxMemory(resultIdx, value);
+    return true;
+}
+
+CBF:drunk(const playerid, const argumentIdx, const resultIdx)
+{
+    new
+      value[MAX_VALUE_SIZE],
+      targetid = resolveTargetOrSelf(playerid, argumentIdx);
+
+    valstr(value, GetPlayerDrunkLevel(targetid));
+
+    WriteAmxMemory(resultIdx, value);
+    return true;
+}
+
+CBF:channel(const playerid, const argumentIdx, const resultIdx)
+{
+    new
+      value[MAX_VALUE_SIZE],
+      targetid = resolveTargetOrSelf(playerid, argumentIdx);
+
+    valstr(value, pData[targetid][pChannel]);
+
+    WriteAmxMemory(resultIdx, value);
     return true;
 }
