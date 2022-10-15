@@ -735,7 +735,7 @@ CBF:oy(const playerid, const argumentIdx, const resultIdx)
 	return true;
 }
 
-CBF:ox(const playerid, const argumentIdx, const resultIdx)
+CBF:oz(const playerid, const argumentIdx, const resultIdx)
 {
     new 
     	value[MAX_VALUE_SIZE],
