@@ -359,7 +359,7 @@ CBF:health(const playerid, const argumentIdx, const resultIdx)
     return true;
 }
 
-CBF:health(const playerid, const argumentIdx, const resultIdx)
+CBF:armour(const playerid, const argumentIdx, const resultIdx)
 {
     new
         value[MAX_VALUE_SIZE],
@@ -394,13 +394,14 @@ CBF:xyz(const playerid, const argumentIdx, const resultIdx)
 {
     new
     	Float:x,
-		Float:y,
-		Float:z;
+	Float:y,
+	Float:z;
         value[MAX_VALUE_SIZE],
         targetid = resolveTargetOrSelf(playerid, argumentIdx);
 
-	GetPlayerPos(targetid, x, y, z);
+    GetPlayerPos(targetid, x, y, z);
     format(value, MAX_VALUE_SIZE, "%.1f %.1f %.1f", x, y, z);
+
     WriteAmxMemoryArray(resultIdx, value);
     return true;
 }
@@ -409,13 +410,14 @@ CBF:x(const playerid, const argumentIdx, const resultIdx)
 {
     new
     	Float:x,
-		Float:y,
-		Float:z;
+	Float:y,
+	Float:z;
         value[MAX_VALUE_SIZE],
         targetid = resolveTargetOrSelf(playerid, argumentIdx);
 
-	GetPlayerPos(targetid, x, y, z);
+    GetPlayerPos(targetid, x, y, z);
     format(value, MAX_VALUE_SIZE, "%.1f", x);
+
     WriteAmxMemoryArray(resultIdx, value);
     return true;
 }
@@ -424,13 +426,14 @@ CBF:y(const playerid, const argumentIdx, const resultIdx)
 {
     new
     	Float:x,
-		Float:y,
-		Float:z;
+	Float:y,
+	Float:z;
         value[MAX_VALUE_SIZE],
         targetid = resolveTargetOrSelf(playerid, argumentIdx);
 
-	GetPlayerPos(targetid, x, y, z);
+    GetPlayerPos(targetid, x, y, z);
     format(value, MAX_VALUE_SIZE, "%.1f", y);
+
     WriteAmxMemoryArray(resultIdx, value);
     return true;
 }
@@ -439,13 +442,14 @@ CBF:z(const playerid, const argumentIdx, const resultIdx)
 {
     new
     	Float:x,
-		Float:y,
-		Float:z;
+	Float:y,
+	Float:z;
         value[MAX_VALUE_SIZE],
         targetid = resolveTargetOrSelf(playerid, argumentIdx);
 
-	GetPlayerPos(targetid, x, y, z);
+    GetPlayerPos(targetid, x, y, z);
     format(value, MAX_VALUE_SIZE, "%.1f", z);
+
     WriteAmxMemoryArray(resultIdx, value);
     return true;
 }
@@ -456,10 +460,10 @@ CBF:speed(const playerid, const argumentIdx, const resultIdx)
         value[MAX_VALUE_SIZE],
         targetid = resolveTargetOrSelf(playerid, argumentIdx);
 
-	if (IsPlayerInAnyVehicle(userid)) {
+    if (IsPlayerInAnyVehicle(userid)) {
         format(value, MAX_VALUE_SIZE, "%d", floatround(Vehicle_Speed(GetPlayerVehicleID(targetid))));
     } else {
-		format(value, MAX_VALUE_SIZE, "%d", floatround(GetPlayerSpeed(userid)));
+	format(value, MAX_VALUE_SIZE, "%d", floatround(GetPlayerSpeed(userid)));
     }
 
     WriteAmxMemoryArray(resultIdx, value);
@@ -481,75 +485,6 @@ CBF:vehName(const playerid, const argumentIdx, const resultIdx)
     WriteAmxMemoryArray(resultIdx, value);
     return true;
 }
-
-CBF:vehName(const playerid, const argumentIdx, const resultIdx)
-{
-    new
-        value[MAX_VALUE_SIZE],
-        targetid = resolveTargetOrSelf(playerid, argumentIdx);
-
-    if (IsPlayerInAnyVehicle(targetid)) {
-        ReturnVehicleNameEx(GetPlayerVehicleID(targetid), value);
-    } else {
-        format(value, MAX_VALUE_SIZE, "N/A");
-    }
-
-    WriteAmxMemoryArray(resultIdx, value);
-    return true;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 CBF:vehModel(const playerid, const argumentIdx, const resultIdx)
 {
@@ -557,14 +492,100 @@ CBF:vehModel(const playerid, const argumentIdx, const resultIdx)
         value[MAX_VALUE_SIZE],
         targetid = resolveTargetOrSelf(playerid, argumentIdx);
 
-	if(IsPlayerInAnyVehicle(targetid)) {
-		format(value, MAX_VALUE_SIZE, GetVehicleModel(GetPlayerVehicleID(targetid)));
-	} else {
-		format(value, MAX_VALUE_SIZE, "-1");
-	}
+    if(IsPlayerInAnyVehicle(targetid)) {
+	format(value, MAX_VALUE_SIZE, GetVehicleModel(GetPlayerVehicleID(targetid)));
+    } else {
+	format(value, MAX_VALUE_SIZE, "-1");
+    }
 
-	WriteAmxMemoryArray(resultIdx, value);
-	return true;
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+CBF:vehHealth(const playerid, const argumentIdx, const resultIdx)
+{
+    new
+      value[MAX_VALUE_SIZE],
+      targetid = resolveTargetOrSelf(playerid, argumentIdx);
+
+    if (IsPlayerInAnyVehicle(targetid)) {
+      GetVehicleHealth(GetPlayerVehicleID(targetid), value)
+    } else {
+      format(value, MAX_VALUE_SIZE, "-1");
+    }
+
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+CBF:gunName(const playerid, const argumentIdx, const resultIdx)
+{
+    new
+      value[MAX_VALUE_SIZE],
+      targetid = resolveTargetOrSelf(playerid, argumentIdx);
+
+    GetWeaponName(GetPlayerWeapon(targetid), value);
+
+    WriteAmxMe#VmoryArray(resultIdx, value);
+    return true;
+}
+
+CBF:time(const resultIdx)
+{
+    new
+      value[MAX_VALUE_SIZE];
+  
+    valstr(value, VW[world][vTime]);
+
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+CBF:weather(const resultIdx)
+{
+    new
+      value[MAX_VALUE_SIZE];
+  
+    valstr(value, VW[world][vWeather])
+  
+    WriteAmxMemory(resultIdx, VW[world][vWeather]);
+    return true;
+}
+
+CBF:wanted(const playerid, const argumentIdx, const resultIdx)
+{
+    new
+      value[MAX_VALUE_SIZE],
+      targetid = resolveTargetOrSelf(playerid, argumentIdx);
+
+    valstr(value, GetPlayerWantedLevel(targetid));
+
+    WriteAmxMemory(resultIdx, value);
+    return true;
+}
+
+CBF:drunk(const playerid, const argumentIdx, const resultIdx)
+{
+    new
+      value[MAX_VALUE_SIZE],
+      targetid = resolveTargetOrSelf(playerid, argumentIdx);
+
+    valstr(value, GetPlayerDrunkLevel(targetid));
+
+    WriteAmxMemory(resultIdx, value);
+    return true;
+}
+
+CBF:channel(const playerid, const argumentIdx, const resultIdx)
+{
+    new
+      value[MAX_VALUE_SIZE],
+      targetid = resolveTargetOrSelf(playerid, argumentIdx);
+
+    valstr(value, pData[targetid][pChannel]);
+
+    WriteAmxMemory(resultIdx, value);
+    return true;
 }
 
 CBF:GetVehModel(const playerid, const argumentIdx, const resultIdx)
