@@ -1615,21 +1615,21 @@ CBF:nearply(const playerid, const argumentIdx, const resultIdx)
 
 CBF:getZ(const playerid, const argumentIdx, const resultIdx)
 {
-	new 
+	new
 		value[MAX_VALUE_SIZE],
 		arguments[TEXT_FUNCTION_ARGUMENT],
 		Float:FLOAT_NONE,
 		Float:x,
 		Float:y,
 		Float:z;
-		
+
 	ReadAmxMemoryArray(argumentIdx, arguments);
 	if( sscanf(arguments, "p<,>ff", x, y) )
 		return false;
-	
+
 	if(!CA_RayCastLine(x, y, 600.0, x, y, -100, FLOAT_NONE, FLOAT_NONE, z))
 		z = 0.0;
-	
+
 	format(value, MAX_VALUE_SIZE, " %.1f", z);
    	WriteAmxMemoryArray(resultIdx, value);
     	return true;
@@ -1637,32 +1637,32 @@ CBF:getZ(const playerid, const argumentIdx, const resultIdx)
 
 CBF:strlen(const playerid, const argumentIdx, const resultIdx)
 {
-	new 
+	new
 		value[MAX_VALUE_SIZE],
 		arguments[TEXT_FUNCTION_ARGUMENT];
-		
+
 	ReadAmxMemoryArray(argumentIdx, arguments);
 	valstr(value, strlen(arguments));
-		
+
 	WriteAmxMemoryArray(resultIdx, value);
 	return true;
 }
 
 CBF:actorXYZ(const playerid, const argumentIdx, const resultIdx)
 {
-	new 
+	new
 		value[MAX_VALUE_SIZE],
 		arguments[TEXT_FUNCTION_ARGUMENT],
 		actorId, Float:aX, Float:aY, Float:aZ,
 		world;
-		
+
 	ReadAmxMemoryArray(argumentIdx, arguments);
 	world = GetPlayerVirtualWorld(playerid);
-	
+
 	if (sscanf(arguments, "d", actorId)) {
 		return false;
 	}
-	
+
 	if(actorid < 0 || actorid > MAX_ACTOR_SLOT) {
 		return false;
 	}
@@ -1670,32 +1670,32 @@ CBF:actorXYZ(const playerid, const argumentIdx, const resultIdx)
 	if(!IsValidDynamicActor(tempWorld[world][aSlot][actorid])) {
 		return false;
 	}
-	
+
 	Streamer_GetFloatData(STREAMER_TYPE_ACTOR, tempWorld[world][aSlot][actorid], E_STREAMER_X, aX);
 	Streamer_GetFloatData(STREAMER_TYPE_ACTOR, tempWorld[world][aSlot][actorid], E_STREAMER_Y, aY);
 	Streamer_GetFloatData(STREAMER_TYPE_ACTOR, tempWorld[world][aSlot][actorid], E_STREAMER_Z, aZ);
 
 	format(value, MAX_VALUE_SIZE, "%.2f %.2f %.2f", aX, aY, aZ);
-	
+
 	WriteAmxMemoryArray(resultIdx, value);
 	return true;
 }
 
 CBF:actorX(const playerid, const argumentIdx, const resultIdx)
 {
-	new 
+	new
 		value[MAX_VALUE_SIZE],
 		arguments[TEXT_FUNCTION_ARGUMENT],
 		actorId, Float:aX,
 		world;
-		
+
 	ReadAmxMemoryArray(argumentIdx, arguments);
 	world = GetPlayerVirtualWorld(playerid);
-	
+
 	if (sscanf(arguments, "d", actorId)) {
 		return false;
 	}
-	
+
 	if(actorid < 0 || actorid > MAX_ACTOR_SLOT) {
 		return false;
 	}
@@ -1703,31 +1703,31 @@ CBF:actorX(const playerid, const argumentIdx, const resultIdx)
 	if(!IsValidDynamicActor(tempWorld[world][aSlot][actorid])) {
 		return false;
 	}
-	
+
 	Streamer_GetFloatData(STREAMER_TYPE_ACTOR, tempWorld[world][aSlot][actorid], E_STREAMER_X, aX);
 
 
 	format(value, MAX_VALUE_SIZE, "%.2f", aX);
-	
+
 	WriteAmxMemoryArray(resultIdx, value);
 	return true;
 }
 
 CBF:actorY(const playerid, const argumentIdx, const resultIdx)
 {
-	new 
+	new
 		value[MAX_VALUE_SIZE],
 		arguments[TEXT_FUNCTION_ARGUMENT],
 		actorId, Float:aY,
 		world;
-		
+
 	ReadAmxMemoryArray(argumentIdx, arguments);
 	world = GetPlayerVirtualWorld(playerid);
-	
+
 	if (sscanf(arguments, "d", actorId)) {
 		return false;
 	}
-	
+
 	if(actorid < 0 || actorid > MAX_ACTOR_SLOT) {
 		return false;
 	}
@@ -1735,31 +1735,31 @@ CBF:actorY(const playerid, const argumentIdx, const resultIdx)
 	if(!IsValidDynamicActor(tempWorld[world][aSlot][actorid])) {
 		return false;
 	}
-	
+
 	Streamer_GetFloatData(STREAMER_TYPE_ACTOR, tempWorld[world][aSlot][actorid], E_STREAMER_Y, aY);
 
 
 	format(value, MAX_VALUE_SIZE, "%.2f", aY);
-	
+
 	WriteAmxMemoryArray(resultIdx, value);
 	return true;
 }
 
 CBF:actorZ(const playerid, const argumentIdx, const resultIdx)
 {
-	new 
+	new
 		value[MAX_VALUE_SIZE],
 		arguments[TEXT_FUNCTION_ARGUMENT],
 		actorId, Float:aZ,
 		world;
-		
+
 	ReadAmxMemoryArray(argumentIdx, arguments);
 	world = GetPlayerVirtualWorld(playerid);
-	
+
 	if (sscanf(arguments, "d", actorId)) {
 		return false;
 	}
-	
+
 	if(actorid < 0 || actorid > MAX_ACTOR_SLOT) {
 		return false;
 	}
@@ -1767,35 +1767,35 @@ CBF:actorZ(const playerid, const argumentIdx, const resultIdx)
 	if(!IsValidDynamicActor(tempWorld[world][aSlot][actorid])) {
 		return false;
 	}
-	
+
 	Streamer_GetFloatData(STREAMER_TYPE_ACTOR, tempWorld[world][aSlot][actorid], E_STREAMER_Z, aZ);
 
 
 	format(value, MAX_VALUE_SIZE, "%.2f", aZ);
-	
+
 	WriteAmxMemoryArray(resultIdx, value);
 	return true;
 }
 
 CBF:getDistActor(const playerid, const argumentIdx, const resultIdx)
 {
-	new 
+	new
 		value[MAX_VALUE_SIZE],
 		arguments[TEXT_FUNCTION_ARGUMENT],
 		actorId, Float:aX, Float:aY, Float:aZ,
 		world, targetid;
-		
+
 	ReadAmxMemoryArray(argumentIdx, arguments);
 	world = GetPlayerVirtualWorld(playerid);
-	
+
 	if (sscanf(arguments, "p<,>dD(-1)", actorId, targetId)) {
 		return false;
 	}
-	
+
 	if (!IsPlayerOnline(targetid)) {
 		targetid = playerid;
 	}
-	
+
 	if(actorid < 0 || actorid > MAX_ACTOR_SLOT) {
 		return false;
 	}
@@ -1803,13 +1803,13 @@ CBF:getDistActor(const playerid, const argumentIdx, const resultIdx)
 	if(!IsValidDynamicActor(tempWorld[world][aSlot][actorid])) {
 		return false;
 	}
-	
+
 	Streamer_GetFloatData(STREAMER_TYPE_ACTOR, tempWorld[world][aSlot][actorid], E_STREAMER_X, aX);
 	Streamer_GetFloatData(STREAMER_TYPE_ACTOR, tempWorld[world][aSlot][actorid], E_STREAMER_Y, aY);
 	Streamer_GetFloatData(STREAMER_TYPE_ACTOR, tempWorld[world][aSlot][actorid], E_STREAMER_Z, aZ);
 
 	valstr(value, floatround(GetPlayerDistanceFromPoint(targetid, aX, aY, aZ)));
-	
+
 	WriteAmxMemoryArray(resultIdx, value);
 	return true;
 }
@@ -1820,21 +1820,21 @@ CBF:retval(const playerid, const argumentIdx, const resultIdx)
 		value[MAX_VALUE_SIZE],
 		arguments[TEXT_FUNCTION_ARGUMENT],
 		retvalId, targetid;
-		
+
 	ReadAmxMemoryArray(argumentIdx, arguments);
-	
+
 	if (sscanf(arguments, "p<,>dD(-1)", retvalId, targetId)) {
 		return false;
 	}
-	
+
 	if (!IsPlayerOnline(targetId)) {
 		targetId = playerid;
 	}
-	
+
 	if(retvalId < 0 || retvalId > 9) {
 		return false;
 	}
-	
+
 	valstr(value, pData[targetid][pRetVal][retvalId]);
 
 	WriteAmxMemoryArray(resultIdx, value);
@@ -1847,17 +1847,17 @@ CBF:retstr(const playerid, const argumentIdx, const resultIdx)
 		value[MAX_VALUE_SIZE],
 		arguments[TEXT_FUNCTION_ARGUMENT],
 		retvalId, targetid;
-		
+
 	ReadAmxMemoryArray(argumentIdx, arguments);
-	
+
 	sscanf(arguments, "p<,>D(-1)D(-1)", retvalId, targetId);
-	
+
 	if (!IsPlayerOnline(targetId)) {
 		targetId = playerid;
 	}
-	
-	
-	if (retvalId == -1) 
+
+
+	if (retvalId == -1)
 	{
 		format(value, MAX_VALUE_SIZE, "%s", pData[targetId][pRetStr]);
 	}
@@ -1866,7 +1866,7 @@ CBF:retstr(const playerid, const argumentIdx, const resultIdx)
 		if(retvalId < 0 || retvalId > 9) {
 			return false;
 		}
-		
+
 		format(vale, MAX_SIZE_VALUE, "%.24s", pData[targetId][pRetStr][ retvalId * 24 ]);
 	}
 
@@ -1879,16 +1879,22 @@ CBF:getDist(const playerid, const argumentIdx, const resultIdx)
 	new
 		value[MAX_VALUE_SIZE],
 		arguments[TEXT_FUNCTION_ARGUMENT];
-		
-	new Float:x[2], Float:y[2], Float:z[2];
-		
+
+	new
+		Float: firstX,
+		Float: firstY,
+		Float: firstZ,
+		Float: secondX,
+        Float: secondY,
+		Float: secondZ;
+
 	ReadAmxMemoryArray(argumentIdx, arguments);
-	
-	if(sscanf(arguments, "p<,>ffffff", x[0], y[0], z[0], x[1], y[1], z[1])) {
+
+	if(sscanf(arguments, "p<,>ffffff", firstX, firstY, firstZ, secondX, secondY, secondZ)) {
 		return false;
 	}
-	
-	format(value, MAX_VALUE_SIZE, "%.2f", VectorSize(x[0] - x[1], y[0] - y[1], z[0] - z[1]) );
+
+	format(value, MAX_VALUE_SIZE, "%.2f", VectorSize(firstX - secondX, firstY - secondY, firstZ - secondZ) );
 
 	WriteAmxMemoryArray(resultIdx, value);
 	return true;
@@ -1900,23 +1906,23 @@ CBF:attach(const playerid, const argumentIdx, const resultIdx)
 		value[MAX_VALUE_SIZE],
 		arguments[TEXT_FUNCTION_ARGUMENT],
 		attachId, targetId;
-		
+
 	ReadAmxMemoryArray(argumentIdx, arguments);
-	
+
 	if(sscanf(arguments, "p<,>dD(-1)", attachId, targetId)) {
 			return false;
 	}
-	
+
 	if(attachId < 1 || attachId > 10) {
 			return false;
 	}
-	
+
 	attachId--;
-	
+
 	if(!IsPlayerOnline(targetId)) {
 		targetId = playerid;
 	}
-	
+
 	valstr(value, pAttach[targetId][attachId][0]);
 
 	WriteAmxMemoryArray(resultIdx, value);
@@ -1929,23 +1935,23 @@ CBF:attachModel(const playerid, const argumentIdx, const resultIdx)
 		value[MAX_VALUE_SIZE],
 		arguments[TEXT_FUNCTION_ARGUMENT],
 		attachId, targetId;
-		
+
 	ReadAmxMemoryArray(argumentIdx, arguments);
-	
+
 	if(sscanf(arguments, "p<,>dD(-1)", attachId, targetId)) {
 			return false;
 	}
-	
+
 	if(attachId < 1 || attachId > 10) {
 			return false;
 	}
-	
+
 	attachId--;
-	
+
 	if(!IsPlayerOnline(targetId)) {
 		targetId = playerid;
 	}
-	
+
 	valstr(value, pAttach[targetId][attachId][1]);
 
 	WriteAmxMemoryArray(resultIdx, value);
@@ -1958,17 +1964,17 @@ CBF:isAttachModel(const playerid, const argumentIdx, const resultIdx)
 		value[MAX_VALUE_SIZE],
 		arguments[TEXT_FUNCTION_ARGUMENT],
 		modelId, targetId, attachId;
-	
+
 	ReadAmxMemoryArray(argumentIdx, arguments);
-	
+
 	if(sscanf(arguments, "p<,>dD(-1)", modelId, targetId)) {
 			return false;
 	}
-	
+
 	if(!isPlayerOnline(targetId)) {
 		targetId = playerid;
 	}
-	
+
 	attachId = -1;
 	for(new i; i < 10; i++)
 	{
@@ -1976,11 +1982,11 @@ CBF:isAttachModel(const playerid, const argumentIdx, const resultIdx)
 			attachId = i + 1;
 			break;
 		}
-			
+
 	}
-	
+
 	valstr(value, attachId);
-	
+
 	WriteAmxMemoryArray(resultIdx, value);
 	return true;
 }
@@ -1991,7 +1997,7 @@ CBF:randomPlayer(const playerid, const argumentIdx, const resultIdx)
 		world,
 		value[MAX_VALUE_SIZE],
 		arguments[TEXT_FUNCTION_ARGUMENT];
-	
+
 	ReadAmxMemoryArray(argumentIdx, arguments);
 	world = GetPlayerVirtualWorld(playerid);
 
@@ -2087,13 +2093,10 @@ CBF:randomPlayer(const playerid, const argumentIdx, const resultIdx)
 		valstr(value, playerList[ RandomEx(0, playerCount) ]);
 	else
 		valstr(value, 0);
-		
+
 	WriteAmxMemoryArray(resultIdx, value);
 	return true;
 }
-
-
-
 
 
 CBF:moder(const playerid, const argumentIdx, const resultIdx)
@@ -2105,7 +2108,7 @@ CBF:moder(const playerid, const argumentIdx, const resultIdx)
 
 	world = GetPlayerVirtualWorld(targetId);
 	valstr(value, pInfo[targetId][pModer]);
-	
+
 	if(worldArray[world][wOwner] == targetId) {
 		valstr(value, 6);
 	}
