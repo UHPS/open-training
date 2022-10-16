@@ -2274,9 +2274,9 @@ CBF:raycast(const playerid, const argumentIdx, const resultIdx)
  		targetid = resolveTargetOrSelf(playerid, argumentIdx);
 
  	if (pData[targetid][Frozen]) {
- 		valstr(value, "1");
+ 		valstr(value, 1);
  	} else {
- 		valstr(value, "0");
+ 		valstr(value, 0);
  	}
 
  	WriteAmxMemoryArray(resultIdx, value);
@@ -2288,7 +2288,7 @@ CBF:raycast(const playerid, const argumentIdx, const resultIdx)
  		value[MAX_VALUE_SIZE],
  		targetid = resolveTargetOrSelf(playerid, argumentIdx);
 
- 	valstr(value, pData[targetid][pFreezeTime])
+ 	valstr(value, pData[targetid][pFreezeTime]);
 
  	WriteAmxMemoryArray(resultIdx, value);
  	return true;
@@ -2300,24 +2300,9 @@ CBF:raycast(const playerid, const argumentIdx, const resultIdx)
  		targetid = resolveTargetOrSelf(playerid, argumentIdx);
 
  	if (pData[targetid][GM]) {
- 		valstr(value, "1");
+ 		valstr(value, 1);
  	} else {
- 		valstr(value, "0");
- 	}
-
- 	WriteAmxMemoryArray(resultIdx, value);
- 	return true;
- }
-
- CBF:ban(const playerid, const argumentIdx, const resultIdx) {
- 	new
- 		value[MAX_VALUE_SIZE],
- 		targetid = resolveTargetOrSelf(playerid, argumentIdx);
-
- 	if (pData[targetid][pBanned]) {
- 		valstr(value, "1");
- 	} else {
- 		valstr(value, "0");
+ 		valstr(value, 0);
  	}
 
  	WriteAmxMemoryArray(resultIdx, value);
@@ -2331,9 +2316,9 @@ CBF:raycast(const playerid, const argumentIdx, const resultIdx)
  		time = pData[targetid][pWorldMute] - gettime();
 
  	if (time > 0) {
- 		valstr(value, "1");
+ 		valstr(value, 1);
  	} else {
- 		valstr(value, "0");
+ 		valstr(value, 0);
  	}
 
  	WriteAmxMemoryArray(resultIdx, value);
