@@ -1612,3 +1612,36 @@ CBF:nearply(const playerid, const argumentIdx, const resultIdx)
     WriteAmxMemoryArray(resultIdx, value);
     return true;
 }
+
+CBF:strlen(const playerid, const argumentIdx, const resultIdx)
+{
+	new
+		value[MAX_VALUE_SIZE],
+		arguments[TEXT_FUNCTION_ARGUMENT];
+	
+	ReadAmxMemoryArray(argumentIdx, arguments);
+		
+	valstr(value, strlen(arguments));
+
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
+
+CBF:getDist(const playerid, const argumentIdx, const resultIdx)
+{
+	new
+		value[MAX_VALUE_SIZE],
+		arguments[TEXT_FUNCTION_ARGUMENT],
+		x[2], y[2], z[2];
+	
+	ReadAmxMemoryArray(argumentIdx, arguments);
+	
+	if (sscanf(arguments, "p<,>ffffff", x[0], y[0], z[0], x[1], y[1], z[1])) {
+		return false;
+	}
+	
+	valstr(value, floatround(VectorSize(x[0] - x[1], y[0] - y[1], z[0] - z[1])));
+
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
