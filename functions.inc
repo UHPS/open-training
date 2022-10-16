@@ -2120,7 +2120,7 @@ CBF:specState(const playerid, const argumentIdx, const resultIdx)
         value[MAX_VALUE_SIZE],
         targetid = resolveTargetOrSelf(playerid, argumentIdx);
 
-	if pData[targetid][pInSpec] == true {
+	if (pData[targetid][pInSpec]) {
 		valstr(value, 1);
 	} else {
 		valstr(value, 0);
@@ -2136,10 +2136,10 @@ CBF:specTarget(const playerid, const argumentIdx, const resultIdx)
         value[MAX_VALUE_SIZE],
         targetid = resolveTargetOrSelf(playerid, argumentIdx);
 
-	if pData[targetid][pInSpec] == false {
-		valstr(value, 'N/A')
+	if (!pData[targetid][pInSpec]) {
+		format(value, MAX_VALUE_SIZE, "N/A");
 	} else {
-		valstr(value, pData[targetid][pSpectator])
+		valstr(value, pData[targetid][pSpectator]);
 	}
 
     WriteAmxMemoryArray(resultIdx, value);
@@ -2152,198 +2152,202 @@ CBF:int(const playerid, const argumentIdx, const resultIdx)
         value[MAX_VALUE_SIZE],
         targetid = resolveTargetOrSelf(playerid, argumentIdx);
 
-	valstr(value, pData[targetid][pInterior])
+	valstr(value, pData[targetid][pInterior]);
 
     WriteAmxMemoryArray(resultIdx, value);
     return true;
 }
 
 CBF:vip(const playerid, const argumentIdx, const resultIdx)
- {
-     new
-         value[MAX_VALUE_SIZE],
-         targetid = resolveTargetOrSelf(playerid, argumentIdx);
+{
+	new
+		value[MAX_VALUE_SIZE],
+		targetid = resolveTargetOrSelf(playerid, argumentIdx);
 
-     if (pData[targetid][vip] == 0) {
-         valstr(value, "0");
-     } else if (pData[targetid][vip] > 0) {
-         valstr(value, "1");
-     }
+	if (pData[targetid][vip] == 0) {
+		valstr(value, 0);
+	} else if (pData[targetid][vip] > 0) {
+		valstr(value, 1);
+	}
 
-     WriteAmxMemoryArray(resultIdx, value);
-     return true;
- }
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
 
- CBF:raycast(const playerid, const argumentIdx, const resultIdx) {
+CBF:raycast(const playerid, const argumentIdx, const resultIdx)
+{
+	new
+		value[MAX_VALUE_SIZE],
+		Float:pX, Float:pY, Float:pZ,
+		Float:vX, Float:vY, Float:vZ,
+		Float:atX, Float:atY, Float:atZ,
+		arguments[TEXT_FUNCTION_ARGUMENT],
+		category[24],
+		Float: dist,
+		col,
+		coord[4] = "xyz";
+
+	ReadAmxMemoryArray(argumentIdx, arguments);
+
+	sscanf(arguments, "s[24]D(30)D(0)s[4]", category, dist, col, coord);
+
+	if (!strcmp(category, "cam", true)) {
+		GetPlayerCameraPos(playerid, pX, pY, pZ);
+		GetPlayerCameraFrontVector(playerid, vX, vY, vZ);
+
+		vX = pX + (vX * dist);
+		vY = pY + (vY * dist);
+		vZ = pZ + (vZ * dist);
+
+		CA_RayCastLine(pX, pY, pZ, vX, vY, vZ, atX, atY, atZ);
+	} else if (!strcmp(category, "pos", true)) {
+		if (IsPlayerInAnyVehicle(playerid)) {
+			GetVehiclePos(GetPlayerVehicleID(playerid), pX, pY, pZ);
+			GetVehicleRotation(GetPlayerVehicleID(playerid), vX, vY, vZ);
+
+			GetPlayerPos(playerid,  pX, pY, pZ);
+			GetPlayerFacingAngle(playerid, vZ);
+
+			vX = pX + (dist * floatsin(-vZ, degrees));
+			vY = pY + (dist * floatcos(-vZ, degrees));
+			vZ = pZ + (dist * floatsin(vX, degrees));
+
+			CA_RayCastLine(pX, pY, pZ, vX, vY, pZ, atX, atY, atZ);
+		} else {
+			GetPlayerPos(playerid,  pX, pY, pZ);
+			GetPlayerFacingAngle(playerid, vZ);
+
+			vX = pX + (dist * floatsin(-vZ, degrees));
+			vY = pY + (dist * floatcos(-vZ, degrees));
+
+			CA_RayCastLine(pX, pY, pZ, vX, vY, pZ, atX, atY, atZ);
+		}
+	}
+
+	if (col) {
+		if (atX == 0.0 && atY == 0.0 && atZ == 0.0) {
+			format(value, MAX_VALUE_SIZE, "%.1f %1.f %1.f", vX, vY, vZ);
+		} else {
+			format(value, MAX_VALUE_SIZE, "%.1f %.1f %.1f", atX, atY, atZ);
+		}
+	} else {
+		format(value, MAX_VALUE_SIZE, "%.1f %.1f %.1f", atX, atY, atZ);
+	}
+
+	if (!strcmp(coord, "xyz")) {
+		return false;
+	}
+
+	new Float:cX, Float:cY, Float:cZ;
+
+	if (sscanf(value, "fff", cX, cY, cZ)) {
+		return false;
+	}
+
+	if (!strcmp(coord, "x")) {
+		format(value, MAX_VALUE_SIZE, "%1.f", cX);
+	} else if (!strcmp(coord, "y")) {
+		format(value, MAX_VALUE_SIZE, "%1.f", cY);
+	} else if (!strcmp(coord, "z")) {
+		format(value, MAX_VALUE_SIZE, "%1.f", cZ);
+	}
+
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
+
+
+ CBF:chatStyle(const playerid, const argumentIdx, const resultIdx) {
  	new
  		value[MAX_VALUE_SIZE],
- 		Float:pX, Float:pY, Float:pZ,
- 		Float:vX, Float:vY, Float:vZ,
- 		Float:atX, Float:atY, Float:atZ,
- 		arguments[TEXT_FUNCTION_ARGUMENT],
- 		category[24],
- 		dist[24],
- 		col[4] = "0",
- 		coord[4] = "xyz";
+ 		targetid = resolveTargetOrSelf(playerid, argumentIdx);
 
- 	ReadAmxMemoryArray(argumentIdx, arguments);
+ 	valstr(value, pData[targetid][pChatStyle]);
 
- 	sscanf(arguments, "s[24]D(30)D(0)s[4]", category, dist, col, coord)
+ 	WriteAmxMemoryArray(resultIdx, value);
+ 	return true;
+ }
 
- 	if (!strcmp(category, "cam", true)) {
- 		GetPlayerCameraPos(playerid, pX, pY, pZ);
- 		GetPlayerCameraFrontVector(playerid, vX, vY, vZ);
+ CBF:freeze(const playerid, const argumentIdx, const resultIdx) {
+ 	new
+ 		value[MAX_VALUE_SIZE],
+ 		targetid = resolveTargetOrSelf(playerid, argumentIdx);
 
- 		vX = pX + (vX * dist);
- 		vY = pY + (vY * dist);
- 		vZ = pZ + (vZ * dist);
-
- 		CA_RayCastLine(pX, pY, pZ, vX, vY, vZ, atX, atY, atZ);
- 	} else if (!strcmp(category, "pos", true)) {
- 		if (IsPlayerInAnyVehicle(playerid)) {
- 			GetVehiclePos(GetPlayerVehicleID(playerid), pX, pY, pZ);
- 			GetVehicleRotation(GetPlayerVehicleID(playerid), vX, vY, vZ);
-
- 			GetPlayerPos(playerid,  pX, pY, pZ);
- 			GetPlayerFacingAngle(playerid, vZ);
-
- 			vX = pX + (dist * floatsin(-vZ, degrees));
- 			vY = pY + (dist * floatcos(-vZ, degrees));
- 			vZ = pZ + (dist * floatsin(vX, degrees));
-
- 			CA_RayCastLine(pX, pY, pZ, vX, vY, pZ, atX, atY, atZ);
- 		} else {
- 			GetPlayerPos(playerid,  pX, pY, pZ);
- 			GetPlayerFacingAngle(playerid, vZ);
-
- 			vX = pX + (dist * floatsin(-vZ, degrees));
- 			vY = pY + (dist * floatcos(-vZ, degrees));
-
- 			CA_RayCastLine(pX, pY, pZ, vX, vY, pZ, atX, atY, atZ);
- 		}
- 	}
-
- 	if (col == 1) {
- 		if (atX == 0.0 && atY == 0.0 && atZ == 0.0) {
- 			format(value, MAX_VALUE_SIZE, "%.1f %1.f %1.f", vX, vY, vZ)
- 		} else {
- 			format(value, MAX_VALUE_SIZE, "%.1f %.1f %.1f", atX, atY, atZ);
- 		}
+ 	if (pData[targetid][Frozen]) {
+ 		valstr(value, "1");
  	} else {
- 		format(value, MAX_VALUE_SIZE, "%.1f %.1f %.1f", atX, atY, atZ);
- 	}
-
- 	if (!strcmp(coord, "xyz")) {
- 		continue;
- 	}
-
- 	if (sscanf(value, "fff", cX, cY, cZ)) {
- 		continue;
- 	}
-
- 	if (!strcmp(coord, "x")) {
- 		format(value, MAX_VALUE_SIZE, "%1.f", cX);
- 	} else if (!strcmp(coord, "y")) {
- 		format(value, MAX_VALUE_SIZE, "%1.f", cY);
- 	} else if (!strcmp(coord, "z")) {
- 		format(value, MAX_VALUE_SIZE, "%1.f", cZ);
+ 		valstr(value, "0");
  	}
 
  	WriteAmxMemoryArray(resultIdx, value);
  	return true;
  }
 
-CBF:chatStyle(const playerid, const argumentIdx, const resultIdx) {
-	new
-		value[MAX_VALUE_SIZE],
-		targetid = resolveTargetOrSelf(playerid, argumentIdx);
-		
-	valstr(value, pData[targetid][pChatStyle]);
-		
-	WriteAmxMemoryArray(resultIdx, value);
-	return true;
-}
+ CBF:freezeTime(const playerid, const argumentIdx, const resultIdx) {
+ 	new
+ 		value[MAX_VALUE_SIZE],
+ 		targetid = resolveTargetOrSelf(playerid, argumentIdx);
 
-CBF:freeze(const playerid, const argumentIdx, const resultIdx) {
-	new
-		value[MAX_VALUE_SIZE],
-		targetid = resolveTargetOrSelf(playerid, argumentIdx);
-		
-	if (pData[targetid][Frozen]) {
-		valstr(value, "1");
-	} else {
-		valstr(value, "0");
-	}
-		
-	WriteAmxMemoryArray(resultIdx, value);
-	return true;
-}
+ 	valstr(value, pData[targetid][pFreezeTime])
 
-CBF:freezeTime(const playerid, const argumentIdx, const resultIdx) {
-	new
-		value[MAX_VALUE_SIZE],
-		targetid = resolveTargetOrSelf(playerid, argumentIdx);
-		
-	valstr(value, pData[targetid][pFreezeTime])
-		
-	WriteAmxMemoryArray(resultIdx, value);
-	return true;
-}
+ 	WriteAmxMemoryArray(resultIdx, value);
+ 	return true;
+ }
 
-CBF:gm(const playerid, const argumentIdx, const resultIdx) {
-	new
-		value[MAX_VALUE_SIZE],
-		targetid = resolveTargetOrSelf(playerid, argumentIdx);
-		
-	if (pData[targetid][GM]) {
-		valstr(value, "1");
-	} else {
-		valstr(value, "0");
-	}
-		
-	WriteAmxMemoryArray(resultIdx, value);
-	return true;
-}
+ CBF:gm(const playerid, const argumentIdx, const resultIdx) {
+ 	new
+ 		value[MAX_VALUE_SIZE],
+ 		targetid = resolveTargetOrSelf(playerid, argumentIdx);
 
-CBF:ban(const playerid, const argumentIdx, const resultIdx) {
-	new
-		value[MAX_VALUE_SIZE],
-		targetid = resolveTargetOrSelf(playerid, argumentIdx);
-		
-	if (pData[targetid][pBanned]) {
-		valstr(value, "1");
-	} else {
-		valstr(value, "0");
-	}
-		
-	WriteAmxMemoryArray(resultIdx, value);
-	return true;
-}
+ 	if (pData[targetid][GM]) {
+ 		valstr(value, "1");
+ 	} else {
+ 		valstr(value, "0");
+ 	}
 
-CBF:mute(const playerid, const argumentIdx, const resultIdx) {
-	new
-		value[MAX_VALUE_SIZE],
-		targetid = resolveTargetOrSelf(playerid, argumentIdx),
-		time = pData[targetid][pWorldMute] - gettime();
-		
-	if (time > 0) {
-		valstr(value, "1");
-	} else {
-		valstr(value, "0");
-	}
+ 	WriteAmxMemoryArray(resultIdx, value);
+ 	return true;
+ }
 
-	WriteAmxMemoryArray(resultIdx, value);
-	return true;
-}
+ CBF:ban(const playerid, const argumentIdx, const resultIdx) {
+ 	new
+ 		value[MAX_VALUE_SIZE],
+ 		targetid = resolveTargetOrSelf(playerid, argumentIdx);
 
-CBF:muteTime(const playerid, const argumentIdx, const resultIdx) {
-	new
-		value[MAX_VALUE_SIZE],
-		targetid = resolveTargetOrSelf(playerid, argumentIdx),
-		time = pData[targetid][pWorldMute] - gettime();
-		
-	valstr(value, time);
+ 	if (pData[targetid][pBanned]) {
+ 		valstr(value, "1");
+ 	} else {
+ 		valstr(value, "0");
+ 	}
 
-	WriteAmxMemoryArray(resultIdx, value);
-	return true;
-}
+ 	WriteAmxMemoryArray(resultIdx, value);
+ 	return true;
+ }
+
+ CBF:mute(const playerid, const argumentIdx, const resultIdx) {
+ 	new
+ 		value[MAX_VALUE_SIZE],
+ 		targetid = resolveTargetOrSelf(playerid, argumentIdx),
+ 		time = pData[targetid][pWorldMute] - gettime();
+
+ 	if (time > 0) {
+ 		valstr(value, "1");
+ 	} else {
+ 		valstr(value, "0");
+ 	}
+
+ 	WriteAmxMemoryArray(resultIdx, value);
+ 	return true;
+ }
+
+ CBF:muteTime(const playerid, const argumentIdx, const resultIdx) {
+ 	new
+ 		value[MAX_VALUE_SIZE],
+ 		targetid = resolveTargetOrSelf(playerid, argumentIdx),
+ 		time = pData[targetid][pWorldMute] - gettime();
+
+ 	valstr(value, time);
+
+ 	WriteAmxMemoryArray(resultIdx, value);
+ 	return true;
+ }
