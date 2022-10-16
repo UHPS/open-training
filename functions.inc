@@ -1646,18 +1646,6 @@ CBF:getDist(const playerid, const argumentIdx, const resultIdx)
 	return true;
 }
 
-CBF:moderlvl(const playerid, const argumentIdx, const resultIdx)
-{
-    new
-        value[MAX_VALUE_SIZE],
-        targetid = resolveTargetOrSelf(playerid, argumentIdx);
-
-    valstr(value, pData[targetid][pModer]);
-
-    WriteAmxMemoryArray(resultIdx, value);
-    return true;
-}
-
 CBF:specState(const playerid, const argumentIdx, const resultIdx)
 {
     new
