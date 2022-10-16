@@ -2336,3 +2336,29 @@ CBF:raycast(const playerid, const argumentIdx, const resultIdx)
  	WriteAmxMemoryArray(resultIdx, value);
  	return true;
  }
+
+CBF:taser(const playerid, const argumentIdx, const resultIdx) {
+	 new
+		 value[MAX_VALUE_SIZE],
+		 targetid = resolveTargetOrSelf(playerid, argumentIdx);
+		
+	if (pData[targetid][pTazer]) {
+		valstr(value, "1");
+	} else {
+		valstr(value, "0");
+	}
+		
+	 WriteAmxMemoryArray(resultIdx, value);
+	 return true;
+}
+
+CBF:lastActor(const playerid, const argumentIdx, const resultIdx) {
+	 new
+		 value[MAX_VALUE_SIZE],
+		 targetid = resolveTargetOrSelf(playerid, argumentIdx);
+		
+	valstr(value, pData[targetid][pActor]);
+		
+	 WriteAmxMemoryArray(resultIdx, value);
+	 return true;
+}
