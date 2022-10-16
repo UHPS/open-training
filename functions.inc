@@ -2336,7 +2336,7 @@ CBF:mute(const playerid, const argumentIdx, const resultIdx) {
 	return true;
 }
 
-CBF:muteValue(const playerid, const argumentIdx, const resultIdx) {
+CBF:muteTime(const playerid, const argumentIdx, const resultIdx) {
 	new
 		value[MAX_VALUE_SIZE],
 		targetid = resolveTargetOrSelf(playerid, argumentIdx),
