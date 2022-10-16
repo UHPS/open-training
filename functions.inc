@@ -2337,88 +2337,147 @@ CBF:raycast(const playerid, const argumentIdx, const resultIdx)
  	return true;
  }
 
+CBF:taser(const playerid, const argumentIdx, const resultIdx) {
+	 new
+		 value[MAX_VALUE_SIZE],
+		 targetid = resolveTargetOrSelf(playerid, argumentIdx);
 
-CBF:nearveh(const playerid, const argumentIdx, const resultIdx) 
-  {
- 	new
- 		value[MAX_VALUE_SIZE],
-		arguments[TEXT_FUNCTION_ARGUMENT],
-		world,
-		veh, targetId;
-		
-		ReadAmxMemoryArray(argumentIdx, arguments);
-		
-		sscanf(arguments, "dD(-1)", type, targetId);
-		targetId = getTargetIdOrSelf(playerid, targetId);
-		world = GetPlayerVirtualWorld(targetId);
-		
-		new type;
-		
+	 if (pData[targetid][pTazer]) {
+		valstr(value, "1");
+	 } else {
+	 	valstr(value, "0");
+	 }
 
-		if(IsPlayerInAnyVehicle(targetId) && !type)
-			{
-				veh = GetPlayerVehicleID(targetId);
-			}
-			else
-			{
-				new
-					Float:radius,
-					Float:x,
-					Float:y,
-					Float:z;
+	 WriteAmxMemoryArray(resultIdx, value);
+	 return true;
+}
 
-				if(type)
-				{
-					type = false;
-					if(IsPlayerInAnyVehicle(targetId))
-						type = GetPlayerVehicleID(targetId);
-				}
+CBF:lastActor(const playerid, const argumentIdx, const resultIdx) {
+	 new
+		 value[MAX_VALUE_SIZE],
+		 targetid = resolveTargetOrSelf(playerid, argumentIdx);
 
-				GetPlayerPos(targetId, x, y, z);
+	 valstr(value, pData[targetid][pActor]);
 
-				for(new vehicleid; vehicleid <= GetVehiclePoolSize(); vehicleid++)
-				{
-					if(!IsValidVehicle(vehicleid))
-						continue;
+	 WriteAmxMemoryArray(resultIdx, value);
+	 return true;
+}
 
-					if(GetVehicleVirtualWorld(vehicleid) != world)
-						continue;
+CBF:clist(const playerid, const argumentIdx, const resultIdx) {
+	new
+		value[MAX_VALUE_SIZE],
+		targetid = resolveTargetOrSelf(playerid, argumentIdx);
 
-					if(type == vehicleid)
-						continue;
+	valstr(value, GetPlayerColor(targetid));
 
-					new Float:tempRadius = GetVehicleDistanceFromPoint(vehicleid, x, y, z);
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
 
-					if(tempRadius > 3.2)
-						continue;
+CBF:fightStyle(const playerid, const argumentIdx, const resultIdx) {
+	new
+		value[MAX_VALUE_SIZE],
+		targetid = resolveTargetOrSelf(playerid, argumentIdx);
 
-					if(radius != 0.0 && tempRadius > radius)
-						continue;
-
-					radius = tempRadius;
-					veh = vehicleid;
-				}
-			}
-
-			valstr(value, veh);
-		}
-
- 	WriteAmxMemoryArray(resultIdx, value);
- 	return true;
- }
- 
- CBF:isWorld(const playerid, const argumentIdx, const resultIdx) 
- {
-  new
- 	value[MAX_VALUE_SIZE],
-	targetId = resolveTargetOrSelf(playerid, argumentIdx);
-	
-	if (GetPlayerVirtualWorld(playerid) == GetPlayerVirtualWorld(targetId)) {
-		valstr(value, 1);
-	} else {
-		valstr(value, 0);
+	if (GetPlayerFightingStyle(targetid) == FIGHT_STYLE_NORMAL) {
+		valstr(value, "1");
+	} else if (GetPlayerFightingStyle(targetid) == FIGHT_STYLE_BOXING) {
+		valstr(value, "2");
+	} else if (GetPlayerFightingStyle(targetid) == FIGHT_STYLE_KUNGFU) {
+		valstr(value, "3");
+	} else if (GetPlayerFightingStyle(targetid) == FIGHT_STYLE_KNEEHEAD) {
+		valstr(value, "4");
+	} else if (GetPlayerFightingStyle(targetid) == FIGHT_STYLE_GRABKICK) {
+		valstr(value, "5");
+	} else if (GetPlayerFightingStyle(targetid) == FIGHT_STYLE_ELBOW) {
+		valstr(value, "6");
 	}
-	
+
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
+
+CBF:nearveh(const playerid, const argumentIdx, const resultIdx)
+   {
+  	new
+  		value[MAX_VALUE_SIZE],
+ 		arguments[TEXT_FUNCTION_ARGUMENT],
+ 		world,
+ 		veh, targetId;
+
+ 		ReadAmxMemoryArray(argumentIdx, arguments);
+
+ 		sscanf(arguments, "dD(-1)", type, targetId);
+ 		targetId = getTargetIdOrSelf(playerid, targetId);
+ 		world = GetPlayerVirtualWorld(targetId);
+
+ 		new type;
+
+
+ 		if(IsPlayerInAnyVehicle(targetId) && !type)
+ 			{
+ 				veh = GetPlayerVehicleID(targetId);
+ 			}
+ 			else
+ 			{
+ 				new
+ 					Float:radius,
+ 					Float:x,
+ 					Float:y,
+ 					Float:z;
+
+ 				if(type)
+ 				{
+ 					type = false;
+ 					if(IsPlayerInAnyVehicle(targetId))
+ 						type = GetPlayerVehicleID(targetId);
+ 				}
+
+ 				GetPlayerPos(targetId, x, y, z);
+
+ 				for(new vehicleid; vehicleid <= GetVehiclePoolSize(); vehicleid++)
+ 				{
+ 					if(!IsValidVehicle(vehicleid))
+ 						continue;
+
+ 					if(GetVehicleVirtualWorld(vehicleid) != world)
+ 						continue;
+
+ 					if(type == vehicleid)
+ 						continue;
+
+ 					new Float:tempRadius = GetVehicleDistanceFromPoint(vehicleid, x, y, z);
+
+ 					if(tempRadius > 3.2)
+ 						continue;
+
+ 					if(radius != 0.0 && tempRadius > radius)
+ 						continue;
+
+ 					radius = tempRadius;
+ 					veh = vehicleid;
+ 				}
+ 			}
+
+ 			valstr(value, veh);
+ 		}
+
   	WriteAmxMemoryArray(resultIdx, value);
- 	return true;
- }
+  	return true;
+  }
+
+  CBF:isWorld(const playerid, const argumentIdx, const resultIdx)
+  {
+   new
+  	value[MAX_VALUE_SIZE],
+ 	targetId = resolveTargetOrSelf(playerid, argumentIdx);
+
+ 	if (GetPlayerVirtualWorld(playerid) == GetPlayerVirtualWorld(targetId)) {
+ 		valstr(value, 1);
+ 	} else {
+ 		valstr(value, 0);
+ 	}
+
+   	WriteAmxMemoryArray(resultIdx, value);
+  	return true;
+  }
