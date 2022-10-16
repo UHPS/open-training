@@ -1590,8 +1590,8 @@ CBF:nearply(const playerid, const argumentIdx, const resultIdx)
 {
     new
       value[MAX_VALUE_SIZE],
-      targetid = resolveTargetOrSelf(playerid, argumentIdx);
-      int = GetPlayerInterior(targetid);
+      targetid = resolveTargetOrSelf(playerid, argumentIdx),
+      int = GetPlayerInterior(targetid),
       Float: X,
       Float: Y,
       Float: Z,
