@@ -1973,7 +1973,7 @@ CBF:isAttachModel(const playerid, const argumentIdx, const resultIdx)
 	for(new i; i < 10; i++)
 	{
 		if(pAttach[targetId][i][1] == modelId) {
-			attachId = i;
+			attachId = i + 1;
 			break;
 		}
 			
