@@ -2355,7 +2355,7 @@ CBF:nearveh(const playerid, const argumentIdx, const resultIdx)
 		new type;
 		
 
-		if(IsPlayerInAnyVehicle(playerid) && !type)
+		if(IsPlayerInAnyVehicle(targetId) && !type)
 			{
 				veh = GetPlayerVehicleID(targetId);
 			}
