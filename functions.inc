@@ -1284,3 +1284,94 @@ CBF:ext(const playerid, const argumentIdx, const resultIdx)
 	WriteAmxMemoryArray(resultIdx, value);
 	return true;
 }
+
+
+CBF:bodypart(const playerid, const argumentIdx, const resultIdx)
+{
+	new
+		value[MAX_VALUE_SIZE],
+		targetid = resolveTargetOrSelf(playerid, argumentIdx);
+	
+
+	valstr(value, pData[targetid][pTakeDamageBPart]);
+
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
+
+CBF:issuerGun(const playerid, const argumentIdx, const resultIdx)
+{
+	new
+		value[MAX_VALUE_SIZE],
+		targetid = resolveTargetOrSelf(playerid, argumentIdx);
+	
+
+	valstr(value, pData[targetid][pTakeDamageWeapon]);
+
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
+
+CBF:vehColor(const playerid, const argumentIdx, const resultIdx)
+{
+	new
+		value[MAX_VALUE_SIZE],
+		targetid = resolveTargetOrSelf(playerid, argumentIdx);
+	
+
+	if(IsPlayerInAnyVehicle(targetid))
+	{
+		new 
+			color1,
+			color2;
+			
+		GetVehicleColor(GetPlayerVehicleID(targetid), color1, color2);
+		format(value, MAX_VALUE_SIZE, "%s", VehicleColoursTableRGB[color1]);
+	}
+
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
+
+CBF:vehColor1(const playerid, const argumentIdx, const resultIdx)
+{
+	new
+		value[MAX_VALUE_SIZE],
+		targetid = resolveTargetOrSelf(playerid, argumentIdx);
+	
+
+	if(IsPlayerInAnyVehicle(targetid))
+	{
+		new 
+			color1,
+			color2;
+			
+		GetVehicleColor(GetPlayerVehicleID(targetid), color1, color2);
+		format(value, MAX_VALUE_SIZE, "%d", color1);
+	}
+
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
+
+CBF:vehColor2(const playerid, const argumentIdx, const resultIdx)
+{
+	new
+		value[MAX_VALUE_SIZE],
+		targetid = resolveTargetOrSelf(playerid, argumentIdx);
+	
+
+	if(IsPlayerInAnyVehicle(targetid))
+	{
+		new 
+			color1,
+			color2;
+			
+		GetVehicleColor(GetPlayerVehicleID(targetid), color1, color2);
+		format(value, MAX_VALUE_SIZE, "%d", color2);
+	}
+
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
+
