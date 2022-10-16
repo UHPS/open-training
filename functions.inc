@@ -1645,3 +1645,59 @@ CBF:getDist(const playerid, const argumentIdx, const resultIdx)
 	WriteAmxMemoryArray(resultIdx, value);
 	return true;
 }
+
+CBF:moderlvl(const playerid, const argumentIdx, const resultIdx)
+{
+    new
+        value[MAX_VALUE_SIZE],
+        targetid = resolveTargetOrSelf(playerid, argumentIdx);
+
+    valstr(value, pData[targetid][pModer]);
+
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+CBF:specState(const playerid, const argumentIdx, const resultIdx)
+{
+    new
+        value[MAX_VALUE_SIZE],
+        targetid = resolveTargetOrSelf(playerid, argumentIdx);
+
+	if pData[targetid][pInSpec] == true {
+		valstr(value, 1);
+	} else {
+		valstr(value, 0);
+	}
+
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+CBF:specTarget(const playerid, const argumentIdx, const resultIdx)
+{
+    new
+        value[MAX_VALUE_SIZE],
+        targetid = resolveTargetOrSelf(playerid, argumentIdx);
+
+	if pData[targetid][pInSpec] == false {
+		valstr(value, 'N/A')
+	} else {
+		valstr(value, pData[targetid][pSpectator])
+	}
+
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+CBF:int(const playerid, const argumentIdx, const resultIdx)
+{
+    new
+        value[MAX_VALUE_SIZE],
+        targetid = resolveTargetOrSelf(playerid, argumentIdx);
+
+	valstr(value, pData[targetid][pInterior])
+
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
