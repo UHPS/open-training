@@ -2091,3 +2091,25 @@ CBF:randomPlayer(const playerid, const argumentIdx, const resultIdx)
 	WriteAmxMemoryArray(resultIdx, value);
 	return true;
 }
+
+
+
+
+
+CBF:moder(const playerid, const argumentIdx, const resultIdx)
+{
+	new
+		world,
+		value[MAX_VALUE_SIZE],
+		targetid = resolveTargetOrSelf(playerid, argumentIdx);
+
+	world = GetPlayerVirtualWorld(targetId);
+	valstr(value, pInfo[targetId][pModer]);
+	
+	if(worldArray[worldid][wOwner] == targetId) {
+		valstr(value, 6);
+	}
+
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
