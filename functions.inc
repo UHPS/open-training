@@ -1903,7 +1903,7 @@ CBF:attach(const playerid, const argumentIdx, const resultIdx)
 		
 	ReadAmxMemoryArray(argumentIdx, arguments);
 	
-	if(sscanf(arguments, "dD(-1)", attachId, targetId)) {
+	if(sscanf(arguments, "p<,>dD(-1)", attachId, targetId)) {
 			return false;
 	}
 	
@@ -1932,7 +1932,7 @@ CBF:attachModel(const playerid, const argumentIdx, const resultIdx)
 		
 	ReadAmxMemoryArray(argumentIdx, arguments);
 	
-	if(sscanf(arguments, "dD(-1)", attachId, targetId)) {
+	if(sscanf(arguments, "p<,>dD(-1)", attachId, targetId)) {
 			return false;
 	}
 	
@@ -1961,7 +1961,7 @@ CBF:isAttachModel(const playerid, const argumentIdx, const resultIdx)
 	
 	ReadAmxMemoryArray(argumentIdx, arguments);
 	
-	if(sscanf(arguments, "dD(-1)", modelId, targetId)) {
+	if(sscanf(arguments, "p<,>dD(-1)", modelId, targetId)) {
 			return false;
 	}
 	
@@ -1981,6 +1981,113 @@ CBF:isAttachModel(const playerid, const argumentIdx, const resultIdx)
 	
 	valstr(value, attachId);
 	
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
+
+CBF:randomPlayer(const playerid, const argumentIdx, const resultIdx)
+{
+	new
+		world,
+		value[MAX_VALUE_SIZE],
+		arguments[TEXT_FUNCTION_ARGUMENT];
+	
+	ReadAmxMemoryArray(argumentIdx, arguments);
+	world = GetPlayerVirtualWorld(playerid);
+
+	new
+		category[24],
+		categoryType,
+		type[2],
+		playerCount = -1,
+		playerList[500];
+
+	sscanf(arguments, "p<,>s[24]D(0)D(0)", category, type[0], type[1]);
+
+	if(!isnull(category))
+	{
+		if(!strcmp(category, "team", true))
+		{
+			type[0]--;
+			categoryType = 1;
+		}
+		else if(!strcmp(category, "skin", true))
+			categoryType = 2;
+		else if(!strcmp(category, "veh", true))
+			categoryType = 3;
+		else if(!strcmp(category, "data", true))
+			categoryType = 4;
+		else if(!strcmp(category, "wanted", true))
+			categoryType = 5;
+		else if(!strcmp(category, "action", true))
+			categoryType = 6;
+		else if(!strcmp(category, "dead", true))
+			categoryType = 7;
+		else if(!strcmp(category, "alive", true))
+			categoryType = 8;
+	}
+
+	foreach(new player : Player)
+	{
+		if(GetPlayerVirtualWorld(player) != world)
+			continue;
+
+		if(categoryType != 0)
+		{
+			if(categoryType == 1)
+			{
+				if(pData[player][pTeam] != type[0])
+					continue;
+			}
+			else if(categoryType == 2)
+			{
+				if(pData[player][pSkin] != type[0])
+						continue;
+			}
+			else if(categoryType == 3)
+			{
+				if(GetVehicleModel(GetPlayerVehicleID(player)) != type[0])
+					continue;
+			}
+			else if(categoryType == 4)
+			{
+				if(type[0] < 0 || type[0] > 26)
+					continue;
+
+				if(pData[player][cbData][ type[0] ] != type[1])
+					continue;
+			}
+			else if(categoryType == 5)
+			{
+				if(GetPlayerWantedLevel(player) != type[0])
+					continue;
+			}
+			else if(categoryType == 6)
+			{
+				if(GetPlayerSpecialAction(player) != type[0])
+					continue;
+			}
+			else if(categoryType == 7)
+			{
+				if(!pData[player][pDead])
+					continue;
+			}
+			else if(categoryType == 8)
+			{
+				if(pData[player][pDead])
+					continue;
+			}
+		}
+
+		playerCount++;
+		playerList[playerCount] = player;
+	}
+
+	if(playerCount != -1)
+		valstr(value, playerList[ RandomEx(0, playerCount) ]);
+	else
+		valstr(value, 0);
+		
 	WriteAmxMemoryArray(resultIdx, value);
 	return true;
 }
