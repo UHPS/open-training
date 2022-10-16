@@ -2136,6 +2136,7 @@ CBF:specTarget(const playerid, const argumentIdx, const resultIdx)
         value[MAX_VALUE_SIZE],
         targetid = resolveTargetOrSelf(playerid, argumentIdx);
 
+
 	if (!pData[targetid][pInSpec]) {
 		format(value, MAX_VALUE_SIZE, "N/A");
 	} else {
@@ -2164,11 +2165,7 @@ CBF:vip(const playerid, const argumentIdx, const resultIdx)
 		value[MAX_VALUE_SIZE],
 		targetid = resolveTargetOrSelf(playerid, argumentIdx);
 
-	if (pData[targetid][vip] == 0) {
-		valstr(value, 0);
-	} else if (pData[targetid][vip] > 0) {
-		valstr(value, 1);
-	}
+	valstr(value, (pData[targetid][vip] > 0));
 
 	WriteAmxMemoryArray(resultIdx, value);
 	return true;
@@ -2257,7 +2254,8 @@ CBF:raycast(const playerid, const argumentIdx, const resultIdx)
 }
 
 
- CBF:chatStyle(const playerid, const argumentIdx, const resultIdx) {
+CBF:chatStyle(const playerid, const argumentIdx, const resultIdx)
+{
  	new
  		value[MAX_VALUE_SIZE],
  		targetid = resolveTargetOrSelf(playerid, argumentIdx);
@@ -2266,24 +2264,21 @@ CBF:raycast(const playerid, const argumentIdx, const resultIdx)
 
  	WriteAmxMemoryArray(resultIdx, value);
  	return true;
- }
+}
 
- CBF:freeze(const playerid, const argumentIdx, const resultIdx) {
+CBF:freeze(const playerid, const argumentIdx, const resultIdx)
+{
  	new
  		value[MAX_VALUE_SIZE],
  		targetid = resolveTargetOrSelf(playerid, argumentIdx);
 
- 	if (pData[targetid][Frozen]) {
- 		valstr(value, 1);
- 	} else {
- 		valstr(value, 0);
- 	}
+ 	valstr(value, pData[targetid][Frozen]);
 
  	WriteAmxMemoryArray(resultIdx, value);
  	return true;
- }
+}
 
- CBF:freezeTime(const playerid, const argumentIdx, const resultIdx) {
+CBF:freezeTime(const playerid, const argumentIdx, const resultIdx) {
  	new
  		value[MAX_VALUE_SIZE],
  		targetid = resolveTargetOrSelf(playerid, argumentIdx);
@@ -2292,106 +2287,88 @@ CBF:raycast(const playerid, const argumentIdx, const resultIdx)
 
  	WriteAmxMemoryArray(resultIdx, value);
  	return true;
- }
+}
 
- CBF:gm(const playerid, const argumentIdx, const resultIdx) {
+CBF:gm(const playerid, const argumentIdx, const resultIdx)
+{
  	new
  		value[MAX_VALUE_SIZE],
  		targetid = resolveTargetOrSelf(playerid, argumentIdx);
 
- 	if (pData[targetid][GM]) {
- 		valstr(value, 1);
- 	} else {
- 		valstr(value, 0);
- 	}
+	valstr(value, pData[targetid][GM]);
 
  	WriteAmxMemoryArray(resultIdx, value);
  	return true;
- }
-
- CBF:mute(const playerid, const argumentIdx, const resultIdx) {
- 	new
- 		value[MAX_VALUE_SIZE],
- 		targetid = resolveTargetOrSelf(playerid, argumentIdx),
- 		time = pData[targetid][pWorldMute] - gettime();
-
- 	if (time > 0) {
- 		valstr(value, 1);
- 	} else {
- 		valstr(value, 0);
- 	}
-
- 	WriteAmxMemoryArray(resultIdx, value);
- 	return true;
- }
-
- CBF:muteTime(const playerid, const argumentIdx, const resultIdx) {
- 	new
- 		value[MAX_VALUE_SIZE],
- 		targetid = resolveTargetOrSelf(playerid, argumentIdx),
- 		time = pData[targetid][pWorldMute] - gettime();
-
- 	valstr(value, time);
-
- 	WriteAmxMemoryArray(resultIdx, value);
- 	return true;
- }
-
-CBF:taser(const playerid, const argumentIdx, const resultIdx) {
-	 new
-		 value[MAX_VALUE_SIZE],
-		 targetid = resolveTargetOrSelf(playerid, argumentIdx);
-
-	 if (pData[targetid][pTazer]) {
-		valstr(value, 1);
-	 } else {
-	 	valstr(value, 0);
-	 }
-
-	 WriteAmxMemoryArray(resultIdx, value);
-	 return true;
 }
 
-CBF:lastActor(const playerid, const argumentIdx, const resultIdx) {
-	 new
-		 value[MAX_VALUE_SIZE],
-		 targetid = resolveTargetOrSelf(playerid, argumentIdx);
+CBF:mute(const playerid, const argumentIdx, const resultIdx)
+{
+ 	new
+ 		value[MAX_VALUE_SIZE],
+ 		targetid = resolveTargetOrSelf(playerid, argumentIdx);
 
-	 valstr(value, pData[targetid][pActor]);
+ 	valstr(value, (pData[targetid][pWorldMute] - gettime() > 0));
 
-	 WriteAmxMemoryArray(resultIdx, value);
-	 return true;
+ 	WriteAmxMemoryArray(resultIdx, value);
+ 	return true;
 }
 
-CBF:clist(const playerid, const argumentIdx, const resultIdx) {
+CBF:muteTime(const playerid, const argumentIdx, const resultIdx)
+{
+ 	new
+ 		value[MAX_VALUE_SIZE],
+ 		targetid = resolveTargetOrSelf(playerid, argumentIdx);
+
+ 	valstr(value, (pData[targetid][pWorldMute] - gettime()));
+
+ 	WriteAmxMemoryArray(resultIdx, value);
+ 	return true;
+}
+
+CBF:taser(const playerid, const argumentIdx, const resultIdx)
+{
 	new
 		value[MAX_VALUE_SIZE],
 		targetid = resolveTargetOrSelf(playerid, argumentIdx);
 
-	valstr(value, GetPlayerColor(targetid));
+	valstr(value, pData[targetid][pTazer]);
 
 	WriteAmxMemoryArray(resultIdx, value);
 	return true;
 }
 
-CBF:fightStyle(const playerid, const argumentIdx, const resultIdx) {
+CBF:lastActor(const playerid, const argumentIdx, const resultIdx)
+{
 	new
 		value[MAX_VALUE_SIZE],
 		targetid = resolveTargetOrSelf(playerid, argumentIdx);
 
-	if (GetPlayerFightingStyle(targetid) == FIGHT_STYLE_NORMAL) {
-		valstr(value, 1);
-	} else if (GetPlayerFightingStyle(targetid) == FIGHT_STYLE_BOXING) {
-		valstr(value, 2);
-	} else if (GetPlayerFightingStyle(targetid) == FIGHT_STYLE_KUNGFU) {
-		valstr(value, 3);
-	} else if (GetPlayerFightingStyle(targetid) == FIGHT_STYLE_KNEEHEAD) {
-		valstr(value, 4);
-	} else if (GetPlayerFightingStyle(targetid) == FIGHT_STYLE_GRABKICK) {
-		valstr(value, 5);
-	} else if (GetPlayerFightingStyle(targetid) == FIGHT_STYLE_ELBOW) {
-		valstr(value, 6);
-	}
+	valstr(value, pData[targetid][pActor]);
+
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
+
+CBF:clist(const playerid, const argumentIdx, const resultIdx)
+{
+	new
+		value[MAX_VALUE_SIZE],
+		world = GetPlayerVirtualWorld(playerid),
+		targetid = resolveTargetOrSelf(playerid, argumentIdx);
+
+	valstr(value, worldTeam[world][ pData[targetid][pTeam] ][tClist]);
+
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
+
+CBF:fightStyle(const playerid, const argumentIdx, const resultIdx)
+{
+	new
+		value[MAX_VALUE_SIZE],
+		targetid = resolveTargetOrSelf(playerid, argumentIdx);
+
+	valstr(value, resolvePlayerFightingStyle(targetid));
 
 	WriteAmxMemoryArray(resultIdx, value);
 	return true;
@@ -2402,79 +2379,63 @@ CBF:nearveh(const playerid, const argumentIdx, const resultIdx)
   	new
   		value[MAX_VALUE_SIZE],
  		arguments[TEXT_FUNCTION_ARGUMENT],
- 		world,
- 		veh,
-		type,
-		targetId;
+ 		world = GetPlayerVirtualWorld(playerid),
+ 		vehicleid,
+		targetid,
+		Float: vehicleRange;
+
+	new
+		targetVehicleid,
+		Float:radius,
+		Float:targetX,
+		Float:targetY,
+		Float:targetZ;
 
  	ReadAmxMemoryArray(argumentIdx, arguments);
 
-	sscanf(arguments, "dD(-1)", type, targetId);
-	targetId = getTargetIdOrSelf(playerid, targetId);
-	world = GetPlayerVirtualWorld(targetId);
+	sscanf(arguments, "F(3.5)D(-1)", radius, targetid);
 
-	if(IsPlayerInAnyVehicle(targetId) && !type)
-	{
-		veh = GetPlayerVehicleID(targetId);
-	}
-	else
-	{
-		new
-			Float:radius,
-			Float:x,
-			Float:y,
-			Float:z;
+	targetid = getTargetIdOrSelf(playerid, targetid);
+	targetVehicleid = GetPlayerVehicleID(targetid);
+	GetPlayerPos(targetid, targetX, targetY, targetZ);
 
-		if(type)
-		{
-			type = false;
-			if(IsPlayerInAnyVehicle(targetId))
-				type = GetPlayerVehicleID(targetId);
+	for (new i; i <= GetVehiclePoolSize(); i++)
+	{
+		if (!IsValidVehicle(i)) {
+			continue;
 		}
 
-		GetPlayerPos(targetId, x, y, z);
-
-		for(new vehicleid; vehicleid <= GetVehiclePoolSize(); vehicleid++)
-		{
-			if(!IsValidVehicle(vehicleid))
-				continue;
-
-			if(GetVehicleVirtualWorld(vehicleid) != world)
-				continue;
-
-			if(type == vehicleid)
-				continue;
-
-			new Float:tempRadius = GetVehicleDistanceFromPoint(vehicleid, x, y, z);
-
-			if(tempRadius > 3.2)
-				continue;
-
-			if(radius != 0.0 && tempRadius > radius)
-				continue;
-
-			radius = tempRadius;
-			veh = vehicleid;
+		if (GetVehicleVirtualWorld(i) != world) {
+			continue;
 		}
+
+		if (targetVehicleid && targetVehicleid == i) {
+			continue;
+		}
+
+		vehicleRange = GetVehicleDistanceFromPoint(i, targetX, targetY, targetZ);
+
+		if (vehicleRange > radius) {
+			continue;
+		}
+
+		radius = vehicleRange;
+		vehicleid = i;
 	}
 
-	valstr(value, veh);
+	valstr(value, vehicleid);
 
-  	WriteAmxMemoryArray(resultIdx, value);
-  	return true;
-  }
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
 
 CBF:isWorld(const playerid, const argumentIdx, const resultIdx)
 {
 	new
 		value[MAX_VALUE_SIZE],
-		targetId = resolveTargetOrSelf(playerid, argumentIdx);
+		targetid = resolveTargetOrSelf(playerid, argumentIdx);
 
-	if (GetPlayerVirtualWorld(playerid) == GetPlayerVirtualWorld(targetId)) {
-		valstr(value, 1);
-	} else {
-		valstr(value, 0);
-	}
+	valstr(value, (GetPlayerVirtualWorld(playerid) == GetPlayerVirtualWorld(targetid)));
 
 	WriteAmxMemoryArray(resultIdx, value);
 	return true;
