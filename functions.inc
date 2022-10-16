@@ -1556,3 +1556,59 @@ CBF:vehPos(const playerid, const argumentIdx, const resultIdx)
 	WriteAmxMemoryArray(resultIdx, value);
 	return true;
 }
+
+CBF:passinfo(const playerid, const argumentIdx, const resultIdx)
+{
+    new
+      value[MAX_VALUE_SIZE],
+      targetid = resolveTargetOrSelf(playerid, argumentIdx),
+      data[2];
+
+    Streamer_GetArrayData(STREAMER_TYPE_PICKUP, pData[targetid][pPickup], E_STREAMER_EXTRA_ID, data);
+    pData[targetid][pPickup] = false;
+
+    if (data[1] == 1 and data[0] != -1)
+    {
+      if (IsPlayerInRangeOfPoint(targetid, 3.0, passData[world][ data[0] ][pExitPosX], passData[world][ data[0] ][pExitPosY], passData[world][ data[0] ][pExitPosZ]))
+      {
+        valstr(value, data[0]);
+      }
+    } else if (data[1] != 1 and data[0] != -1) {
+      if (IsPlayerInRangeOfPoint(targetid, 3.0, passData[world][ data[0] ][pEnterPosX], passData[world][ data[0] ][pEnterPosY], passData[world][ data[0] ][pEnterPosZ]))
+      {
+        valstr(value, data[0]);
+      }
+    } else {
+      valstr(value, "-1");
+    }
+
+    WriteAmxMemory(resultIdx, value);
+    return true;
+}
+
+CBF:nearply(const playerid, const argumentIdx, const resultIdx)
+{
+    new
+      value[MAX_VALUE_SIZE],
+      targetid = resolveTargetOrSelf(playerid, argumentIdx);
+      int = GetPlayerInterior(targetid);
+      Float: X,
+      Float: Y,
+      Float: Z,
+      lastData[2] = { cellmax, -1 };
+  
+    foreach (new i : Player) {
+      if (!(GetPlayerVirtualWorld(i) == world && GetPlayerInterior(i) == int || i = targetid))
+        continue;
+    
+      if (GetPlayerPos(i, X, Y, Z) && (floatround(GetPlayerDistanceFromPoint(targetid, X, Y, Z)) < lastData[0])) {
+        lastData[0] = floatround(GetPlayerDistanceFromPoint(targetid, X, Y, Z));
+        lastData[1] = i;
+      }
+    }
+
+    valstr(value, lastData[1]);
+
+    WriteAmxMemory(resultIdx, value);
+    return true;
+}
