@@ -1273,11 +1273,11 @@ CBF:ext(const playerid, const argumentIdx, const resultIdx)
 
 	switch(param)
 	{
-		case 1: StreamerBlockGetArray(cmBlock[world][ arg[0] ][cbID], 1, value, MAX_VALUE_SIZE);
-		case 2: StreamerBlockGetArray(cmBlock[world][ arg[0] ][cbID], 2, value, MAX_VALUE_SIZE);
-		case 3: StreamerBlockGetArray(cmBlock[world][ arg[0] ][cbID], 3, value, MAX_VALUE_SIZE);
-		case 4: StreamerBlockGetArray(cmBlock[world][ arg[0] ][cbID], 4, value, MAX_VALUE_SIZE);
-		case 5: StreamerBlockGetArray(cmBlock[world][ arg[0] ][cbID], 5, value, MAX_VALUE_SIZE);
+		case 1: StreamerBlockGetArray(cmBlock[world][blockid][cbID], 1, value, MAX_VALUE_SIZE);
+		case 2: StreamerBlockGetArray(cmBlock[world][blockid][cbID], 2, value, MAX_VALUE_SIZE);
+		case 3: StreamerBlockGetArray(cmBlock[world][blockid][cbID], 3, value, MAX_VALUE_SIZE);
+		case 4: StreamerBlockGetArray(cmBlock[world][blockid][cbID], 4, value, MAX_VALUE_SIZE);
+		case 5: StreamerBlockGetArray(cmBlock[world][blockid][cbID], 5, value, MAX_VALUE_SIZE);
 		default: format(value, MAX_VALUE_SIZE, "N/A");
 	}
 
