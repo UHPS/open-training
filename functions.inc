@@ -2336,3 +2336,63 @@ CBF:raycast(const playerid, const argumentIdx, const resultIdx)
  	WriteAmxMemoryArray(resultIdx, value);
  	return true;
  }
+
+CBF:taser(const playerid, const argumentIdx, const resultIdx) {
+	 new
+		 value[MAX_VALUE_SIZE],
+		 targetid = resolveTargetOrSelf(playerid, argumentIdx);
+		
+	 if (pData[targetid][pTazer]) {
+		valstr(value, "1");
+	 } else {
+	 	valstr(value, "0");
+	 }
+		
+	 WriteAmxMemoryArray(resultIdx, value);
+	 return true;
+}
+
+CBF:lastActor(const playerid, const argumentIdx, const resultIdx) {
+	 new
+		 value[MAX_VALUE_SIZE],
+		 targetid = resolveTargetOrSelf(playerid, argumentIdx);
+		
+	 valstr(value, pData[targetid][pActor]);
+		
+	 WriteAmxMemoryArray(resultIdx, value);
+	 return true;
+}
+
+CBF:clist(const playerid, const argumentIdx, const resultIdx) {
+	new
+		value[MAX_VALUE_SIZE],
+		targetid = resolveTargetOrSelf(playerid, argumentIdx);
+
+	valstr(value, GetPlayerColor(targetid));
+	
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
+
+CBF:fightStyle(const playerid, const argumentIdx, const resultIdx) {
+	new
+		value[MAX_VALUE_SIZE],
+		targetid = resolveTargetOrSelf(playerid, argumentIdx);
+	
+	if (GetPlayerFightingStyle(targetid) == FIGHT_STYLE_NORMAL) {
+		valstr(value, "1");
+	} else if (GetPlayerFightingStyle(targetid) == FIGHT_STYLE_BOXING) {
+		valstr(value, "2");
+	} else if (GetPlayerFightingStyle(targetid) == FIGHT_STYLE_KUNGFU) {
+		valstr(value, "3");
+	} else if (GetPlayerFightingStyle(targetid) == FIGHT_STYLE_KNEEHEAD) {
+		valstr(value, "4");
+	} else if (GetPlayerFightingStyle(targetid) == FIGHT_STYLE_GRABKICK) {
+		valstr(value, "5");
+	} else if (GetPlayerFightingStyle(targetid) == FIGHT_STYLE_ELBOW) {
+		valstr(value, "6");
+	}
+
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
