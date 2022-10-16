@@ -2336,3 +2336,89 @@ CBF:raycast(const playerid, const argumentIdx, const resultIdx)
  	WriteAmxMemoryArray(resultIdx, value);
  	return true;
  }
+
+
+CBF:nearveh(const playerid, const argumentIdx, const resultIdx) 
+  {
+ 	new
+ 		value[MAX_VALUE_SIZE],
+		arguments[TEXT_FUNCTION_ARGUMENT],
+		world,
+		veh, targetId;
+		
+		ReadAmxMemoryArray(argumentIdx, arguments);
+		
+		sscanf(arguments, "dD(-1)", type, targetId);
+		targetId = getTargetIdOrSelf(playerid, targetId);
+		world = GetPlayerVirtualWorld(targetId);
+		
+		new type;
+		
+
+		if(IsPlayerInAnyVehicle(playerid) && !type)
+			{
+				veh = GetPlayerVehicleID(targetId);
+			}
+			else
+			{
+				new
+					Float:radius,
+					Float:x,
+					Float:y,
+					Float:z;
+
+				if(type)
+				{
+					type = false;
+					if(IsPlayerInAnyVehicle(targetId))
+						type = GetPlayerVehicleID(targetId);
+				}
+
+				GetPlayerPos(targetId, x, y, z);
+
+				for(new vehicleid; vehicleid <= GetVehiclePoolSize(); vehicleid++)
+				{
+					if(!IsValidVehicle(vehicleid))
+						continue;
+
+					if(GetVehicleVirtualWorld(vehicleid) != world)
+						continue;
+
+					if(type == vehicleid)
+						continue;
+
+					new Float:tempRadius = GetVehicleDistanceFromPoint(vehicleid, x, y, z);
+
+					if(tempRadius > 3.2)
+						continue;
+
+					if(radius != 0.0 && tempRadius > radius)
+						continue;
+
+					radius = tempRadius;
+					veh = vehicleid;
+				}
+			}
+
+			valstr(value, veh);
+		}
+
+ 	WriteAmxMemoryArray(resultIdx, value);
+ 	return true;
+ }
+ 
+ CBF:isWorld(const playerid, const argumentIdx, const resultIdx) 
+ {
+  new
+ 	value[MAX_VALUE_SIZE],
+	targetId = resolveTargetOrSelf(playerid, argumentIdx);
+	
+	if (GetPlayerVirtualWorld(playerid) == GetPlayerVirtualWorld(targetId)) {
+		valstr(value, 1);
+	} else {
+		valstr(value, 0);
+	}
+	
+  	WriteAmxMemoryArray(resultIdx, value);
+ 	return true;
+ }
