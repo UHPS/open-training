@@ -764,3 +764,523 @@ CBF:oz(const playerid, const argumentIdx, const resultIdx)
 	WriteAmxMemoryArray(resultIdx, value);
 	return true;
 }
+
+
+
+
+
+
+CBF:rxyz(const playerid, const argumentIdx, const resultIdx)
+{
+    new 
+    	value[MAX_VALUE_SIZE],
+    	objectid,
+	world,
+        Float:x,
+	Float:y,
+	Float:z;
+
+
+	world = GetPlayerVirtualWorld(playerid);
+	ReadAmxMemoryArray(argumentIdx, arguments);
+	
+	if (sscanf(arguments, "d", objectid)) {
+		return false;
+	}
+
+	objectid = VECTOR_get_val(WorldObjectSystem[world][wosObject], objectid);
+	
+	if(objectid <= 0) {
+		return false;
+	}
+
+	Streamer_GetFloatData(STREAMER_TYPE_OBJECT, objectid, E_STREAMER_R_X, x);
+	Streamer_GetFloatData(STREAMER_TYPE_OBJECT, objectid, E_STREAMER_R_Y, y);
+        Streamer_GetFloatData(STREAMER_TYPE_OBJECT, objectid, E_STREAMER_R_Z, z);
+	
+	format(value, MAX_VALUE_SIZE, "%.2f %.2f %.2f", x, y, z);
+	
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
+
+CBF:rx(const playerid, const argumentIdx, const resultIdx)
+{
+    new 
+    	value[MAX_VALUE_SIZE],
+    	objectid,
+	world,
+        Float:x;
+
+
+	world = GetPlayerVirtualWorld(playerid);
+	ReadAmxMemoryArray(argumentIdx, arguments);
+	
+	if (sscanf(arguments, "d", objectid)) {
+		return false;
+	}
+
+	objectid = VECTOR_get_val(WorldObjectSystem[world][wosObject], objectid);
+	
+	if(objectid <= 0) {
+		return false;
+	}
+
+	Streamer_GetFloatData(STREAMER_TYPE_OBJECT, objectid, E_STREAMER_R_X, x);
+	
+	format(value, MAX_VALUE_SIZE, "%.2f", x);
+	
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
+
+CBF:ry(const playerid, const argumentIdx, const resultIdx)
+{
+    new 
+    	value[MAX_VALUE_SIZE],
+    	objectid,
+	world,
+        Float:y;
+
+
+	world = GetPlayerVirtualWorld(playerid);
+	ReadAmxMemoryArray(argumentIdx, arguments);
+	
+	if (sscanf(arguments, "d", objectid)) {
+		return false;
+	}
+
+	objectid = VECTOR_get_val(WorldObjectSystem[world][wosObject], objectid);
+	
+	if(objectid <= 0) {
+		return false;
+	}
+
+	Streamer_GetFloatData(STREAMER_TYPE_OBJECT, objectid, E_STREAMER_R_Y, y);
+	
+	format(value, MAX_VALUE_SIZE, "%.2f", y);
+	
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
+
+CBF:rz(const playerid, const argumentIdx, const resultIdx)
+{
+    new 
+    	value[MAX_VALUE_SIZE],
+    	objectid,
+	world,
+        Float:z;
+
+
+	world = GetPlayerVirtualWorld(playerid);
+	ReadAmxMemoryArray(argumentIdx, arguments);
+	
+	if (sscanf(arguments, "d", objectid)) {
+		return false;
+	}
+
+	objectid = VECTOR_get_val(WorldObjectSystem[world][wosObject], objectid);
+	
+	if(objectid <= 0) {
+		return false;
+	}
+
+	Streamer_GetFloatData(STREAMER_TYPE_OBJECT, objectid, E_STREAMER_R_Z, z);
+	
+	format(value, MAX_VALUE_SIZE, "%.2f", z);
+	
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
+
+CBF:getDistAction(const playerid, const argumentIdx, const resultIdx)
+{
+	new 
+		value[MAX_VALUE_SIZE];
+	
+	new 
+		actionId,
+		world,
+		Float:x, Float:y, Float:z;
+		
+	world = GetPlayerVirtualWorld(playerid);
+	ReadAmxMemoryArray(argumentIdx, arguments);
+	
+	if (sscanf(arguments, "d", actionId)) {
+		return false;
+	}
+	
+	if(!checkValidAction(actionId, world)) {
+		return false;
+	}
+	
+	Streamer_GetFloatData(STREAMER_TYPE_3D_TEXT_LABEL,
+		Text3D:worldAction[world][actionId][vAction], E_STREAMER_X, x);
+	Streamer_GetFloatData(STREAMER_TYPE_3D_TEXT_LABEL,
+		Text3D:worldAction[world][actionId][vAction], E_STREAMER_Y, y);
+	Streamer_GetFloatData(STREAMER_TYPE_3D_TEXT_LABEL,
+		Text3D:worldAction[world][actionId][vAction], E_STREAMER_Z, z);
+
+	new Float:distance = GetPlayerDistanceFromPoint(playerid, x, y, z);
+	format(value, MAX_VALUE_SIZE, "%.2f", distance);
+
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
+
+CBF:actionXYZ(const playerid, const argumentIdx, const resultIdx)
+{
+	new 
+		value[MAX_VALUE_SIZE];	
+	
+	new 
+		world,
+		actionId,
+		Float:x, Float:y, Float:z;
+	
+	world = GetPlayerVirtualWorld(playerid);
+	ReadAmxMemoryArray(argumentIdx, arguments);
+	
+	if (sscanf(arguments, "d", actionId)) {
+		return false;
+	}
+	
+	if(!checkValidAction(actionId, world)) {
+		return false;
+	}
+	
+	
+	Streamer_GetFloatData(STREAMER_TYPE_3D_TEXT_LABEL,
+		Text3D:worldAction[world][actionId][vAction], E_STREAMER_X, x);
+	Streamer_GetFloatData(STREAMER_TYPE_3D_TEXT_LABEL,
+		Text3D:worldAction[world][actionId][vAction], E_STREAMER_Y, y);
+	Streamer_GetFloatData(STREAMER_TYPE_3D_TEXT_LABEL,
+		Text3D:worldAction[world][actionId][vAction], E_STREAMER_Z, z);
+		
+	
+	format(value, MAX_VALUE_SIZE, "%.2f %.2f %.2f", x, y, z);
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
+
+CBF:actionX(const playerid, const argumentIdx, const resultIdx)
+{
+	new 
+		value[MAX_VALUE_SIZE];	
+	
+	new 
+		world,
+		actionId,
+		Float:x;
+	
+	world = GetPlayerVirtualWorld(playerid);
+	ReadAmxMemoryArray(argumentIdx, arguments);
+	
+	if (sscanf(arguments, "d", actionId)) {
+		return false;
+	}
+	
+	if(!checkValidAction(actionId, world)) {
+		return false;
+	}
+	
+	
+	Streamer_GetFloatData(STREAMER_TYPE_3D_TEXT_LABEL,
+		Text3D:worldAction[world][actionId][vAction], E_STREAMER_X, x);
+
+		
+	
+	format(value, MAX_VALUE_SIZE, "%.2f", x);
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
+
+CBF:actionY(const playerid, const argumentIdx, const resultIdx)
+{
+	new 
+		value[MAX_VALUE_SIZE];	
+	
+	new 
+		world,
+		actionId,
+		Float:y;
+	
+	world = GetPlayerVirtualWorld(playerid);
+	ReadAmxMemoryArray(argumentIdx, arguments);
+	
+	if (sscanf(arguments, "d", actionId)) {
+		return false;
+	}
+	
+	if(!checkValidAction(actionId, world)) {
+		return false;
+	}
+	
+	
+	Streamer_GetFloatData(STREAMER_TYPE_3D_TEXT_LABEL,
+		Text3D:worldAction[world][actionId][vAction], E_STREAMER_Y, y);
+
+		
+	
+	format(value, MAX_VALUE_SIZE, "%.2f", y);
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
+
+CBF:actionZ(const playerid, const argumentIdx, const resultIdx)
+{
+	new 
+		value[MAX_VALUE_SIZE];	
+	
+	new 
+		world,
+		actionId,
+		Float:z;
+	
+	world = GetPlayerVirtualWorld(playerid);
+	ReadAmxMemoryArray(argumentIdx, arguments);
+	
+	if (sscanf(arguments, "d", actionId)) {
+		return false;
+	}
+	
+	if(!checkValidAction(actionId, world)) {
+		return false;
+	}
+	
+	
+	Streamer_GetFloatData(STREAMER_TYPE_3D_TEXT_LABEL,
+		Text3D:worldAction[world][actionId][vAction], E_STREAMER_Z, z);
+
+		
+	
+	format(value, MAX_VALUE_SIZE, "%.2f", z);
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
+
+CBF:zone(const playerid, const argumentIdx, const resultIdx)
+{
+	new 
+		value[MAX_VALUE_SIZE],
+		targetid = resolveTargetOrSelf(playerid, argumentIdx);
+
+	GetPlayer2DZone(targetid, value, MAX_ZONE_NAME);
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
+
+CBF:getzone(const playerid, const argumentIdx, const resultIdx)
+{
+	new
+		value[MAX_VALUE_SIZE];
+	
+	new 
+		Float:x,
+		Float:y;
+		
+	ReadAmxMemoryArray(argumentIdx, arguments);
+	
+	if (sscanf(arguments, "p<,>ff", x, y)) {
+		return false;
+	}
+	
+	Get2DZone(x, y, value, MAX_ZONE_NAME);
+
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
+
+CBF:getzoneid(const playerid, const argumentIdx, const resultIdx)
+{
+	new
+		value[MAX_VALUE_SIZE];
+	
+	new 
+		Float:x,
+		Float:y;
+		
+	ReadAmxMemoryArray(argumentIdx, arguments);
+	
+	if (sscanf(arguments, "p<,>ff", x, y)) {
+		return false;
+	}
+	
+	valstr(value, Get2DZoneId(x, y));
+
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
+
+CBF:ping(const playerid, const argumentIdx, const resultIdx)
+{
+	new
+		value[MAX_VALUE_SIZE],
+		targetid = resolveTargetOrSelf(playerid, argumentIdx);
+	
+	valstr(value, GetPlayerPing(targetid));
+
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
+
+CBF:ban(const playerid, const argumentIdx, const resultIdx)
+{
+	new
+		value[MAX_VALUE_SIZE],
+		targetid = resolveTargetOrSelf(playerid, argumentIdx);
+	
+	if(pData[targetid][pBanned]) {
+		valstr(value, 1);
+	}
+	else {
+		valstr(value, 0);
+	}
+
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
+
+CBF:netstat(const playerid, const argumentIdx, const resultIdx)
+{
+	new
+		value[MAX_VALUE_SIZE],
+		targetid = resolveTargetOrSelf(playerid, argumentIdx);
+	
+	format(value, MAX_VALUE_SIZE, " %.1f", NetStats_PacketLossPercent(targetid));
+
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
+
+CBF:hr(const playerid, const argumentIdx, const resultIdx)
+{
+	new
+		value[MAX_VALUE_SIZE],
+		targetid = resolveTargetOrSelf(playerid, argumentIdx);
+	
+	format(value, MAX_VALUE_SIZE, "%.1f", (100 * pData[targetid][pHit])/pData[targetid][pShot]);
+
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
+
+CBF:fa(const playerid, const argumentIdx, const resultIdx)
+{
+	new
+		value[MAX_VALUE_SIZE],
+		targetid = resolveTargetOrSelf(playerid, argumentIdx);
+	
+	new 
+		Float:angle;
+	
+	if(IsPlayerInAnyVehicle(targetid)) {
+		GetVehicleZAngle(GetPlayerVehicleID(targetid), angle);
+	}
+	else {
+		GetPlayerFacingAngle(targetid, angle);
+	}
+	
+	format(value, MAX_VALUE_SIZE, "%.1f", angle);
+
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
+
+CBF:afk(const playerid, const argumentIdx, const resultIdx)
+{
+	new
+		value[MAX_VALUE_SIZE],
+		targetid = resolveTargetOrSelf(playerid, argumentIdx);
+	
+
+	valstr(value, pData[targetid][pAFK]);
+
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
+
+CBF:death(const playerid, const argumentIdx, const resultIdx)
+{
+	new
+		value[MAX_VALUE_SIZE],
+		targetid = resolveTargetOrSelf(playerid, argumentIdx);
+	
+
+	valstr(value, pData[targetid][pDeadStage]);
+
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
+
+CBF:target(const playerid, const argumentIdx, const resultIdx)
+{
+	new
+		value[MAX_VALUE_SIZE],
+		targetid = resolveTargetOrSelf(playerid, argumentIdx);
+	
+
+	valstr(value, GetPlayerTargetPlayer(targetid));
+
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
+
+CBF:teamName(const playerid, const argumentIdx, const resultIdx)
+{
+	new
+		world,
+		value[MAX_VALUE_SIZE],
+		targetid = resolveTargetOrSelf(playerid, argumentIdx);
+	
+	world = GetPlayerVirtualWorld(targetid);
+	
+
+	if(pData[targetid][pTeam] < 0)
+	{
+		format(value, MAX_VALUE_SIZE, "N/A");
+	}
+	else
+	{
+		format(value, MAX_VALUE_SIZE, "%s", worldTeam[world][ pData[targetid][pTeam] ][tName]);
+	}
+
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
+
+CBF:ext(const playerid, const argumentIdx, const resultIdx)
+{
+	new
+		world,
+		value[MAX_VALUE_SIZE];
+		
+	new 
+		blockid,
+		param;
+	
+	world = GetPlayerVirtualWorld(playerid);
+	ReadAmxMemoryArray(argumentIdx, arguments);
+	
+	if (sscanf(arguments, "p<,>dd", blockid, param)) {
+		return false;
+	}
+	
+	if (blockid < 0 || blockid > VW[world][wMaxCB]) {
+		return false;
+	}
+
+	switch(param)
+	{
+		case 1: StreamerBlockGetArray(cmBlock[world][ arg[0] ][cbID], 1, value, MAX_VALUE_SIZE);
+		case 2: StreamerBlockGetArray(cmBlock[world][ arg[0] ][cbID], 2, value, MAX_VALUE_SIZE);
+		case 3: StreamerBlockGetArray(cmBlock[world][ arg[0] ][cbID], 3, value, MAX_VALUE_SIZE);
+		case 4: StreamerBlockGetArray(cmBlock[world][ arg[0] ][cbID], 4, value, MAX_VALUE_SIZE);
+		case 5: StreamerBlockGetArray(cmBlock[world][ arg[0] ][cbID], 5, value, MAX_VALUE_SIZE);
+		default: format(value, MAX_VALUE_SIZE, "N/A");
+	}
+
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
