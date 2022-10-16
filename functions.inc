@@ -2252,3 +2252,98 @@ CBF:vip(const playerid, const argumentIdx, const resultIdx)
  	WriteAmxMemoryArray(resultIdx, value);
  	return true;
  }
+
+CBF:chatStyle(const playerid, const argumentIdx, const resultIdx) {
+	new
+		value[MAX_VALUE_SIZE],
+		targetid = resolveTargetOrSelf(playerid, argumentIdx);
+		
+	valstr(value, pData[targetid][pChatStyle]);
+		
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
+
+CBF:freeze(const playerid, const argumentIdx, const resultIdx) {
+	new
+		value[MAX_VALUE_SIZE],
+		targetid = resolveTargetOrSelf(playerid, argumentIdx);
+		
+	if (pData[targetid][Frozen]) {
+		valstr(value, "1");
+	} else {
+		valstr(value, "0");
+	}
+		
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
+
+CBF:freezeTime(const playerid, const argumentIdx, const resultIdx) {
+	new
+		value[MAX_VALUE_SIZE],
+		targetid = resolveTargetOrSelf(playerid, argumentIdx);
+		
+	valstr(value, pData[targetid][pFreezeTime])
+		
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
+
+CBF:gm(const playerid, const argumentIdx, const resultIdx) {
+	new
+		value[MAX_VALUE_SIZE],
+		targetid = resolveTargetOrSelf(playerid, argumentIdx);
+		
+	if (pData[targetid][GM]) {
+		valstr(value, "1");
+	} else {
+		valstr(value, "0");
+	}
+		
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
+
+CBF:ban(const playerid, const argumentIdx, const resultIdx) {
+	new
+		value[MAX_VALUE_SIZE],
+		targetid = resolveTargetOrSelf(playerid, argumentIdx);
+		
+	if (pData[targetid][pBanned]) {
+		valstr(value, "1");
+	} else {
+		valstr(value, "0");
+	}
+		
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
+
+CBF:mute(const playerid, const argumentIdx, const resultIdx) {
+	new
+		value[MAX_VALUE_SIZE],
+		targetid = resolveTargetOrSelf(playerid, argumentIdx),
+		time = pData[targetid][pWorldMute] - gettime();
+		
+	if (time > 0) {
+		valstr(value, "1");
+	} else {
+		valstr(value, "0");
+	}
+
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
+
+CBF:muteValue(const playerid, const argumentIdx, const resultIdx) {
+	new
+		value[MAX_VALUE_SIZE],
+		targetid = resolveTargetOrSelf(playerid, argumentIdx),
+		time = pData[targetid][pWorldMute] - gettime();
+		
+	valstr(value, time);
+
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
