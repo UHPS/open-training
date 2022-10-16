@@ -5,8 +5,6 @@
         #money# -> resolveTargetOrSelf(playerid, argumentIdx) -> targetid = playerid
     * Обратите внимания на функцию CBF:money там нет sscanf потому что эта функция сама форматирует это.
     ** Это сделано для того что не дублировать код где проверяется есть ли указанный id или нет.
-
-
     getTargetIdOrSelf(playerid, targetid) - Возвращает указанного игрока или инициатора.
     Пример:
         if (sscanf(arguments, "dD(-1)", targetid, weaponSlot)) {
@@ -15,7 +13,6 @@
             targetid = getTargetIdOrSelf(playerid, targetid);
         }
     * Почти тоже самое что и выше, но необходимо для случаев где есть необязательные параметры или первый вариант не подходит.
-
     ReadAmxMemoryArray(argumentIdx, arguments) - функция которая получает переменную по индексу, особенность сампа.
     WriteAmxMemoryArray(resultIdx, value) - записываем строку с результатом по индексу переменной, так же особенность сампа.
 */
@@ -2115,6 +2112,50 @@ CBF:moder(const playerid, const argumentIdx, const resultIdx)
 
 	WriteAmxMemoryArray(resultIdx, value);
 	return true;
+}
+
+CBF:specState(const playerid, const argumentIdx, const resultIdx)
+{
+    new
+        value[MAX_VALUE_SIZE],
+        targetid = resolveTargetOrSelf(playerid, argumentIdx);
+
+	if pData[targetid][pInSpec] == true {
+		valstr(value, 1);
+	} else {
+		valstr(value, 0);
+	}
+
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+CBF:specTarget(const playerid, const argumentIdx, const resultIdx)
+{
+    new
+        value[MAX_VALUE_SIZE],
+        targetid = resolveTargetOrSelf(playerid, argumentIdx);
+
+	if pData[targetid][pInSpec] == false {
+		valstr(value, 'N/A')
+	} else {
+		valstr(value, pData[targetid][pSpectator])
+	}
+
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+CBF:int(const playerid, const argumentIdx, const resultIdx)
+{
+    new
+        value[MAX_VALUE_SIZE],
+        targetid = resolveTargetOrSelf(playerid, argumentIdx);
+
+	valstr(value, pData[targetid][pInterior])
+
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
 }
 
 CBF:vip(const playerid, const argumentIdx, const resultIdx)
