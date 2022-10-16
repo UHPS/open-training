@@ -2106,7 +2106,7 @@ CBF:moder(const playerid, const argumentIdx, const resultIdx)
 	world = GetPlayerVirtualWorld(targetId);
 	valstr(value, pInfo[targetId][pModer]);
 	
-	if(worldArray[worldid][wOwner] == targetId) {
+	if(worldArray[world][wOwner] == targetId) {
 		valstr(value, 6);
 	}
 
