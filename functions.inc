@@ -1612,3 +1612,98 @@ CBF:nearply(const playerid, const argumentIdx, const resultIdx)
     WriteAmxMemoryArray(resultIdx, value);
     return true;
 }
+
+CBF:vip(const playerid, const argumentIdx, const resultIdx)
+{
+    new
+        value[MAX_VALUE_SIZE],
+        targetid = resolveTargetOrSelf(playerid, argumentIdx);
+
+    if (pData[targetid][vip] == 0) {
+        valstr(value, "0");
+    } else if (pData[targetid][vip] > 0) {
+        valstr(value, "1");
+    }
+
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+CBF:raycast(const playerid, const argumentIdx, const resultIdx) {
+	new
+		value[MAX_VALUE_SIZE],
+		Float:pX, Float:pY, Float:pZ,
+		Float:vX, Float:vY, Float:vZ,
+		Float:atX, Float:atY, Float:atZ,
+		arguments[TEXT_FUNCTION_ARGUMENT],
+		category[24],
+		dist[24],
+		col[4] = "0",
+		coord[4] = "xyz";
+		
+	ReadAmxMemoryArray(argumentIdx, arguments);
+
+	sscanf(arguments, "s[24]D(30)D(0)s[4]", category, dist, col, coord)
+
+	if (!strcmp(category, "cam", true)) {
+		GetPlayerCameraPos(playerid, pX, pY, pZ);
+		GetPlayerCameraFrontVector(playerid, vX, vY, vZ);
+		
+		vX = pX + (vX * dist);
+		vY = pY + (vY * dist);
+		vZ = pZ + (vZ * dist);
+		
+		CA_RayCastLine(pX, pY, pZ, vX, vY, vZ, atX, atY, atZ);
+	} else if (!strcmp(category, "pos", true)) {
+		if (IsPlayerInAnyVehicle(playerid)) {
+			GetVehiclePos(GetPlayerVehicleID(playerid), pX, pY, pZ);
+			GetVehicleRotation(GetPlayerVehicleID(playerid), vX, vY, vZ);
+
+			GetPlayerPos(playerid,  pX, pY, pZ);
+			GetPlayerFacingAngle(playerid, vZ);
+			
+			vX = pX + (dist * floatsin(-vZ, degrees));
+			vY = pY + (dist * floatcos(-vZ, degrees));
+			vZ = pZ + (dist * floatsin(vX, degrees));
+			
+			CA_RayCastLine(pX, pY, pZ, vX, vY, pZ, atX, atY, atZ);
+		} else {
+			GetPlayerPos(playerid,  pX, pY, pZ);
+			GetPlayerFacingAngle(playerid, vZ);
+			
+			vX = pX + (dist * floatsin(-vZ, degrees));
+			vY = pY + (dist * floatcos(-vZ, degrees));
+			
+			CA_RayCastLine(pX, pY, pZ, vX, vY, pZ, atX, atY, atZ);
+		}
+	}
+
+	if (col == 1) {
+		if (atX == 0.0 && atY == 0.0 && atZ == 0.0) {
+			format(value, MAX_VALUE_SIZE, "%.1f %1.f %1.f", vX, vY, vZ)
+		} else {
+			format(value, MAX_VALUE_SIZE, "%.1f %.1f %.1f", atX, atY, atZ);
+		}
+	} else {
+		format(value, MAX_VALUE_SIZE, "%.1f %.1f %.1f", atX, atY, atZ);
+	}
+
+	if (!strcmp(coord, "xyz")) {
+		continue;
+	}
+
+	if (sscanf(value, "fff", cX, cY, cZ)) {
+		continue;
+	}
+
+	if (!strcmp(coord, "x")) {
+		format(value, MAX_VALUE_SIZE, "%1.f", cX);
+	} else if (!strcmp(coord, "y")) {
+		format(value, MAX_VALUE_SIZE, "%1.f", cY);
+	} else if (!strcmp(coord, "z")) {
+		format(value, MAX_VALUE_SIZE, "%1.f", cZ);
+	}
+		
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
