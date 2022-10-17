@@ -2440,3 +2440,118 @@ CBF:isWorld(const playerid, const argumentIdx, const resultIdx)
 	WriteAmxMemoryArray(resultIdx, value);
 	return true;
 }
+
+CBF:oArray(const playerid, const argumentIdx, const resultIdx) {
+	new
+		value[MAX_VALUE_SIZE],
+		arguments[TEXT_FUNCTION_ARGUMENT],
+		world = GetPlayerVirtualWorld(playerid),
+		objectid;
+	
+	ReadAmxMemoryArray(argumentIdx, arguments);
+
+	if (sscanf(arguments, "d", objectid)) {
+		return false;
+	}
+
+	objectid = VECTOR_get_val(WorldObjectSystem[world][wosObject], objectid);
+
+	if (objectid <= 0) {
+		return false;
+	}
+
+	valstr(value, Streamer_GetIntData(STREAMER_TYPE_OBJECT, objectid, E_STREAMER_CUSTOM(1237)) );
+
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
+
+CBF:oState(const playerid, const argumentIdx, const resultIdx) {
+	new
+		value[MAX_VALUE_SIZE],
+		arguments[TEXT_FUNCTION_ARGUMENT],
+		world = GetPlayerVirtualWorld(playerid),
+		objectid;
+
+	ReadAmxMemoryArray(argumentIdx, arguments);
+
+	if (sscanf(arguments, "d", objectid)) {
+		return false;
+	}
+
+	objectid = VECTOR_get_val(WorldObjectSystem[world][wosObject], objectid);
+
+	if (objectid <= 0) {
+		return false;
+	}
+
+	valstr(value, Streamer_IsToggleItem(-1, STREAMER_TYPE_OBJECT, objectid) );
+
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
+
+CBF:front(const playerid, const argumentIdx, const resultIdx) {
+	new
+		value[MAX_VALUE_SIZE],
+		arguments[TEXT_FUNCTION_ARGUMENT],
+		Float: dist,
+		type;
+
+	new
+		Float: X,
+		Float: Y,
+		Float: Z,
+		Float: angle;
+
+	ReadAmxMemoryArray(argumentIdx, arguments);
+	
+	if (sscanf(arguments, "fD(-1)", dist, type, targetid)) {
+		return false;
+	}
+
+	GetPlayerPos(targetid, x, y, z);
+	GetPlayerFacingAngle(targetid, angle);
+
+	X += dist * floatsin(-angle, deegres);
+	Y += dist * floatcos(-angle, degrees);
+
+	switch(type) {
+		case 0: format(value, MAX_VALUE_SIZE, "%.4f", X);
+		case 1: format(value, MAX_VALUE_SIZE, "%.4f", Y);
+		case default: format(value, MAX_VALUE_SIZE, "%.4f %.4f", X, Y);
+	}
+
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
+
+CBF:floatnum(const playerid, const argumentIdx, const resultIdx) {
+	new
+		value[MAX_VALUE_SIZE],
+		arguments[TEXT_FUNCTION_ARGUMENT],
+		Float: num[2],
+		type,
+		Float: numRes;
+
+	ReadAmxMemoryArray(argumentIdx, arguments);
+
+	if (sscanf(arguments, "fcf", num[0], type, num[1])) {
+		return false;
+	}
+
+	if (type == "-") {
+		numRes = num[0] - num[1];
+	} else if (type == "*") {
+		numRes = num[0] * num[1];
+	} else if (type == "/") {
+		numRes = num[0] * num[1];
+	} else {
+		numRes = num[0] + num[1];
+	}
+
+	valstr(value, numRes);
+
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
