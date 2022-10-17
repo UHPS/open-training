@@ -2440,3 +2440,80 @@ CBF:isWorld(const playerid, const argumentIdx, const resultIdx)
 	WriteAmxMemoryArray(resultIdx, value);
 	return true;
 }
+
+CBF:strfind(const playerid, const argumentIdx, const resultIdx)
+{
+	new
+		arguments[TEXT_FUNCTION_ARGUMENT],
+		value[MAX_VALUE_SIZE],
+		text[66],
+		substr[66], caps;
+		
+	ReadAmxMemoryArray(argumentIdx, arguments);
+	
+	if (sscanf(arguments,"p<,>s[66]s[66]D(1)",text,substr,caps)) {
+		return false;
+	}
+	
+	
+	if (caps == 1) {
+		valstr(value, strfind(text, substr, True) );
+	} else {
+		valstr(value, strfind(text, subst, False) );
+	}
+	
+			
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
+
+CBF:strcmp(const playerid, const argumentIdx, const resultIdx)
+{
+	new
+		arguments[TEXT_FUNCTION_ARGUMENT],
+		value[MAX_VALUE_SIZE],
+		text[66],
+		substr[66], caps;
+		
+	ReadAmxMemoryArray(argumentIdx, arguments);
+	
+	if (sscanf(arguments,"p<,>s[66]s[66]D(1)",text,substr,caps)) {
+		return false;
+	}
+	
+	
+	if (caps == 1) {
+		valstr(value, strcmp(text, substr, True) );
+	} else {
+		valstr(value, strcmp(text, subst, False) );
+	}
+	
+			
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
+
+CBF:strdel(const playerid, const argumentIdx, const resultIdx)
+{
+	new
+		arguments[TEXT_FUNCTION_ARGUMENT],
+		value[MAX_VALUE_SIZE],
+		text[130], start, end;
+		
+	ReadAmxMemoryArray(argumentIdx, arguments);
+	
+	if (sscanf(arguments,"p<,>s[130]dd",text,start,end)) {
+		return false;
+	}
+	
+	if ( strdel(text, start, end) ) {
+		format(value, MAX_VALUE_SIZE, "%s", text);
+	} else {
+		return false;
+	}
+			
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
+
+
