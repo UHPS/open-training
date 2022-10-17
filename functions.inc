@@ -2636,14 +2636,14 @@ CBF:oMoveY(const playerid, const argumentIdx, const resultIdx)
 	return true;
 }
 
-CBF:oMoveX(const playerid, const argumentIdx, const resultIdx)
+CBF:oMoveZ(const playerid, const argumentIdx, const resultIdx)
 {
     new
     	arguments[TEXT_FUNCTION_ARGUMENT],
     	value[MAX_VALUE_SIZE],
     	objectid,
         world = GetPlayerVirtualWorld(playerid),
-        Float:y;
+        Float:z;
 
 	ReadAmxMemoryArray(argumentIdx, arguments);
 	
@@ -2659,7 +2659,7 @@ CBF:oMoveX(const playerid, const argumentIdx, const resultIdx)
 	
 	Streamer_GetFloatData(STREAMER_TYPE_OBJECT, objectid, E_STREAMER_MOVE_Z, z);
 
-	format(value, MAX_VALUE_SIZE, "%.2f", Z);
+	format(value, MAX_VALUE_SIZE, "%.2f", z);
 
 	WriteAmxMemoryArray(resultIdx, value);
 	return true;
