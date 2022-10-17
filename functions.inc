@@ -2529,7 +2529,7 @@ CBF:siren(const playerid, const argumentIdx, const resultIdx)
 		return false;
 	}
 	
-	if(vehId == 0 && IsPlayerInAnyVehicle(playerid)){
+	if (vehId == 0 && IsPlayerInAnyVehicle(playerid)) {
 		vehId = GetPlayerVehicleID(playerid);
 	}
 	
