@@ -2516,4 +2516,30 @@ CBF:strdel(const playerid, const argumentIdx, const resultIdx)
 	return true;
 }
 
+CBF:siren(const playerid, const argumentIdx, const resultIdx)
+{
+	new
+		arguments[TEXT_FUNCTION_ARGUMENT],
+		value[MAX_VALUE_SIZE],
+		vehId;
+		
+	ReadAmxMemoryArray(argumentIdx, arguments);
+	
+	if ( sscanf(arguments, "d", vehId) ) {
+		return false;
+	}
+	
+	if(vehId == 0 && IsPlayerInAnyVehicle(playerid)){
+		vehId = GetPlayerVehicleID(playerid);
+	}
+	
+	if (IsValidVehicle(vehId)) {
+		valstr(value, GetVehicleParamsSirenState(vehId) );
+	} else {
+		valstr(value, -1);
+	}
+	
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
 
