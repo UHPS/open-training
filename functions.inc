@@ -2555,3 +2555,72 @@ CBF:floatnum(const playerid, const argumentIdx, const resultIdx) {
 	WriteAmxMemoryArray(resultIdx, value);
 	return true;
 }
+
+CBF:oMove(const playerid, const argumentIdx, const resultIdx) {
+	new
+		value[MAX_VALUE_SIZE],
+		arguments[TEXT_FUNCTION_ARGUMENT],
+		objectid;
+
+	ReadAmxMemoryArray(argumentIdx, arguments);
+
+	if (sscanf(arguments, "d", objectid)) {
+		return false;
+	}
+
+	objectid = VECTOR_get_val(WorldObjectSystem[world][wosObject], objectid);
+
+	valstr(value, Streamer_IsToggleItemStatic(STREAMER_TYPE_OBJECT, objectid) );
+
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
+
+CBF:nearObj(const playerid, const argumentIdx, const resultIdx) { //недоработан
+	new
+		value[MAX_VALUE_SIZE],
+		arguments[TEXT_FUNCTION_ARGUMENT],
+		targetid,
+		Float:x[2], Float:y[2], Float:z[2], Float:range,
+		items[10];
+
+	ReadAmxMemoryArray(argumentIdx, arguments);
+
+	if (sscanf(arguments, "F(3)D(-1)", range, targetid)) {
+		return false;
+	}
+
+	targetid = getTargetIdOrSelf(playerid, targetid);
+
+	if (range < 3) {
+		range = 3;
+	} else if (range > 200) {
+		range = 200;
+	}
+
+	
+	GetPlayerPos(targetid, x[0], y[0], z[0]);
+	Streamer_GetNearbyItems(x[0], y[0], z[0], STREAMER_TYPE_OBJECT, items, sizeof(items), range, GetPlayerVirtualWorld(playerid) );
+
+	for (new obj; obj < sizeof(items); obj ++)
+	{
+		new val = Streamer_GetIntData(STREAMER_TYPE_OBJECT, items[obj], E_STREAMER_EXTRA_ID);
+
+		if (items[obj] <= 0) {
+			return false;
+		}
+
+		GetDynamicObjectPos(items[obj], x[1], y[1], z[1]);
+		new Float:tempRadius = VectorSize(x[0] - x[1], y[0] - y[1], z[0] - z[1]);
+
+		if (tempRadius > range) {
+			return false;
+		}
+
+	}
+
+	valstr(value, tempRadius);
+
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
