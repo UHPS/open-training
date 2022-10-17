@@ -2639,8 +2639,8 @@ CBF:vehParam(const playerid, const argumentIdx, const resultIdx) {
 		return false;
 	}
 
-	if(!(IsValidVehicle(vehid))) {
-		return false;
+	if(!(IsValidVehicle(vehid)) && IsPlayerInAnyVehicle(playerid)) {
+		vehid = GetPlayerVehicleID(playerid);
 	}
 
 	if (param < 0) {
