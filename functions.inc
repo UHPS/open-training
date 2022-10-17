@@ -2624,3 +2624,37 @@ CBF:nearObj(const playerid, const argumentIdx, const resultIdx) { //недора
 	WriteAmxMemoryArray(resultIdx, value);
 	return true;
 }
+
+CBF:vehParam(const playerid, const argumentIdx, const resultIdx) {
+	new
+		value[MAX_VALUE_SIZE],
+		arguments[TEXT_FUNCTION_ARGUMENT],
+		vehid,
+		param,
+		params[6];
+
+	ReadAmxMemoryArray(argumentIdx, arguments);
+	
+	if (sscanf(arguments, "dd", vehid, param)) {
+		return false;
+	}
+
+	if(!(IsValidVehicle(vehid))) {
+		return false;
+	}
+
+	if (param < 0) {
+		param = 0;
+	}
+
+	if (param > 6) {
+		param = 6;
+	}
+
+	GetVehicleParamsEx(vehid, params[0], params[1], params[2], params[3], params[4], params[5], params[6]);
+
+	valstr(value, params[param]);
+
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
