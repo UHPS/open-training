@@ -2663,3 +2663,63 @@ CBF:vehParam(const playerid, const argumentIdx, const resultIdx) {
 	WriteAmxMemoryArray(resultIdx, value);
 	return true;
 }
+
+CBF:worldName(const playerid, const argumentIdx, const resultIdx)
+{
+	new
+		value[MAX_VALUE_SIZE],
+		world = GetPlayerVirtualWorld(playerid);
+
+	valstr(value, tempWorld[world][tempWorldName]);
+
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
+
+CBF:worldDesc(const playerid, const argumentIdx, const resultIdx)
+{
+	new
+		value[MAX_VALUE_SIZE],
+		world = GetPlayerVirtualWorld(playerid);
+
+	valstr(value, tempWorld[world][tWorldDesc]);
+
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
+
+CBF:vehCount(const playerid, const argumentIdx, const resultIdx)
+{
+	new
+		value[MAX_VALUE_SIZE],
+		world = GetPlayerVirtualWorld(playerid);
+
+	valstr(value, tempWorld[world][vehCount]);	
+
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
+
+CBF:objectCount(const playerid, const argumentIdx, const resultIdx)
+{
+	new
+		value[MAX_VALUE_SIZE],
+		world = GetPlayerVirtualWorld(playerid);
+
+	valstr(value, WorldObjectSystem[world][wosCount]);
+	
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
+
+CBF:maxObjectCount(const playerid, const argumentIdx, const resultIdx)
+{
+	new
+		value[MAX_VALUE_SIZE],
+		world = GetPlayerVirtualWorld(playerid);
+
+	valstr(value, VECTOR_size(WorldObjectSystem[world][wosCount]) );
+
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
