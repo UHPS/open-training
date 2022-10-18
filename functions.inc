@@ -1489,11 +1489,11 @@ CBF:getDistVeh(const playerid, const argumentIdx, const resultIdx)
 	new
 		value[MAX_VALUE_SIZE],
 		arguments[TEXT_FUNCTION_ARGUMENT],
-		targetid, vehId, world;
+		targetid, vehicleid, world;
 
 	ReadAmxMemoryArray(argumentIdx, arguments);
 
-	if (sscanf(arguments, "p<,>dD(-1)", vehId, targetid)) {
+	if (sscanf(arguments, "p<,>dD(-1)", vehicleid, targetid)) {
 		return false;
 	}
 
@@ -1502,11 +1502,11 @@ CBF:getDistVeh(const playerid, const argumentIdx, const resultIdx)
 	}
 	world = GetPlayerVirtualWorld(targetid);
 
-	if(vehId < 0 || vehId > MAX_WORLD_VEHICLE) {
+	if(vehicleid < 0 || vehicleid > MAX_WORLD_VEHICLE) {
 		return false;
 	}
 
-	valstr(value, floatround(GetPlayerDistanceFromVehicle(targetid, tempWorld[world][vehSlot][vehId])));
+	valstr(value, floatround(GetPlayerDistanceFromVehicle(targetid, tempWorld[world][vehSlot][vehicleid])));
 
 	WriteAmxMemoryArray(resultIdx, value);
 	return true;
@@ -1517,21 +1517,21 @@ CBF:vehPos(const playerid, const argumentIdx, const resultIdx)
 	new
 		value[MAX_VALUE_SIZE],
 		arguments[TEXT_FUNCTION_ARGUMENT],
-		vehId, world;
+		vehicleid, world;
 
 	ReadAmxMemoryArray(argumentIdx, arguments);
 	world = GetPlayerVirtualWorld(playerid);
 
-	if (sscanf(arguments, "d", vehId)) {
+	if (sscanf(arguments, "d", vehicleid)) {
 		return false;
 	}
 
 
-	if (!IsValidVehicle(vehId)) {
+	if (!IsValidVehicle(vehicleid)) {
 		return false;
 	}
 
-	if(GetVehicleVirtualWorld(vehId) != world) {
+	if(GetVehicleVirtualWorld(vehicleid) != world) {
 		return false;
 	}
 
@@ -1540,7 +1540,7 @@ CBF:vehPos(const playerid, const argumentIdx, const resultIdx)
 		Float:y,
 		Float:z;
 
-	GetVehiclePos(vehId, x, y, z);
+	GetVehiclePos(vehicleid, x, y, z);
 	format(value, MAX_VALUE_SIZE, "%.1f %.1f %.1f", x, y, z);
 
 	WriteAmxMemoryArray(resultIdx, value);
@@ -1584,9 +1584,9 @@ CBF:nearply(const playerid, const argumentIdx, const resultIdx)
         targetid = resolveTargetOrSelf(playerid, argumentIdx),
         int = GetPlayerInterior(targetid),
         world = GetPlayerVirtualWorld(playerid),
-        Float: X,
-        Float: Y,
-        Float: Z,
+        Float: x,
+        Float: y,
+        Float: z,
         lastData[2] = { cellmax, -1 };
 
     foreach (new i : Player) {
@@ -1598,8 +1598,8 @@ CBF:nearply(const playerid, const argumentIdx, const resultIdx)
             continue;
         }
 
-        if (GetPlayerPos(i, X, Y, Z) && (floatround(GetPlayerDistanceFromPoint(targetid, X, Y, Z)) < lastData[0])) {
-            lastData[0] = floatround(GetPlayerDistanceFromPoint(targetid, X, Y, Z));
+        if (GetPlayerPos(i, x, y, z) && (floatround(GetPlayerDistanceFromPoint(targetid, x, y, z)) < lastData[0])) {
+            lastData[0] = floatround(GetPlayerDistanceFromPoint(targetid, x, y, z));
             lastData[1] = i;
         }
     }
@@ -2457,9 +2457,9 @@ CBF:strfind(const playerid, const argumentIdx, const resultIdx)
 
 
 	if (caps == 1) {
-		valstr(value, strfind(text, substr, True) );
+		valstr(value, strfind(text, substr, true) );
 	} else {
-		valstr(value, strfind(text, subst, False) );
+		valstr(value, strfind(text, substr, false) );
 	}
 
 
@@ -2483,9 +2483,9 @@ CBF:strcmp(const playerid, const argumentIdx, const resultIdx)
 
 
 	if (caps == 1) {
-		valstr(value, strcmp(text, substr, True) );
+		valstr(value, strcmp(text, substr, true) );
 	} else {
-		valstr(value, strcmp(text, subst, False) );
+		valstr(value, strcmp(text, substr, false) );
 	}
 
 
@@ -2521,20 +2521,20 @@ CBF:siren(const playerid, const argumentIdx, const resultIdx)
 	new
 		arguments[TEXT_FUNCTION_ARGUMENT],
 		value[MAX_VALUE_SIZE],
-		vehId;
+		vehicleid;
 
 	ReadAmxMemoryArray(argumentIdx, arguments);
 
-	if ( sscanf(arguments, "d", vehId) ) {
+	if ( sscanf(arguments, "d", vehicleid) ) {
 		return false;
 	}
 
-	if (vehId == 0 && IsPlayerInAnyVehicle(playerid)) {
-		vehId = GetPlayerVehicleID(playerid);
+	if (vehicleid == 0 && IsPlayerInAnyVehicle(playerid)) {
+		vehicleid = GetPlayerVehicleID(playerid);
 	}
 
-	if (IsValidVehicle(vehId)) {
-		valstr(value, GetVehicleParamsSirenState(vehId) );
+	if (IsValidVehicle(vehicleid)) {
+		valstr(value, GetVehicleParamsSirenState(vehicleid) );
 	} else {
 		valstr(value, -1);
 	}
@@ -2720,18 +2720,18 @@ CBF:oArray(const playerid, const argumentIdx, const resultIdx) {
  		value[MAX_VALUE_SIZE],
  		arguments[TEXT_FUNCTION_ARGUMENT],
  		Float: dist,
- 		type,
+ 		type[1],
  		targetid;
 
  	new
- 		Float: X,
- 		Float: Y,
- 		Float: Z,
+ 		Float: x,
+ 		Float: y,
+ 		Float: z,
  		Float: angle;
 
  	ReadAmxMemoryArray(argumentIdx, arguments);
 
- 	if (sscanf(arguments, "fcD(-1)", dist, type, targetid)) {
+ 	if (sscanf(arguments, "fs[1]D(-1)", dist, type, targetid)) {
  		return false;
  	}
 
@@ -2740,15 +2740,15 @@ CBF:oArray(const playerid, const argumentIdx, const resultIdx) {
  	GetPlayerPos(targetid, x, y, z);
  	GetPlayerFacingAngle(targetid, angle);
 
- 	X += dist * floatsin(-angle, deegres);
- 	Y += dist * floatcos(-angle, degrees);
+ 	x += dist * floatsin(-angle, degrees);
+ 	y += dist * floatcos(-angle, degrees);
 
- 	if (type == "x") {
- 		format(value, MAX_VALUE_SIZE, "%.4f", X);
- 	} else if (type == "y") {
- 		format(value, MAX_VALUE_SIZE, "%.4f", Y);
+ 	if (!strcmp(type, "x")) {
+ 		format(value, MAX_VALUE_SIZE, "%.4f", x);
+ 	} else if (!strcmp(type, "y")) {
+ 		format(value, MAX_VALUE_SIZE, "%.4f", y);
  	} else {
- 		format(value, MAX_VALUE_SIZE, "%.4f %.4f", X, Y);
+ 		format(value, MAX_VALUE_SIZE, "%.4f %.4f", x, y);
  	}
 
  	WriteAmxMemoryArray(resultIdx, value);
@@ -2760,26 +2760,26 @@ CBF:oArray(const playerid, const argumentIdx, const resultIdx) {
  		value[MAX_VALUE_SIZE],
  		arguments[TEXT_FUNCTION_ARGUMENT],
  		Float: num[2],
- 		type,
+ 		type[1],
  		Float: numRes;
 
  	ReadAmxMemoryArray(argumentIdx, arguments);
 
- 	if (sscanf(arguments, "fcf", num[0], type, num[1])) {
+ 	if (sscanf(arguments, "fs[1]f", num[0], type, num[1])) {
  		return false;
  	}
 
- 	if (type == "-") {
+ 	if (!strcmp(type, "-")) {
  		numRes = num[0] - num[1];
- 	} else if (type == "*") {
+ 	} else if (!strcmp(type, "*")) {
  		numRes = num[0] * num[1];
- 	} else if (type == "/") {
- 		numRes = num[0] * num[1];
+ 	} else if (!strcmp(type, "/")) {
+ 		numRes = num[0] / num[1];
  	} else {
  		numRes = num[0] + num[1];
  	}
 
- 	valstr(value, numRes);
+	format(value, MAX_VALUE_SIZE, "%.2f", numRes);
 
  	WriteAmxMemoryArray(resultIdx, value);
  	return true;
@@ -2789,6 +2789,7 @@ CBF:oArray(const playerid, const argumentIdx, const resultIdx) {
  	new
  		value[MAX_VALUE_SIZE],
  		arguments[TEXT_FUNCTION_ARGUMENT],
+		world = GetPlayerVirtualWorld(playerid),
  		objectid;
 
  	ReadAmxMemoryArray(argumentIdx, arguments);
@@ -2805,115 +2806,129 @@ CBF:oArray(const playerid, const argumentIdx, const resultIdx) {
  	return true;
  }
 
- CBF:nearObj(const playerid, const argumentIdx, const resultIdx) { //недоработан
- 	new
- 		value[MAX_VALUE_SIZE],
+CBF:nearObj(const playerid, const argumentIdx, const resultIdx)
+{
+    new
+	 	value[MAX_VALUE_SIZE],
  		arguments[TEXT_FUNCTION_ARGUMENT],
- 		targetid,
- 		Float:x[2], Float:y[2], Float:z[2], Float:range,
- 		items[10];
+		targetid,
+        Float: x,
+        Float: y,
+        Float: z,
+        world = GetPlayerVirtualWorld(playerid),
+        modelid,
+		objectid,
+        Float: nearlyDistance,
+		Float: distance = 200.0,
+        items[50];
 
  	ReadAmxMemoryArray(argumentIdx, arguments);
 
- 	if (sscanf(arguments, "F(3)<,>D(-1)", range, targetid)) {
+ 	if (sscanf(arguments, "p<,>F(1)D(-1)", nearlyDistance, modelid)) {
  		return false;
  	}
 
  	targetid = getTargetIdOrSelf(playerid, targetid);
 
- 	if (range < 3) {
- 		range = 3;
- 	} else if (range > 200) {
- 		range = 200;
- 	}
+	if (nearlyDistance > 200) {
+		nearlyDistance = 200;
+	} else if (nearlyDistance < 1) {
+		nearlyDistance = 1;
+	}
 
+    GetPlayerPos(targetid, x, y, z);
 
- 	GetPlayerPos(targetid, x[0], y[0], z[0]);
- 	Streamer_GetNearbyItems(x[0], y[0], z[0], STREAMER_TYPE_OBJECT, items, sizeof(items), range, GetPlayerVirtualWorld(targetid) );
+    Streamer_GetNearbyItems(x, y, z, STREAMER_TYPE_OBJECT, items, sizeof(items), nearlyDistance, world);
 
- 	for (new obj; obj < sizeof(items); obj ++)
+ 	for (new i; i < sizeof(items); i++)
  	{
- 		new val = Streamer_GetIntData(STREAMER_TYPE_OBJECT, items[obj], E_STREAMER_EXTRA_ID);
+		new
+			Float: tempDistance,
+			objectWorldId = Streamer_GetIntData(STREAMER_TYPE_OBJECT, items[i], E_STREAMER_EXTRA_ID);
 
- 		if (items[obj] <= 0) {
- 			return false;
- 		}
+	 	if (!objectWorldId) {
+			continue;
+		}
 
- 		GetDynamicObjectPos(items[obj], x[1], y[1], z[1]);
- 		new Float:tempRadius = VectorSize(x[0] - x[1], y[0] - y[1], z[0] - z[1]);
+		if (modelid != -1 && modelid != Streamer_GetIntData(STREAMER_TYPE_OBJECT, items[i], E_STREAMER_MODEL_ID)) {
+			continue;
+		}
 
- 		if (tempRadius > range) {
- 			return false;
- 		}
+		if (!Streamer_GetDistanceToItem(x, y, z, STREAMER_TYPE_OBJECT, items[i], tempDistance, 2)) {
+			continue;
+		}
 
+		if (tempDistance > distance) {
+        	continue;
+		}
+
+		distance = tempDistance;
+		objectid = objectWorldId;
  	}
 
- 	valstr(value, tempRadius);
+	valstr(value, objectid);
 
  	WriteAmxMemoryArray(resultIdx, value);
  	return true;
- }
+}
 
- CBF:vehParam(const playerid, const argumentIdx, const resultIdx) {
+CBF:vehParam(const playerid, const argumentIdx, const resultIdx)
+{
  	new
  		value[MAX_VALUE_SIZE],
  		arguments[TEXT_FUNCTION_ARGUMENT],
- 		vehid,
- 		param,
- 		params[6];
+ 		vehicleid,
+ 		param;
 
  	ReadAmxMemoryArray(argumentIdx, arguments);
 
- 	if (sscanf(arguments, "dd", vehid, param)) {
+ 	if (sscanf(arguments, "dd", vehicleid, param)) {
  		return false;
  	}
 
- 	if(!(IsValidVehicle(vehid)) && IsPlayerInAnyVehicle(playerid)) {
- 		vehid = GetPlayerVehicleID(playerid);
- 	}
+	if (0 > param > 6) {
+		return false;
+	}
+	if (vehicleid <= 0) {
+		vehicleid = GetPlayerVehicleID(playerid);
+	}
 
- 	if (param < 0) {
- 		param = 0;
- 	}
+	if (!IsValidVehicle(vehicleid) && GetVehicleVirtualWorld(vehicleid) != GetPlayerVirtualWorld(playerid)) {
+		return false;
+	}
 
- 	if (param > 6) {
- 		param = 6;
- 	}
-
- 	GetVehicleParamsEx(vehid, params[0], params[1], params[2], params[3], params[4], params[5], params[6]);
-
- 	valstr(value, params[param]);
+ 	valstr(value, GetVehicleParams(playerid, param));
 
  	WriteAmxMemoryArray(resultIdx, value);
  	return true;
- }
+}
 
- CBF:worldName(const playerid, const argumentIdx, const resultIdx)
- {
+CBF:worldName(const playerid, const argumentIdx, const resultIdx)
+{
  	new
  		value[MAX_VALUE_SIZE],
  		world = GetPlayerVirtualWorld(playerid);
 
- 	valstr(value, tempWorld[world][tempWorldName]);
+	format(value, MAX_VALUE_SIZE, "%s", tempWorld[world][tempWorldName]);
 
  	WriteAmxMemoryArray(resultIdx, value);
  	return true;
- }
+}
 
- CBF:worldDesc(const playerid, const argumentIdx, const resultIdx)
- {
+CBF:worldDesc(const playerid, const argumentIdx, const resultIdx)
+{
  	new
  		value[MAX_VALUE_SIZE],
  		world = GetPlayerVirtualWorld(playerid);
 
- 	valstr(value, tempWorld[world][tWorldDesc]);
+	format(value, MAX_VALUE_SIZE, "%s", tempWorld[world][tWorldDesc]);
 
  	WriteAmxMemoryArray(resultIdx, value);
  	return true;
- }
+}
 
- CBF:vehCount(const playerid, const argumentIdx, const resultIdx)
- {
+CBF:vehCount(const playerid, const argumentIdx, const resultIdx)
+{
  	new
  		value[MAX_VALUE_SIZE],
  		world = GetPlayerVirtualWorld(playerid);
@@ -2922,28 +2937,34 @@ CBF:oArray(const playerid, const argumentIdx, const resultIdx) {
 
  	WriteAmxMemoryArray(resultIdx, value);
  	return true;
- }
+}
 
- CBF:objectCount(const playerid, const argumentIdx, const resultIdx)
- {
- 	new
- 		value[MAX_VALUE_SIZE],
- 		world = GetPlayerVirtualWorld(playerid);
+CBF:objectCount(const playerid, const argumentIdx, const resultIdx)
+{
+	new
+		value[MAX_VALUE_SIZE],
+		world = GetPlayerVirtualWorld(playerid);
 
- 	valstr(value, WorldObjectSystem[world][wosCount]);
+	valstr(value, WorldObjectSystem[world][wosCount]);
 
- 	WriteAmxMemoryArray(resultIdx, value);
- 	return true;
- }
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
 
- CBF:maxObjectCount(const playerid, const argumentIdx, const resultIdx)
- {
- 	new
- 		value[MAX_VALUE_SIZE],
- 		world = GetPlayerVirtualWorld(playerid);
+// Пример как можно сделать аллиасы
+CBF:maxObj(const playerid, const argumentIdx, const resultIdx)
+{
+	return cbf_maxObjectCount(playerid, argumentIdx, resultIdx);
+}
 
- 	valstr(value, VECTOR_size(WorldObjectSystem[world][wosCount]) );
+CBF:maxObjectCount(const playerid, const argumentIdx, const resultIdx)
+{
+	new
+		value[MAX_VALUE_SIZE],
+		world = GetPlayerVirtualWorld(playerid);
 
- 	WriteAmxMemoryArray(resultIdx, value);
- 	return true;
- }
+	valstr(value, VECTOR_size(WorldObjectSystem[world][wosObject]));
+
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
