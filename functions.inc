@@ -2450,7 +2450,7 @@ CBF:oArray(const playerid, const argumentIdx, const resultIdx) {
 	
 	ReadAmxMemoryArray(argumentIdx, arguments);
 
-	if (sscanf(arguments, "d", objectid)) {
+	if (sscanf(arguments, "D(-1)d", objectid)) {
 		return false;
 	}
 
@@ -2496,7 +2496,8 @@ CBF:front(const playerid, const argumentIdx, const resultIdx) {
 		value[MAX_VALUE_SIZE],
 		arguments[TEXT_FUNCTION_ARGUMENT],
 		Float: dist,
-		type;
+		type,
+		targetid;
 
 	new
 		Float: X,
@@ -2506,9 +2507,11 @@ CBF:front(const playerid, const argumentIdx, const resultIdx) {
 
 	ReadAmxMemoryArray(argumentIdx, arguments);
 	
-	if (sscanf(arguments, "fD(-1)", dist, type, targetid)) {
+	if (sscanf(arguments, "fdD(-1)", dist, type, targetid)) {
 		return false;
 	}
+
+	targetid = getTargetIdOrSelf(playerid, targetid);
 
 	GetPlayerPos(targetid, x, y, z);
 	GetPlayerFacingAngle(targetid, angle);
@@ -2516,10 +2519,12 @@ CBF:front(const playerid, const argumentIdx, const resultIdx) {
 	X += dist * floatsin(-angle, deegres);
 	Y += dist * floatcos(-angle, degrees);
 
-	switch(type) {
-		case 0: format(value, MAX_VALUE_SIZE, "%.4f", X);
-		case 1: format(value, MAX_VALUE_SIZE, "%.4f", Y);
-		case default: format(value, MAX_VALUE_SIZE, "%.4f %.4f", X, Y);
+	if (type == "x") {
+		format(value, MAX_VALUE_SIZE, "%.4f", X);
+	} else if (type == "y") {
+		format(value, MAX_VALUE_SIZE, "%.4f", Y);
+	} else {
+		format(value, MAX_VALUE_SIZE, "%.4f %.4f", X, Y);
 	}
 
 	WriteAmxMemoryArray(resultIdx, value);
@@ -2586,7 +2591,7 @@ CBF:nearObj(const playerid, const argumentIdx, const resultIdx) { //недора
 
 	ReadAmxMemoryArray(argumentIdx, arguments);
 
-	if (sscanf(arguments, "F(3)D(-1)", range, targetid)) {
+	if (sscanf(arguments, "F(3)<,>D(-1)", range, targetid)) {
 		return false;
 	}
 
@@ -2600,7 +2605,7 @@ CBF:nearObj(const playerid, const argumentIdx, const resultIdx) { //недора
 
 	
 	GetPlayerPos(targetid, x[0], y[0], z[0]);
-	Streamer_GetNearbyItems(x[0], y[0], z[0], STREAMER_TYPE_OBJECT, items, sizeof(items), range, GetPlayerVirtualWorld(playerid) );
+	Streamer_GetNearbyItems(x[0], y[0], z[0], STREAMER_TYPE_OBJECT, items, sizeof(items), range, GetPlayerVirtualWorld(targetid) );
 
 	for (new obj; obj < sizeof(items); obj ++)
 	{
