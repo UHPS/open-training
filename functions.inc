@@ -2507,7 +2507,7 @@ CBF:front(const playerid, const argumentIdx, const resultIdx) {
 
 	ReadAmxMemoryArray(argumentIdx, arguments);
 	
-	if (sscanf(arguments, "fdD(-1)", dist, type, targetid)) {
+	if (sscanf(arguments, "fcD(-1)", dist, type, targetid)) {
 		return false;
 	}
 
