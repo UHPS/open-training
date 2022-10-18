@@ -2440,3 +2440,229 @@ CBF:isWorld(const playerid, const argumentIdx, const resultIdx)
 	WriteAmxMemoryArray(resultIdx, value);
 	return true;
 }
+
+CBF:strfind(const playerid, const argumentIdx, const resultIdx)
+{
+	new
+		arguments[TEXT_FUNCTION_ARGUMENT],
+		value[MAX_VALUE_SIZE],
+		text[66],
+		substr[66], caps;
+		
+	ReadAmxMemoryArray(argumentIdx, arguments);
+	
+	if (sscanf(arguments,"p<,>s[66]s[66]D(1)",text,substr,caps)) {
+		return false;
+	}
+	
+	
+	if (caps == 1) {
+		valstr(value, strfind(text, substr, True) );
+	} else {
+		valstr(value, strfind(text, subst, False) );
+	}
+	
+			
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
+
+CBF:strcmp(const playerid, const argumentIdx, const resultIdx)
+{
+	new
+		arguments[TEXT_FUNCTION_ARGUMENT],
+		value[MAX_VALUE_SIZE],
+		text[66],
+		substr[66], caps;
+		
+	ReadAmxMemoryArray(argumentIdx, arguments);
+	
+	if (sscanf(arguments,"p<,>s[66]s[66]D(1)",text,substr,caps)) {
+		return false;
+	}
+	
+	
+	if (caps == 1) {
+		valstr(value, strcmp(text, substr, True) );
+	} else {
+		valstr(value, strcmp(text, subst, False) );
+	}
+	
+			
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
+
+CBF:strdel(const playerid, const argumentIdx, const resultIdx)
+{
+	new
+		arguments[TEXT_FUNCTION_ARGUMENT],
+		value[MAX_VALUE_SIZE],
+		text[130], start, end;
+		
+	ReadAmxMemoryArray(argumentIdx, arguments);
+	
+	if (sscanf(arguments,"p<,>s[130]dd",text,start,end)) {
+		return false;
+	}
+	
+	if ( strdel(text, start, end) ) {
+		format(value, MAX_VALUE_SIZE, "%s", text);
+	} else {
+		return false;
+	}
+			
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
+
+CBF:siren(const playerid, const argumentIdx, const resultIdx)
+{
+	new
+		arguments[TEXT_FUNCTION_ARGUMENT],
+		value[MAX_VALUE_SIZE],
+		vehId;
+		
+	ReadAmxMemoryArray(argumentIdx, arguments);
+	
+	if ( sscanf(arguments, "d", vehId) ) {
+		return false;
+	}
+	
+	if (vehId == 0 && IsPlayerInAnyVehicle(playerid)) {
+		vehId = GetPlayerVehicleID(playerid);
+	}
+	
+	if (IsValidVehicle(vehId)) {
+		valstr(value, GetVehicleParamsSirenState(vehId) );
+	} else {
+		valstr(value, -1);
+	}
+	
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
+
+CBF:oMoveXYZ(const playerid, const argumentIdx, const resultIdx)
+{
+    new
+    	arguments[TEXT_FUNCTION_ARGUMENT],
+    	value[MAX_VALUE_SIZE],
+    	objectid,
+        world = GetPlayerVirtualWorld(playerid),
+        Float:x,
+        Float:y,
+        Float:z;
+
+	ReadAmxMemoryArray(argumentIdx, arguments);
+	
+	if (sscanf(arguments, "d", objectid)) {
+		return false;
+	}
+
+	objectid = VECTOR_get_val(WorldObjectSystem[world][wosObject], objectid);
+	
+	if(objectid <= 0) {
+		return false;
+	}
+	
+	Streamer_GetFloatData(STREAMER_TYPE_OBJECT, objectid, E_STREAMER_MOVE_X, x);
+	Streamer_GetFloatData(STREAMER_TYPE_OBJECT, objectid, E_STREAMER_MOVE_Y, y);
+	Streamer_GetFloatData(STREAMER_TYPE_OBJECT, objectid, E_STREAMER_MOVE_Z, z);
+
+	format(value, MAX_VALUE_SIZE, "%.2f %.2f %.2f", x, y, z);
+
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
+	
+CBF:oMoveX(const playerid, const argumentIdx, const resultIdx)
+{
+    new
+    	arguments[TEXT_FUNCTION_ARGUMENT],
+    	value[MAX_VALUE_SIZE],
+    	objectid,
+        world = GetPlayerVirtualWorld(playerid),
+        Float:x;
+
+	ReadAmxMemoryArray(argumentIdx, arguments);
+	
+	if (sscanf(arguments, "d", objectid)) {
+		return false;
+	}
+
+	objectid = VECTOR_get_val(WorldObjectSystem[world][wosObject], objectid);
+	
+	if(objectid <= 0) {
+		return false;
+	}
+	
+	Streamer_GetFloatData(STREAMER_TYPE_OBJECT, objectid, E_STREAMER_MOVE_X, x);
+
+
+	format(value, MAX_VALUE_SIZE, "%.2f", x);
+
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
+
+CBF:oMoveY(const playerid, const argumentIdx, const resultIdx)
+{
+    new
+    	arguments[TEXT_FUNCTION_ARGUMENT],
+    	value[MAX_VALUE_SIZE],
+    	objectid,
+        world = GetPlayerVirtualWorld(playerid),
+        Float:y;
+
+	ReadAmxMemoryArray(argumentIdx, arguments);
+	
+	if (sscanf(arguments, "d", objectid)) {
+		return false;
+	}
+
+	objectid = VECTOR_get_val(WorldObjectSystem[world][wosObject], objectid);
+	
+	if(objectid <= 0) {
+		return false;
+	}
+	
+	Streamer_GetFloatData(STREAMER_TYPE_OBJECT, objectid, E_STREAMER_MOVE_Y, y);
+
+
+	format(value, MAX_VALUE_SIZE, "%.2f", y);
+
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
+
+CBF:oMoveZ(const playerid, const argumentIdx, const resultIdx)
+{
+    new
+    	arguments[TEXT_FUNCTION_ARGUMENT],
+    	value[MAX_VALUE_SIZE],
+    	objectid,
+        world = GetPlayerVirtualWorld(playerid),
+        Float:z;
+
+	ReadAmxMemoryArray(argumentIdx, arguments);
+	
+	if (sscanf(arguments, "d", objectid)) {
+		return false;
+	}
+
+	objectid = VECTOR_get_val(WorldObjectSystem[world][wosObject], objectid);
+	
+	if(objectid <= 0) {
+		return false;
+	}
+	
+	Streamer_GetFloatData(STREAMER_TYPE_OBJECT, objectid, E_STREAMER_MOVE_Z, z);
+
+	format(value, MAX_VALUE_SIZE, "%.2f", z);
+
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
+
+
