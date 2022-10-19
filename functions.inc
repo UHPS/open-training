@@ -3227,3 +3227,86 @@ CBF:pVehicle(const playerid, const argumentIdx, const resultIdx)
 	WriteAmxMemoryArray(resultIdx, value);
 	return true;
 }
+
+CBF:getDate(const playerid, const argumentIdx, const resultIdx)
+{
+	new
+		value[MAX_VALUE_SIZE],
+		arguments[TEXT_FUNCTION_ARGUMENT],
+		category[5], day, month, year;
+		
+	ReadAmxMemoryArray(argumentIdx, arguments);
+	
+	sscanf(arguments, "s[5]", category);
+	
+	if(!isnull(category)) {
+	
+		if( !strcmp(category, "day", true) ) {
+			getdate(day, _, _);
+			format(value, MAX_VALUE_SIZE, "%02d", day);
+		}
+		
+		if( !strcmp(category, "month", true) ) {
+			getdate(_, month, _);
+			format(value, MAX_VALUE_SIZE, "%02d", month);
+		}
+		
+		if( !strcmp(category, "year", true) ) {
+			getdate(_, _, year);
+			format(value, MAX_VALUE_SIZE, "%d", year);
+		}
+		
+		if( !strcmp(category, "days", true) || !strcmp(category, "daynum", true) ) {
+			day = getdate();
+			format(value, MAX_VALUE_SIZE, "%d", day);
+		}
+		
+		
+	} else {
+		getdate(day, month, year);
+		format(value, MAX_VALUE_SIZE, "%02d.%02d.%d", day, month, year);
+	}
+		
+
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
+
+CBF:getTime(const playerid, const argumentIdx, const resultIdx)
+{
+	new
+		value[MAX_VALUE_SIZE],
+		arguments[TEXT_FUNCTION_ARGUMENT],
+		category[4], hour, min, sec;
+		
+	ReadAmxMemoryArray(argumentIdx, arguments);
+	
+	sscanf(arguments, "s[4]", category);
+	
+	if(!isnull(category)) {
+	
+		if( !strcmp(category, "hour", true) ) {
+			gettime(hour, _, _);
+			format(value, MAX_VALUE_SIZE, "%02d", hour);
+		}
+		
+		if( !strcmp(category, "min", true) ) {
+			gettime(_, min, _);
+			format(value, MAX_VALUE_SIZE, "%02d", min);
+		}
+		
+		if( !strcmp(category, "sec", true) ) {
+			gettime(_, _, sec);
+			format(value, MAX_VALUE_SIZE, "%02d", sec);
+		}
+		
+		
+	} else {
+		gettime(hour, min, sec);
+		format(value, MAX_VALUE_SIZE, "%02d:%02d:%02d", hour, min, sec);
+	}
+		
+
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
