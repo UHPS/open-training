@@ -2968,3 +2968,184 @@ CBF:maxObjectCount(const playerid, const argumentIdx, const resultIdx)
 	WriteAmxMemoryArray(resultIdx, value);
 	return true;
 }
+
+CBF:pXYZ(const playerid, const argumentIdx, const resultIdx)
+{
+	new
+		value[MAX_VALUE_SIZE],
+		world = GetPlayerVirtualWorld(playerid),
+		arguments[TEXT_FUNCTION_ARGUMENT],
+		passId, mama;
+		
+	ReadAmxMemoryArray(argumentIdx, arguments);
+	
+	if ( sscanf(arguments, "dd", passId, mama) ) {
+		return false;
+	}
+	
+	if( passId <= 0 || passId > MAX_PASS ) {	
+		return false;
+	}
+	
+	passId--;
+	
+	if( mama == 0 ) {
+		format(value, MAX_VALUE_SIZE, "%.2f %.2f %.2f", passData[world][passId][pEnterPosX], passData[world][passId][pEnterPosY], passData[world][passId][pEnterPosZ]);
+	} else {
+		format(value, MAX_VALUE_SIZE, "%.2f %.2f %.2f", passData[world][passId][pExitPosX], passData[world][passId][pExitPosY], passData[world][passId][pExitPosZ]);
+	}
+
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
+
+CBF:pX(const playerid, const argumentIdx, const resultIdx)
+{
+	new
+		value[MAX_VALUE_SIZE],
+		world = GetPlayerVirtualWorld(playerid),
+		arguments[TEXT_FUNCTION_ARGUMENT],
+		passId, mama;
+		
+	ReadAmxMemoryArray(argumentIdx, arguments);
+	
+	if ( sscanf(arguments, "dd", passId, mama) ) {
+		return false;
+	}
+	
+	if( passId <= 0 || passId > MAX_PASS ) {	
+		return false;
+	}
+	
+	passId--;
+	
+	if( mama == 0 ) {
+		format(value, MAX_VALUE_SIZE, "%.2f", passData[world][passId][pEnterPosX]);
+	} else {
+		format(value, MAX_VALUE_SIZE, "%.2f", passData[world][passId][pExitPosX]);
+	}
+
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
+
+CBF:pY(const playerid, const argumentIdx, const resultIdx)
+{
+	new
+		value[MAX_VALUE_SIZE],
+		world = GetPlayerVirtualWorld(playerid),
+		arguments[TEXT_FUNCTION_ARGUMENT],
+		passId, mama;
+		
+	ReadAmxMemoryArray(argumentIdx, arguments);
+	
+	if ( sscanf(arguments, "dd", passId, mama) ) {
+		return false;
+	}
+	
+	if( passId <= 0 || passId > MAX_PASS ) {	
+		return false;
+	}
+	
+	passId--;
+	
+	if( mama == 0 ) {
+		format(value, MAX_VALUE_SIZE, "%.2f", passData[world][passId][pEnterPosY]);
+	} else {
+		format(value, MAX_VALUE_SIZE, "%.2f", passData[world][passId][pExitPosY]);
+	}
+
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
+
+CBF:pZ(const playerid, const argumentIdx, const resultIdx)
+{
+	new
+		value[MAX_VALUE_SIZE],
+		world = GetPlayerVirtualWorld(playerid),
+		arguments[TEXT_FUNCTION_ARGUMENT],
+		passId, mama;
+		
+	ReadAmxMemoryArray(argumentIdx, arguments);
+	
+	if ( sscanf(arguments, "dd", passId, mama) ) {
+		return false;
+	}
+	
+	if( passId <= 0 || passId > MAX_PASS ) {	
+		return false;
+	}
+	
+	passId--;
+	
+	if( mama == 0 ) {
+		format(value, MAX_VALUE_SIZE, "%.2f", passData[world][passId][pEnterPosZ]);
+	} else {
+		format(value, MAX_VALUE_SIZE, "%.2f", passData[world][passId][pExitPosZ]);
+	}
+
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
+
+CBF:pRX(const playerid, const argumentIdx, const resultIdx)
+{
+	new
+		value[MAX_VALUE_SIZE],
+		world = GetPlayerVirtualWorld(playerid),
+		arguments[TEXT_FUNCTION_ARGUMENT],
+		passId, mama;
+		
+	ReadAmxMemoryArray(argumentIdx, arguments);
+	
+	if ( sscanf(arguments, "dd", passId, mama) ) {
+		return false;
+	}
+	
+	if( passId <= 0 || passId > MAX_PASS ) {	
+		return false;
+	}
+	
+	passId--;
+	
+	if( mama == 0 ) {
+		format(value, MAX_VALUE_SIZE, "%.2f", passData[world][passId][pEnterPosRX]);
+	} else {
+		format(value, MAX_VALUE_SIZE, "%.2f", passData[world][passId][pExitPosRX]);
+	}
+
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
+
+
+CBF:pInt(const playerid, const argumentIdx, const resultIdx)
+{
+	new
+		value[MAX_VALUE_SIZE],
+		world = GetPlayerVirtualWorld(playerid),
+		arguments[TEXT_FUNCTION_ARGUMENT],
+		passId, mama;
+		
+	ReadAmxMemoryArray(argumentIdx, arguments);
+	
+	if ( sscanf(arguments, "dd", passId, mama) ) {
+		return false;
+	}
+	
+	if( passId <= 0 || passId > MAX_PASS ) {	
+		return false;
+	}
+	
+	passId--;
+	
+	if( mama == 0 ) {
+		valstr(value, passData[world][passId][pEnterInt]);
+	} else {
+		valstr(value, passData[world][passId][pExitInt]);
+	}
+
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
