@@ -3149,3 +3149,81 @@ CBF:pInt(const playerid, const argumentIdx, const resultIdx)
 	WriteAmxMemoryArray(resultIdx, value);
 	return true;
 }
+
+CBF:pLock(const playerid, const argumentIdx, const resultIdx)
+{
+	new
+		value[MAX_VALUE_SIZE],
+		world = GetPlayerVirtualWorld(playerid),
+		arguments[TEXT_FUNCTION_ARGUMENT],
+		passId;
+		
+	ReadAmxMemoryArray(argumentIdx, arguments);
+	
+	if ( sscanf(arguments, "d", passId) ) {
+		return false;
+	}
+	
+	if( passId <= 0 || passId > MAX_PASS ) {	
+		return false;
+	}
+	
+	passId--;
+	
+	valstr(value, passData[world][passId][pLock]);
+
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
+
+CBF:pOwner(const playerid, const argumentIdx, const resultIdx)
+{
+	new
+		value[MAX_VALUE_SIZE],
+		world = GetPlayerVirtualWorld(playerid),
+		arguments[TEXT_FUNCTION_ARGUMENT],
+		passId;
+		
+	ReadAmxMemoryArray(argumentIdx, arguments);
+	
+	if ( sscanf(arguments, "d", passId) ) {
+		return false;
+	}
+	
+	if( passId <= 0 || passId > MAX_PASS ) {	
+		return false;
+	}
+	
+	passId--;
+	
+	valstr(value, passData[world][passId][pOwner]);
+
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
+
+CBF:pVehicle(const playerid, const argumentIdx, const resultIdx)
+{
+	new
+		value[MAX_VALUE_SIZE],
+		world = GetPlayerVirtualWorld(playerid),
+		arguments[TEXT_FUNCTION_ARGUMENT],
+		passId;
+		
+	ReadAmxMemoryArray(argumentIdx, arguments);
+	
+	if ( sscanf(arguments, "d", passId) ) {
+		return false;
+	}
+	
+	if( passId <= 0 || passId > MAX_PASS ) {	
+		return false;
+	}
+	
+	passId--;
+	
+	valstr(value, passData[world][passId][pVehicle]);
+
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
