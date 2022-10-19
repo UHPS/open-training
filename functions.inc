@@ -2968,3 +2968,86 @@ CBF:maxObjectCount(const playerid, const argumentIdx, const resultIdx)
 	WriteAmxMemoryArray(resultIdx, value);
 	return true;
 }
+
+CBF:pModel(const playerid, const argumentIdx, const resultIdx)
+{
+	new
+		value[MAX_VALUE_SIZE],
+		world = GetPlayerVirtualWorld(playerid),
+		arguments[TEXT_FUNCTION_ARGUMENT],
+		passId,
+		param;
+
+	ReadAmxMemoryArray(argumentIdx, arguments);
+
+	if ( sscanf(arguments, "dd", passId, param) ) {
+		return false;
+	}
+
+	if( passId <= 0 || passId > MAX_PASS ) {	
+		return false;
+	}
+
+	passId--;
+
+	if (param == 0) {
+		valstr(value, passData[world][passId][pExitModel]);
+	} else {
+		valstr(value, passData[world][passId][pEnterModel]);
+	}
+
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
+
+CBF:pState(const playerid, const argumentIdx, const resultIdx)
+{
+	new
+		value[MAX_VALUE_SIZE],
+		world = GetPlayerVirtualWorld(playerid),
+		arguments[TEXT_FUNCTION_ARGUMENT],
+		passId;
+
+	ReadAmxMemoryArray(argumentIdx, arguments);
+
+	if (sscanf(arguments, "d", passId, param)) {
+		return false;
+	}
+
+	if(passId <= 0 || passId > MAX_PASS) {	
+		return false;
+	}
+
+	passId--;
+
+	valstr(value, passData[world][passId][pStatus]);
+
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
+
+CBF:pTeam(const playerid, const argumentIdx, const resultIdx)
+{
+	new
+		value[MAX_VALUE_SIZE],
+		world = GetPlayerVirtualWorld(playerid),
+		arguments[TEXT_FUNCTION_ARGUMENT],
+		passId;
+
+	ReadAmxMemoryArray(argumentIdx, arguments);
+
+	if (sscanf(arguments, "d", passId, param)) {
+		return false;
+	}
+
+	if( passId <= 0 || passId > MAX_PASS ) {	
+		return false;
+	}
+
+	passId--;
+
+	valstr(value, passData[world][passId][pTeam]);
+
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
