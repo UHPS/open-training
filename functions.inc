@@ -3000,6 +3000,11 @@ CBF:pModel(const playerid, const argumentIdx, const resultIdx)
 	return true;
 }
 
+CBF:pStatus(const playerid, const argumentIdx, const resultIdx)
+{
+	return cbf_pState(playerid, argumentIdx, const resultIdx);
+}
+
 CBF:pState(const playerid, const argumentIdx, const resultIdx)
 {
 	new
