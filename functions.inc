@@ -2530,7 +2530,7 @@ CBF:siren(const playerid, const argumentIdx, const resultIdx)
 
 	ReadAmxMemoryArray(argumentIdx, arguments);
 
-	if ( sscanf(arguments, "d", vehicleid) ) {
+	if ( sscanf(arguments, "D(0)", vehicleid) ) {
 		return false;
 	}
 
@@ -3243,21 +3243,19 @@ CBF:getDate(const playerid, const argumentIdx, const resultIdx)
 	ReadAmxMemoryArray(argumentIdx, arguments);
 
 	sscanf(arguments, "s[5]", category);
+	getdate(year, month, day);
 
 	if(!isnull(category)) {
 
 		if( !strcmp(category, "day", true) ) {
-			getdate(year, month, day);
 			format(value, MAX_VALUE_SIZE, "%02d", day);
 		}
 
 		if( !strcmp(category, "month", true) ) {
-			getdate(year, month, day);
 			format(value, MAX_VALUE_SIZE, "%02d", month);
 		}
 
 		if( !strcmp(category, "year", true) ) {
-			getdate(year, month, day);
 			format(value, MAX_VALUE_SIZE, "%d", year);
 		}
 
@@ -3268,7 +3266,6 @@ CBF:getDate(const playerid, const argumentIdx, const resultIdx)
 
 
 	} else {
-		getdate(year, month, day);
 		format(value, MAX_VALUE_SIZE, "%02d.%02d.%d", day, month, year);
 	}
 
