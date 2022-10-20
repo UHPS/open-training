@@ -51,7 +51,7 @@ CBF:array(const playerid, const argumentIdx, const resultIdx)
     if (sscanf(arguments, "p<,>dD(-1)", arraySlot, targetid)) {
         return false;
     }
-    
+
     if (!IsPlayerOnline(targetid)) {
         targetid = playerid;
     }
@@ -2725,7 +2725,7 @@ CBF:oArray(const playerid, const argumentIdx, const resultIdx) {
  		value[MAX_VALUE_SIZE],
  		arguments[TEXT_FUNCTION_ARGUMENT],
  		Float: dist,
- 		type[0],
+ 		type[2],
  		targetid;
 
  	new
@@ -2736,7 +2736,7 @@ CBF:oArray(const playerid, const argumentIdx, const resultIdx) {
 
  	ReadAmxMemoryArray(argumentIdx, arguments);
 
- 	if (sscanf(arguments, "fs[0]D(-1)", dist, type, targetid)) {
+ 	if (sscanf(arguments, "fs[1]D(-1)", dist, type, targetid)) {
  		return false;
  	}
 
@@ -2765,12 +2765,12 @@ CBF:oArray(const playerid, const argumentIdx, const resultIdx) {
  		value[MAX_VALUE_SIZE],
  		arguments[TEXT_FUNCTION_ARGUMENT],
  		Float: num[2],
- 		type[0],
+ 		type[2],
  		Float: numRes;
 
  	ReadAmxMemoryArray(argumentIdx, arguments);
 
- 	if (sscanf(arguments, "fs[0]f", num[0], type, num[1])) {
+ 	if (sscanf(arguments, "fs[1]f", num[0], type, num[1])) {
  		return false;
  	}
 
@@ -3285,7 +3285,7 @@ CBF:getTime(const playerid, const argumentIdx, const resultIdx)
 
 	sscanf(arguments, "s[6]", category);
 	gettime(hour, minute, second);
-	
+
 	if(!isnull(category)) {
 
 		if( !strcmp(category, "hour", true) ) {
@@ -3397,8 +3397,8 @@ CBF:pModel(const playerid, const argumentIdx, const resultIdx)
  	WriteAmxMemoryArray(resultIdx, value);
  	return true;
  }
- 
- CBF:veh(const playerid, const argumentIdx, const resultIdx)
+
+CBF:veh(const playerid, const argumentIdx, const resultIdx)
 {
 	return cbf_vehicle(playerid, argumentIdx, resultIdx);
 }
