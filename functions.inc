@@ -2725,7 +2725,7 @@ CBF:oArray(const playerid, const argumentIdx, const resultIdx) {
  		value[MAX_VALUE_SIZE],
  		arguments[TEXT_FUNCTION_ARGUMENT],
  		Float: dist,
- 		type[1],
+ 		type[0],
  		targetid;
 
  	new
@@ -2736,7 +2736,7 @@ CBF:oArray(const playerid, const argumentIdx, const resultIdx) {
 
  	ReadAmxMemoryArray(argumentIdx, arguments);
 
- 	if (sscanf(arguments, "fs[1]D(-1)", dist, type, targetid)) {
+ 	if (sscanf(arguments, "fs[0]D(-1)", dist, type, targetid)) {
  		return false;
  	}
 
