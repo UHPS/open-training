@@ -3277,7 +3277,7 @@ CBF:getTime(const playerid, const argumentIdx, const resultIdx)
 	new
 		value[MAX_VALUE_SIZE],
 		arguments[TEXT_FUNCTION_ARGUMENT],
-		category[4], hour, min, sec;
+		category[4], hour, minute, second;
 
 	ReadAmxMemoryArray(argumentIdx, arguments);
 
@@ -3290,20 +3290,20 @@ CBF:getTime(const playerid, const argumentIdx, const resultIdx)
 			format(value, MAX_VALUE_SIZE, "%02d", hour);
 		}
 
-		if( !strcmp(category, "min", true) ) {
-			gettime(_, min, _);
-			format(value, MAX_VALUE_SIZE, "%02d", min);
+		if( !strcmp(category, "minute", true) ) {
+			gettime(_, minute, _);
+			format(value, MAX_VALUE_SIZE, "%02d", minute);
 		}
 
-		if( !strcmp(category, "sec", true) ) {
-			gettime(_, _, sec);
-			format(value, MAX_VALUE_SIZE, "%02d", sec);
+		if( !strcmp(category, "second", true) ) {
+			gettime(_, _, second);
+			format(value, MAX_VALUE_SIZE, "%02d", second);
 		}
 
 
 	} else {
-		gettime(hour, min, sec);
-		format(value, MAX_VALUE_SIZE, "%02d:%02d:%02d", hour, min, sec);
+		gettime(hour, minute, second);
+		format(value, MAX_VALUE_SIZE, "%02d:%02d:%02d", hour, minute, second);
 	}
 
 
@@ -3357,7 +3357,7 @@ CBF:pModel(const playerid, const argumentIdx, const resultIdx)
 
  	ReadAmxMemoryArray(argumentIdx, arguments);
 
- 	if (sscanf(arguments, "d", passId, param)) {
+ 	if (sscanf(arguments, "d", passId)) {
  		return false;
  	}
 
@@ -3383,7 +3383,7 @@ CBF:pModel(const playerid, const argumentIdx, const resultIdx)
 
  	ReadAmxMemoryArray(argumentIdx, arguments);
 
- 	if (sscanf(arguments, "d", passId, param)) {
+ 	if (sscanf(arguments, "d", passId)) {
  		return false;
  	}
 
