@@ -1189,7 +1189,7 @@ CBF:hr(const playerid, const argumentIdx, const resultIdx)
 		value[MAX_VALUE_SIZE],
 		targetid = resolveTargetOrSelf(playerid, argumentIdx);
 
-	format(value, MAX_VALUE_SIZE, "%.1f", (100 * pData[targetid][pHit])/pData[targetid][pShot]);
+	format(value, MAX_VALUE_SIZE, "%d", (100 * pData[targetid][pHit]) / pData[targetid][pShot]);
 
 	WriteAmxMemoryArray(resultIdx, value);
 	return true;
