@@ -43,19 +43,24 @@ CBF:array(const playerid, const argumentIdx, const resultIdx)
     new
         arguments[TEXT_FUNCTION_ARGUMENT],
         value[MAX_VALUE_SIZE],
-        arraySlot;
+        arraySlot,
+	targetid;
 
     ReadAmxMemoryArray(argumentIdx, arguments);
 
-    if (sscanf(arguments, "d", arraySlot)) {
+    if (sscanf(arguments, "p<,>dD(-1)", arraySlot, targetid)) {
         return false;
+    }
+    
+    if (!IsPlayerOnline(targetid)) {
+        targetid = playerid;
     }
 
     if (0 > arraySlot > MAX_PLAYER_ARRAY_SLOT) {
         return false;
     }
 
-    valstr(value, pData[playerid][cbData][arraySlot]);
+    valstr(value, pData[targetid][cbData][arraySlot]);
     WriteAmxMemoryArray(resultIdx, value);
     return true;
 }
@@ -2824,7 +2829,7 @@ CBF:nearObj(const playerid, const argumentIdx, const resultIdx)
 
  	ReadAmxMemoryArray(argumentIdx, arguments);
 
- 	if (sscanf(arguments, "p<,>F(1)D(-1)", nearlyDistance, modelid)) {
+ 	if (sscanf(arguments, "p<,>F(10)D(-1)", nearlyDistance, modelid)) {
  		return false;
  	}
 
@@ -2979,7 +2984,7 @@ CBF:pXYZ(const playerid, const argumentIdx, const resultIdx)
 
 	ReadAmxMemoryArray(argumentIdx, arguments);
 
-	if ( sscanf(arguments, "dd", passId, mama) ) {
+	if ( sscanf(arguments, "dD(0)", passId, mama) ) {
 		return false;
 	}
 
@@ -3009,7 +3014,7 @@ CBF:pX(const playerid, const argumentIdx, const resultIdx)
 
 	ReadAmxMemoryArray(argumentIdx, arguments);
 
-	if ( sscanf(arguments, "dd", passId, mama) ) {
+	if ( sscanf(arguments, "dD(0)", passId, mama) ) {
 		return false;
 	}
 
@@ -3039,7 +3044,7 @@ CBF:pY(const playerid, const argumentIdx, const resultIdx)
 
 	ReadAmxMemoryArray(argumentIdx, arguments);
 
-	if ( sscanf(arguments, "dd", passId, mama) ) {
+	if ( sscanf(arguments, "dD(0)", passId, mama) ) {
 		return false;
 	}
 
@@ -3069,7 +3074,7 @@ CBF:pZ(const playerid, const argumentIdx, const resultIdx)
 
 	ReadAmxMemoryArray(argumentIdx, arguments);
 
-	if ( sscanf(arguments, "dd", passId, mama) ) {
+	if ( sscanf(arguments, "dD(0)", passId, mama) ) {
 		return false;
 	}
 
@@ -3099,7 +3104,7 @@ CBF:pRX(const playerid, const argumentIdx, const resultIdx)
 
 	ReadAmxMemoryArray(argumentIdx, arguments);
 
-	if ( sscanf(arguments, "dd", passId, mama) ) {
+	if ( sscanf(arguments, "dD(0)", passId, mama) ) {
 		return false;
 	}
 
@@ -3130,7 +3135,7 @@ CBF:pInt(const playerid, const argumentIdx, const resultIdx)
 
 	ReadAmxMemoryArray(argumentIdx, arguments);
 
-	if ( sscanf(arguments, "dd", passId, mama) ) {
+	if ( sscanf(arguments, "dD(0)", passId, mama) ) {
 		return false;
 	}
 
@@ -3242,17 +3247,17 @@ CBF:getDate(const playerid, const argumentIdx, const resultIdx)
 	if(!isnull(category)) {
 
 		if( !strcmp(category, "day", true) ) {
-			getdate(day, _, _);
+			getdate(year, month, day);
 			format(value, MAX_VALUE_SIZE, "%02d", day);
 		}
 
 		if( !strcmp(category, "month", true) ) {
-			getdate(_, month, _);
+			getdate(year, month, day);
 			format(value, MAX_VALUE_SIZE, "%02d", month);
 		}
 
 		if( !strcmp(category, "year", true) ) {
-			getdate(_, _, year);
+			getdate(year, month, day);
 			format(value, MAX_VALUE_SIZE, "%d", year);
 		}
 
@@ -3263,7 +3268,7 @@ CBF:getDate(const playerid, const argumentIdx, const resultIdx)
 
 
 	} else {
-		getdate(day, month, year);
+		getdate(year, month, day);
 		format(value, MAX_VALUE_SIZE, "%02d.%02d.%d", day, month, year);
 	}
 
@@ -3277,32 +3282,29 @@ CBF:getTime(const playerid, const argumentIdx, const resultIdx)
 	new
 		value[MAX_VALUE_SIZE],
 		arguments[TEXT_FUNCTION_ARGUMENT],
-		category[4], hour, minute, second;
+		category[6], hour, minute, second;
 
 	ReadAmxMemoryArray(argumentIdx, arguments);
 
-	sscanf(arguments, "s[4]", category);
-
+	sscanf(arguments, "s[6]", category);
+	gettime(hour, minute, second);
+	
 	if(!isnull(category)) {
 
 		if( !strcmp(category, "hour", true) ) {
-			gettime(hour, _, _);
 			format(value, MAX_VALUE_SIZE, "%02d", hour);
 		}
 
-		if( !strcmp(category, "minute", true) ) {
-			gettime(_, minute, _);
+		if( !strcmp(category, "minute", true) || !strcmp(category, "min", true) ) {
 			format(value, MAX_VALUE_SIZE, "%02d", minute);
 		}
 
-		if( !strcmp(category, "second", true) ) {
-			gettime(_, _, second);
+		if( !strcmp(category, "second", true) || !strcmp(category, "sec", true) ) {
 			format(value, MAX_VALUE_SIZE, "%02d", second);
 		}
 
 
 	} else {
-		gettime(hour, minute, second);
 		format(value, MAX_VALUE_SIZE, "%02d:%02d:%02d", hour, minute, second);
 	}
 
@@ -3398,3 +3400,8 @@ CBF:pModel(const playerid, const argumentIdx, const resultIdx)
  	WriteAmxMemoryArray(resultIdx, value);
  	return true;
  }
+ 
+ CBF:veh(const playerid, const argumentIdx, const resultIdx)
+{
+	return cbf_vehicle(playerid, argumentIdx, resultIdx);
+}
