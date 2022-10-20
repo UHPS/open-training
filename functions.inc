@@ -2765,12 +2765,12 @@ CBF:oArray(const playerid, const argumentIdx, const resultIdx) {
  		value[MAX_VALUE_SIZE],
  		arguments[TEXT_FUNCTION_ARGUMENT],
  		Float: num[2],
- 		type[1],
+ 		type[0],
  		Float: numRes;
 
  	ReadAmxMemoryArray(argumentIdx, arguments);
 
- 	if (sscanf(arguments, "fs[1]f", num[0], type, num[1])) {
+ 	if (sscanf(arguments, "fs[0]f", num[0], type, num[1])) {
  		return false;
  	}
 
