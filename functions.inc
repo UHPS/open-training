@@ -3402,3 +3402,184 @@ CBF:veh(const playerid, const argumentIdx, const resultIdx)
 {
 	return cbf_vehicle(playerid, argumentIdx, resultIdx);
 }
+
+CBF:actorStatus(const playerid, const argumentIdx, const resultIdx)
+{
+	new
+		value[MAX_VALUE_SIZE],
+		arguments[TEXT_FUNCTION_ARGUMENT],
+		actorid,
+		world = GetPlayerVirtualWorld(playerid);
+
+	ReadAmxMemoryArray(argumentIdx, arguments);
+
+	if ( sscanf(arguments, "d", actorid) ) {
+		return false;
+	}
+
+	if(actorid < 0 || actorid > MAX_ACTOR_SLOT) {
+		return false;
+	}
+
+	if(!IsValidDynamicActor(tempWorld[world][aSlot][actorid])) {
+		return false;
+	}
+
+	valstr(value, actorSystem[ tempWorld[world][aSlot][actorid] ][aStatus]);
+
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
+
+CBF:actorState(const playerid, const argumentIdx, const resultIdx)
+{
+	return cbf_actorStatus(playerid, argumentIdx, resultIdx);
+}
+
+CBF:actorAnim(const playerid, const argumentIdx, const resultIdx)
+{
+	new
+		value[MAX_VALUE_SIZE],
+		arguments[TEXT_FUNCTION_ARGUMENT],
+		actorid,
+		world = GetPlayerVirtualWorld(playerid);
+
+	ReadAmxMemoryArray(argumentIdx, arguments);
+
+	if ( sscanf(arguments, "d", actorid) ) {
+		return false;
+	}
+
+	if(actorid < 0 || actorid > MAX_ACTOR_SLOT) {
+		return false;
+	}
+
+	if(!IsValidDynamicActor(tempWorld[world][aSlot][actorid])) {
+		return false;
+	}
+	
+	valstr(value, actorSystem[ tempWorld[world][aSlot][actorid] ][UsedAnim]);
+
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
+
+CBF:actorAltAnim(const playerid, const argumentIdx, const resultIdx)
+{
+	new
+		value[MAX_VALUE_SIZE],
+		arguments[TEXT_FUNCTION_ARGUMENT],
+		actorid,
+		world = GetPlayerVirtualWorld(playerid);
+
+	ReadAmxMemoryArray(argumentIdx, arguments);
+
+	if ( sscanf(arguments, "d", actorid) ) {
+		return false;
+	}
+
+	if(actorid < 0 || actorid > MAX_ACTOR_SLOT) {
+		return false;
+	}
+
+	if(!IsValidDynamicActor(tempWorld[world][aSlot][actorid])) {
+		return false;
+	}
+	
+	valstr(value, actorSystem[ tempWorld[world][aSlot][actorid] ][AltAnim]);
+
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
+
+CBF:actorSkin(const playerid, const argumentIdx, const resultIdx)
+{
+	new
+		value[MAX_VALUE_SIZE],
+		arguments[TEXT_FUNCTION_ARGUMENT],
+		actorid, modelId,
+		world = GetPlayerVirtualWorld(playerid);
+
+	ReadAmxMemoryArray(argumentIdx, arguments);
+
+	if ( sscanf(arguments, "d", actorid) ) {
+		return false;
+	}
+
+	if(actorid < 0 || actorid > MAX_ACTOR_SLOT) {
+		return false;
+	}
+
+	if(!IsValidDynamicActor(tempWorld[world][aSlot][actorid])) {
+		return false;
+	}
+	
+	Streamer_GetIntData(STREAMER_TYPE_ACTOR, tempWorld[world][aSlot][actorid], E_STREAMER_MODEL_ID, modelId);
+	valstr(value, modelId);
+
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
+
+CBF:actorHealth(const playerid, const argumentIdx, const resultIdx)
+{
+	new
+		value[MAX_VALUE_SIZE],
+		arguments[TEXT_FUNCTION_ARGUMENT],
+		actorid, aHealth,
+		world = GetPlayerVirtualWorld(playerid);
+
+	ReadAmxMemoryArray(argumentIdx, arguments);
+
+	if ( sscanf(arguments, "d", actorid) ) {
+		return false;
+	}
+
+	if(actorid < 0 || actorid > MAX_ACTOR_SLOT) {
+		return false;
+	}
+
+	if(!IsValidDynamicActor(tempWorld[world][aSlot][actorid])) {
+		return false;
+	}
+	
+	Streamer_GetFloatData(STREAMER_TYPE_ACTOR, tempWorld[world][aSlot][actorid], E_STREAMER_HEALTH, aHealth);
+	format(value, MAX_VALUE_SIZE, "%.2f", aHealth);
+
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
+
+CBF:actorInvulnerable(const playerid, const argumentIdx, const resultIdx)
+{
+	new
+		value[MAX_VALUE_SIZE],
+		arguments[TEXT_FUNCTION_ARGUMENT],
+		actorid, status,
+		world = GetPlayerVirtualWorld(playerid);
+
+	ReadAmxMemoryArray(argumentIdx, arguments);
+
+	if ( sscanf(arguments, "d", actorid) ) {
+		return false;
+	}
+
+	if(actorid < 0 || actorid > MAX_ACTOR_SLOT) {
+		return false;
+	}
+
+	if(!IsValidDynamicActor(tempWorld[world][aSlot][actorid])) {
+		return false;
+	}
+	
+	Streamer_GetIntData(STREAMER_TYPE_ACTOR, tempWorld[world][aSlot][actorid],E_STREAMER_INVULNERABLE, status);
+	valstr(value, status);
+
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
+
+CBF:actorGM(const playerid, const argumentIdx, const resultIdx)
+{
+	return cbf_actorInvulnerable(playerid, argumentIdx, resultIdx);
+}
