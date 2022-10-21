@@ -3583,3 +3583,386 @@ CBF:actorGM(const playerid, const argumentIdx, const resultIdx)
 {
 	return cbf_actorInvulnerable(playerid, argumentIdx, resultIdx);
 }
+
+CBF:weapon(const playerid, const argumentIdx, const resultIdx)
+{
+	return cbf_gun(playerid, argumentIdx, resultIdx);
+}
+
+CBF:attachBone(const playerid, const argumentIdx, const resultIdx)
+{
+	new
+		value[MAX_VALUE_SIZE],
+		arguments[TEXT_FUNCTION_ARGUMENT],
+		attachId, targetid;
+
+	ReadAmxMemoryArray(argumentIdx, arguments);
+
+	if(sscanf(arguments, "p<,>dD(-1)", attachId, targetid)) {
+			return false;
+	}
+
+	if(attachId < 1 || attachId > 10) {
+			return false;
+	}
+
+	attachId--;
+
+	if(!IsPlayerOnline(targetid)) {
+		targetid = playerid;
+	}
+
+	valstr(value, pAttach[targetid][attachId][2]);
+
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
+
+CBF:attachOffsetXYZ(const playerid, const argumentIdx, const resultIdx)
+{
+	new
+		value[MAX_VALUE_SIZE],
+		arguments[TEXT_FUNCTION_ARGUMENT],
+		attachId, targetid;
+
+	ReadAmxMemoryArray(argumentIdx, arguments);
+
+	if(sscanf(arguments, "p<,>dD(-1)", attachId, targetid)) {
+			return false;
+	}
+
+	if(attachId < 1 || attachId > 10) {
+			return false;
+	}
+
+	attachId--;
+
+	if(!IsPlayerOnline(targetid)) {
+		targetid = playerid;
+	}
+
+	format(value, MAX_VALUE_SIZE, "%.5f %.5f %.5f", fpAttach[targetid][attachId][0], fpAttach[targetid][attachId][1], fpAttach[targetid][attachId][2] );
+
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
+
+CBF:attachOffsetX(const playerid, const argumentIdx, const resultIdx)
+{
+	new
+		value[MAX_VALUE_SIZE],
+		arguments[TEXT_FUNCTION_ARGUMENT],
+		attachId, targetid;
+
+	ReadAmxMemoryArray(argumentIdx, arguments);
+
+	if(sscanf(arguments, "p<,>dD(-1)", attachId, targetid)) {
+			return false;
+	}
+
+	if(attachId < 1 || attachId > 10) {
+			return false;
+	}
+
+	attachId--;
+
+	if(!IsPlayerOnline(targetid)) {
+		targetid = playerid;
+	}
+
+	format(value, MAX_VALUE_SIZE, "%.5f", fpAttach[targetid][attachId][0] );
+
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
+
+CBF:attachOffsetY(const playerid, const argumentIdx, const resultIdx)
+{
+	new
+		value[MAX_VALUE_SIZE],
+		arguments[TEXT_FUNCTION_ARGUMENT],
+		attachId, targetid;
+
+	ReadAmxMemoryArray(argumentIdx, arguments);
+
+	if(sscanf(arguments, "p<,>dD(-1)", attachId, targetid)) {
+			return false;
+	}
+
+	if(attachId < 1 || attachId > 10) {
+			return false;
+	}
+
+	attachId--;
+
+	if(!IsPlayerOnline(targetid)) {
+		targetid = playerid;
+	}
+
+	format(value, MAX_VALUE_SIZE, "%.5f", fpAttach[targetid][attachId][1] );
+
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
+
+CBF:attachOffsetZ(const playerid, const argumentIdx, const resultIdx)
+{
+	new
+		value[MAX_VALUE_SIZE],
+		arguments[TEXT_FUNCTION_ARGUMENT],
+		attachId, targetid;
+
+	ReadAmxMemoryArray(argumentIdx, arguments);
+
+	if(sscanf(arguments, "p<,>dD(-1)", attachId, targetid)) {
+			return false;
+	}
+
+	if(attachId < 1 || attachId > 10) {
+			return false;
+	}
+
+	attachId--;
+
+	if(!IsPlayerOnline(targetid)) {
+		targetid = playerid;
+	}
+
+	format(value, MAX_VALUE_SIZE, "%.5f", fpAttach[targetid][attachId][2] );
+
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
+
+CBF:attachRotXYZ(const playerid, const argumentIdx, const resultIdx)
+{
+	new
+		value[MAX_VALUE_SIZE],
+		arguments[TEXT_FUNCTION_ARGUMENT],
+		attachId, targetid;
+
+	ReadAmxMemoryArray(argumentIdx, arguments);
+
+	if(sscanf(arguments, "p<,>dD(-1)", attachId, targetid)) {
+			return false;
+	}
+
+	if(attachId < 1 || attachId > 10) {
+			return false;
+	}
+
+	attachId--;
+
+	if(!IsPlayerOnline(targetid)) {
+		targetid = playerid;
+	}
+
+	format(value, MAX_VALUE_SIZE, "%.5f %.5f %.5f", fpAttach[targetid][attachId][3], fpAttach[targetid][attachId][4], fpAttach[targetid][attachId][5] );
+
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
+
+CBF:attachRotX(const playerid, const argumentIdx, const resultIdx)
+{
+	new
+		value[MAX_VALUE_SIZE],
+		arguments[TEXT_FUNCTION_ARGUMENT],
+		attachId, targetid;
+
+	ReadAmxMemoryArray(argumentIdx, arguments);
+
+	if(sscanf(arguments, "p<,>dD(-1)", attachId, targetid)) {
+			return false;
+	}
+
+	if(attachId < 1 || attachId > 10) {
+			return false;
+	}
+
+	attachId--;
+
+	if(!IsPlayerOnline(targetid)) {
+		targetid = playerid;
+	}
+
+	format(value, MAX_VALUE_SIZE, "%.5", fpAttach[targetid][attachId][3] );
+
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
+
+CBF:attachRotY(const playerid, const argumentIdx, const resultIdx)
+{
+	new
+		value[MAX_VALUE_SIZE],
+		arguments[TEXT_FUNCTION_ARGUMENT],
+		attachId, targetid;
+
+	ReadAmxMemoryArray(argumentIdx, arguments);
+
+	if(sscanf(arguments, "p<,>dD(-1)", attachId, targetid)) {
+			return false;
+	}
+
+	if(attachId < 1 || attachId > 10) {
+			return false;
+	}
+
+	attachId--;
+
+	if(!IsPlayerOnline(targetid)) {
+		targetid = playerid;
+	}
+
+	format(value, MAX_VALUE_SIZE, "%.5f", fpAttach[targetid][attachId][4] );
+
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
+
+CBF:attachRotZ(const playerid, const argumentIdx, const resultIdx)
+{
+	new
+		value[MAX_VALUE_SIZE],
+		arguments[TEXT_FUNCTION_ARGUMENT],
+		attachId, targetid;
+
+	ReadAmxMemoryArray(argumentIdx, arguments);
+
+	if(sscanf(arguments, "p<,>dD(-1)", attachId, targetid)) {
+			return false;
+	}
+
+	if(attachId < 1 || attachId > 10) {
+			return false;
+	}
+
+	attachId--;
+
+	if(!IsPlayerOnline(targetid)) {
+		targetid = playerid;
+	}
+
+	format(value, MAX_VALUE_SIZE, "%.5f", fpAttach[targetid][attachId][5] );
+
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
+
+CBF:attachScaleXYZ(const playerid, const argumentIdx, const resultIdx)
+{
+	new
+		value[MAX_VALUE_SIZE],
+		arguments[TEXT_FUNCTION_ARGUMENT],
+		attachId, targetid;
+
+	ReadAmxMemoryArray(argumentIdx, arguments);
+
+	if(sscanf(arguments, "p<,>dD(-1)", attachId, targetid)) {
+			return false;
+	}
+
+	if(attachId < 1 || attachId > 10) {
+			return false;
+	}
+
+	attachId--;
+
+	if(!IsPlayerOnline(targetid)) {
+		targetid = playerid;
+	}
+
+	format(value, MAX_VALUE_SIZE, "%.5f %.5f %.5f", fpAttach[targetid][attachId][6], fpAttach[targetid][attachId][7], fpAttach[targetid][attachId][8] );
+
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
+
+CBF:attachScaleX(const playerid, const argumentIdx, const resultIdx)
+{
+	new
+		value[MAX_VALUE_SIZE],
+		arguments[TEXT_FUNCTION_ARGUMENT],
+		attachId, targetid;
+
+	ReadAmxMemoryArray(argumentIdx, arguments);
+
+	if(sscanf(arguments, "p<,>dD(-1)", attachId, targetid)) {
+			return false;
+	}
+
+	if(attachId < 1 || attachId > 10) {
+			return false;
+	}
+
+	attachId--;
+
+	if(!IsPlayerOnline(targetid)) {
+		targetid = playerid;
+	}
+
+	format(value, MAX_VALUE_SIZE, "%.5f", fpAttach[targetid][attachId][6] );
+
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
+
+CBF:attachScaleY(const playerid, const argumentIdx, const resultIdx)
+{
+	new
+		value[MAX_VALUE_SIZE],
+		arguments[TEXT_FUNCTION_ARGUMENT],
+		attachId, targetid;
+
+	ReadAmxMemoryArray(argumentIdx, arguments);
+
+	if(sscanf(arguments, "p<,>dD(-1)", attachId, targetid)) {
+			return false;
+	}
+
+	if(attachId < 1 || attachId > 10) {
+			return false;
+	}
+
+	attachId--;
+
+	if(!IsPlayerOnline(targetid)) {
+		targetid = playerid;
+	}
+
+	format(value, MAX_VALUE_SIZE, "%.5f", pAttach[targetid][attachId][7]);
+
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
+
+CBF:attachScaleZ(const playerid, const argumentIdx, const resultIdx)
+{
+	new
+		value[MAX_VALUE_SIZE],
+		arguments[TEXT_FUNCTION_ARGUMENT],
+		attachId, targetid;
+
+	ReadAmxMemoryArray(argumentIdx, arguments);
+
+	if(sscanf(arguments, "p<,>dD(-1)", attachId, targetid)) {
+			return false;
+	}
+
+	if(attachId < 1 || attachId > 10) {
+			return false;
+	}
+
+	attachId--;
+
+	if(!IsPlayerOnline(targetid)) {
+		targetid = playerid;
+	}
+
+	format(value, MAX_VALUE_SIZE, "%.5f", fpAttach[targetid][attachId][8] );
+
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
+
