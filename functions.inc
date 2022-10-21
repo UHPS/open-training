@@ -3402,3 +3402,92 @@ CBF:veh(const playerid, const argumentIdx, const resultIdx)
 {
 	return cbf_vehicle(playerid, argumentIdx, resultIdx);
 }
+
+CBF:actorStatus(const playerid, const argumentIdx, const resultIdx)
+{
+	new
+		value[MAX_VALUE_SIZE],
+		arguments[TEXT_FUNCTION_ARGUMENT],
+		actorid,
+		world = GetPlayerVirtualWorld(playerid);
+
+	ReadAmxMemoryArray(argumentIdx, arguments);
+
+	if ( sscanf(arguments, "d", actorid) ) {
+		return false;
+	}
+
+	if(actorid < 0 || actorid > MAX_ACTOR_SLOT) {
+		return false;
+	}
+
+	if(!IsValidDynamicActor(tempWorld[world][aSlot][actorid])) {
+		return false;
+	}
+
+	valstr(value, actorSystem[ tempWorld[world][aSlot][actorid] ][aStatus]);
+
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
+
+CBF:actorState(const playerid, const argumentIdx, const resultIdx)
+{
+	return cbf_actorStatus(playerid, argumentIdx, resultIdx);
+}
+
+CBF:actorAnim(const playerid, const argumentIdx, const resultIdx)
+{
+	new
+		value[MAX_VALUE_SIZE],
+		arguments[TEXT_FUNCTION_ARGUMENT],
+		actorid,
+		world = GetPlayerVirtualWorld(playerid);
+
+	ReadAmxMemoryArray(argumentIdx, arguments);
+
+	if ( sscanf(arguments, "d", actorid) ) {
+		return false;
+	}
+
+	if(actorid < 0 || actorid > MAX_ACTOR_SLOT) {
+		return false;
+	}
+
+	if(!IsValidDynamicActor(tempWorld[world][aSlot][actorid])) {
+		return false;
+	}
+	
+	valstr(value, actorSystem[ tempWorld[world][aSlot][actorid] ][UsedAnim]);
+
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
+
+CBF:actorAltAnim(const playerid, const argumentIdx, const resultIdx)
+{
+	new
+		value[MAX_VALUE_SIZE],
+		arguments[TEXT_FUNCTION_ARGUMENT],
+		actorid,
+		world = GetPlayerVirtualWorld(playerid);
+
+	ReadAmxMemoryArray(argumentIdx, arguments);
+
+	if ( sscanf(arguments, "d", actorid) ) {
+		return false;
+	}
+
+	if(actorid < 0 || actorid > MAX_ACTOR_SLOT) {
+		return false;
+	}
+
+	if(!IsValidDynamicActor(tempWorld[world][aSlot][actorid])) {
+		return false;
+	}
+	
+	valstr(value, actorSystem[ tempWorld[world][aSlot][actorid] ][AltAnim]);
+
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
