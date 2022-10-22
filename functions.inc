@@ -3976,7 +3976,7 @@ CBF:vAttach(const playerid, const argumentIdx, const resultIdx)
 
     ReadAmxMemoryArray(argumentIdx, arguments);
     
-    if (sscanf(arguments, "dD(-1)", slot, vehicleId)) {
+    if (sscanf(arguments, "p<,>dD(-1)", slot, vehicleId)) {
         return false;
     }
 
@@ -4013,7 +4013,7 @@ CBF:vAttachModel(const playerid, const argumentIdx, const resultIdx)
 
     ReadAmxMemoryArray(argumentIdx, arguments);
     
-    if (sscanf(arguments, "dD(-1)", slot, vehicleId)) {
+    if (sscanf(arguments, "p<,>dD(-1)", slot, vehicleId)) {
         return false;
     }
 
@@ -4051,7 +4051,7 @@ CBF:isvAttachModel(const playerid, const argumentIdx, const resultIdx)
 
     ReadAmxMemoryArray(argumentIdx, arguments);
     
-    if (sscanf(arguments, "dD(-1)", model, vehicleId)) {
+    if (sscanf(arguments, "p<,>dD(-1)", model, vehicleId)) {
         return false;
     }
 
@@ -4094,7 +4094,7 @@ CBF:vAttachXYZ(const playerid, const argumentIdx, const resultIdx)
 
     ReadAmxMemoryArray(argumentIdx, arguments);
     
-    if (sscanf(arguments, "dD(-1)", slot, vehicleId)) {
+    if (sscanf(arguments, "p<,>dD(-1)", slot, vehicleId)) {
         return false;
     }
 
@@ -4137,7 +4137,7 @@ CBF:vAttachX(const playerid, const argumentIdx, const resultIdx)
 
     ReadAmxMemoryArray(argumentIdx, arguments);
     
-    if (sscanf(arguments, "dD(-1)", slot, vehicleId)) {
+    if (sscanf(arguments, "p<,>dD(-1)", slot, vehicleId)) {
         return false;
     }
 
@@ -4178,7 +4178,7 @@ CBF:vAttachY(const playerid, const argumentIdx, const resultIdx)
 
     ReadAmxMemoryArray(argumentIdx, arguments);
     
-    if (sscanf(arguments, "dD(-1)", slot, vehicleId)) {
+    if (sscanf(arguments, "p<,>dD(-1)", slot, vehicleId)) {
         return false;
     }
 
@@ -4219,7 +4219,7 @@ CBF:vAttachZ(const playerid, const argumentIdx, const resultIdx)
 
     ReadAmxMemoryArray(argumentIdx, arguments);
     
-    if (sscanf(arguments, "dD(-1)", slot, vehicleId)) {
+    if (sscanf(arguments, "p<,>dD(-1)", slot, vehicleId)) {
         return false;
     }
 
@@ -4260,7 +4260,7 @@ CBF:vAttachRotXYZ(const playerid, const argumentIdx, const resultIdx)
 
     ReadAmxMemoryArray(argumentIdx, arguments);
     
-    if (sscanf(arguments, "dD(-1)", slot, vehicleId)) {
+    if (sscanf(arguments, "p<,>dD(-1)", slot, vehicleId)) {
         return false;
     }
 
@@ -4303,7 +4303,7 @@ CBF:vAttachRotX(const playerid, const argumentIdx, const resultIdx)
 
     ReadAmxMemoryArray(argumentIdx, arguments);
     
-    if (sscanf(arguments, "dD(-1)", slot, vehicleId)) {
+    if (sscanf(arguments, "p<,>dD(-1)", slot, vehicleId)) {
         return false;
     }
 
@@ -4344,7 +4344,7 @@ CBF:vAttachRotY(const playerid, const argumentIdx, const resultIdx)
 
     ReadAmxMemoryArray(argumentIdx, arguments);
     
-    if (sscanf(arguments, "dD(-1)", slot, vehicleId)) {
+    if (sscanf(arguments, "p<,>dD(-1)", slot, vehicleId)) {
         return false;
     }
 
@@ -4385,7 +4385,7 @@ CBF:vAttachRotZ(const playerid, const argumentIdx, const resultIdx)
 
     ReadAmxMemoryArray(argumentIdx, arguments);
     
-    if (sscanf(arguments, "dD(-1)", slot, vehicleId)) {
+    if (sscanf(arguments, "p<,>dD(-1)", slot, vehicleId)) {
         return false;
     }
 
@@ -4426,7 +4426,7 @@ CBF:vAttachOffsetXYZ(const playerid, const argumentIdx, const resultIdx)
 
     ReadAmxMemoryArray(argumentIdx, arguments);
     
-    if (sscanf(arguments, "dD(-1)", slot, vehicleId)) {
+    if (sscanf(arguments, "p<,>dD(-1)", slot, vehicleId)) {
         return false;
     }
 
@@ -4469,7 +4469,7 @@ CBF:vAttachOffsetX(const playerid, const argumentIdx, const resultIdx)
 
     ReadAmxMemoryArray(argumentIdx, arguments);
     
-    if (sscanf(arguments, "dD(-1)", slot, vehicleId)) {
+    if (sscanf(arguments, "p<,>dD(-1)", slot, vehicleId)) {
         return false;
     }
 
@@ -4510,7 +4510,7 @@ CBF:vAttachOffsetY(const playerid, const argumentIdx, const resultIdx)
 
     ReadAmxMemoryArray(argumentIdx, arguments);
     
-    if (sscanf(arguments, "dD(-1)", slot, vehicleId)) {
+    if (sscanf(arguments, "p<,>dD(-1)", slot, vehicleId)) {
         return false;
     }
 
@@ -4551,7 +4551,7 @@ CBF:vAttachOffsetZ(const playerid, const argumentIdx, const resultIdx)
 
     ReadAmxMemoryArray(argumentIdx, arguments);
     
-    if (sscanf(arguments, "dD(-1)", slot, vehicleId)) {
+    if (sscanf(arguments, "p<,>dD(-1)", slot, vehicleId)) {
         return false;
     }
 
