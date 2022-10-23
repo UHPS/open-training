@@ -4653,19 +4653,19 @@ CBF:key(const playerid, const argumentIdx, const resultIdx)
 	new
 		value[MAX_VALUE_SIZE],
 		arguments[TEXT_FUNCTION_ARGUMENT],
-		targetid, state,
+		targetid, side,
 		key, horizonKey, verticalKey;
 
 	ReadAmxMemoryArray(argumentIdx, arguments);
 	
-	if( sscanf(arguments, "p<,>D(0)D(-1)", state, targetid) ) {
+	if( sscanf(arguments, "p<,>D(0)D(-1)", side, targetid) ) {
 		return false;
 	}
 	
-	if( state == 0 ) {
+	if( side == 0 ) {
 		GetPlayerKeys(targetid, key);
 		format(value, MAX_VALUE_SIZE, "%d", key);
-	} else if(state == 1) {
+	} else if(side == 1) {
 		GetPlayerKeys(targetid, key, horizonKey, verticalKey);
 		format(value, MAX_VALUE_SIZE, "%d", horizonKey);
 	} else {
