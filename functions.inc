@@ -2348,7 +2348,7 @@ CBF:lastActor(const playerid, const argumentIdx, const resultIdx)
 		value[MAX_VALUE_SIZE],
 		targetid = resolveTargetOrSelf(playerid, argumentIdx);
 
-	valstr(value, pData[targetid][pActor]);
+	valstr(value, pData[targetid][aTarget]);
 
 	WriteAmxMemoryArray(resultIdx, value);
 	return true;
