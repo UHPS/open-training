@@ -2348,7 +2348,7 @@ CBF:lastActor(const playerid, const argumentIdx, const resultIdx)
 		value[MAX_VALUE_SIZE],
 		targetid = resolveTargetOrSelf(playerid, argumentIdx);
 
-	valstr(value, pData[targetid][pActor]);
+	valstr(value, pData[targetid][aTarget]);
 
 	WriteAmxMemoryArray(resultIdx, value);
 	return true;
@@ -3966,3 +3966,713 @@ CBF:attachScaleZ(const playerid, const argumentIdx, const resultIdx)
 	return true;
 }
 
+CBF:vAttach(const playerid, const argumentIdx, const resultIdx)
+{
+    new
+        arguments[TEXT_FUNCTION_ARGUMENT],
+        value[MAX_VALUE_SIZE],
+        vehicleId,
+        slot;
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+    
+    if (sscanf(arguments, "p<,>dD(-1)", slot, vehicleId)) {
+        return false;
+    }
+
+    if (!IsValidVehicle(vehicleId)) {
+        if (!IsPlayerInAnyVehicle(playerid)) {
+            return false;
+        }
+
+        vehicleId = GetPlayerVehicleID(playerid);
+    }
+
+    if (1 > slot > MAX_VEHICLE_ATTACH) {
+        return false;
+    }
+    slot--;
+    
+    if( !IsValidDynamicObject(vData[vehicleId][vattach][slot]) ) {
+    	valstr(value, 0);
+    } else {
+    	valstr(value, 1);
+    }
+    
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+CBF:vAttachModel(const playerid, const argumentIdx, const resultIdx)
+{
+    new
+        arguments[TEXT_FUNCTION_ARGUMENT],
+        value[MAX_VALUE_SIZE],
+        vehicleId,
+        slot;
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+    
+    if (sscanf(arguments, "p<,>dD(-1)", slot, vehicleId)) {
+        return false;
+    }
+
+    if (!IsValidVehicle(vehicleId)) {
+        if (!IsPlayerInAnyVehicle(playerid)) {
+            return false;
+        }
+
+        vehicleId = GetPlayerVehicleID(playerid);
+    }
+
+    if (1 > slot > MAX_VEHICLE_ATTACH) {
+        return false;
+    }
+    slot--;
+    
+    if( !IsValidDynamicObject(vData[vehicleId][vattach][slot]) ) {
+    	valstr(value, -1);
+    } else {
+    	new model = Streamer_GetIntData(STREAMER_TYPE_OBJECT, vData[vehicleId][vattach][slot], E_STREAMER_MODEL_ID);
+    	valstr(value, model);
+    }
+    
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+CBF:isvAttachModel(const playerid, const argumentIdx, const resultIdx)
+{
+    new
+        arguments[TEXT_FUNCTION_ARGUMENT],
+        value[MAX_VALUE_SIZE],
+        vehicleId,
+        model;
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+    
+    if (sscanf(arguments, "p<,>dD(-1)", model, vehicleId)) {
+        return false;
+    }
+
+    if (!IsValidVehicle(vehicleId)) {
+        if (!IsPlayerInAnyVehicle(playerid)) {
+            return false;
+        }
+
+        vehicleId = GetPlayerVehicleID(playerid);
+    }
+    
+    new modelTemp = -1;
+    for(new slot; slot < MAX_VEHICLE_ATTACH; slot++)
+    {
+	    if( !IsValidDynamicObject(vData[vehicleId][vattach][slot]) ) {
+		continue;
+	    } else {
+		modelTemp = Streamer_GetIntData(STREAMER_TYPE_OBJECT, vData[vehicleId][vattach][slot], E_STREAMER_MODEL_ID);
+		
+		if(modelTemp == model) {
+			modelTemp = slot + 1;
+			break;
+		}
+	    }
+    }
+    
+    valstr(value, modelTemp);
+    
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+CBF:vAttachXYZ(const playerid, const argumentIdx, const resultIdx)
+{
+    new
+        arguments[TEXT_FUNCTION_ARGUMENT],
+        value[MAX_VALUE_SIZE],
+        vehicleId,
+        slot;
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+    
+    if (sscanf(arguments, "p<,>dD(-1)", slot, vehicleId)) {
+        return false;
+    }
+
+    if (!IsValidVehicle(vehicleId)) {
+        if (!IsPlayerInAnyVehicle(playerid)) {
+            return false;
+        }
+
+        vehicleId = GetPlayerVehicleID(playerid);
+    }
+
+    if (1 > slot > MAX_VEHICLE_ATTACH) {
+        return false;
+    }
+    slot--;
+    
+    if( !IsValidDynamicObject(vData[vehicleId][vattach][slot]) ) {
+    	return false;
+    } else {
+	new Float:attachX, Float:attachY, Float:attachZ;
+	
+	 Streamer_GetFloatData(STREAMER_TYPE_OBJECT, vData[vehicleId][vattach][slot], E_STREAMER_ATTACH_X, attachX);
+	 Streamer_GetFloatData(STREAMER_TYPE_OBJECT, vData[vehicleId][vattach][slot], E_STREAMER_ATTACH_Y, attachY);
+	 Streamer_GetFloatData(STREAMER_TYPE_OBJECT, vData[vehicleId][vattach][slot], E_STREAMER_ATTACH_Z, attachZ);
+	 
+	 format(value, MAX_VALUE_SIZE, "%.5f %.5f %.5f", attachX, attachY, attachZ);
+    }
+    
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+CBF:vAttachX(const playerid, const argumentIdx, const resultIdx)
+{
+    new
+        arguments[TEXT_FUNCTION_ARGUMENT],
+        value[MAX_VALUE_SIZE],
+        vehicleId,
+        slot;
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+    
+    if (sscanf(arguments, "p<,>dD(-1)", slot, vehicleId)) {
+        return false;
+    }
+
+    if (!IsValidVehicle(vehicleId)) {
+        if (!IsPlayerInAnyVehicle(playerid)) {
+            return false;
+        }
+
+        vehicleId = GetPlayerVehicleID(playerid);
+    }
+
+    if (1 > slot > MAX_VEHICLE_ATTACH) {
+        return false;
+    }
+    slot--;
+    
+    if( !IsValidDynamicObject(vData[vehicleId][vattach][slot]) ) {
+    	return false;
+    } else {
+	new Float:attachX;
+	
+	 Streamer_GetFloatData(STREAMER_TYPE_OBJECT, vData[vehicleId][vattach][slot], E_STREAMER_ATTACH_X, attachX);
+	 
+	 format(value, MAX_VALUE_SIZE, "%.5f", attachX);
+    }
+    
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+CBF:vAttachY(const playerid, const argumentIdx, const resultIdx)
+{
+    new
+        arguments[TEXT_FUNCTION_ARGUMENT],
+        value[MAX_VALUE_SIZE],
+        vehicleId,
+        slot;
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+    
+    if (sscanf(arguments, "p<,>dD(-1)", slot, vehicleId)) {
+        return false;
+    }
+
+    if (!IsValidVehicle(vehicleId)) {
+        if (!IsPlayerInAnyVehicle(playerid)) {
+            return false;
+        }
+
+        vehicleId = GetPlayerVehicleID(playerid);
+    }
+
+    if (1 > slot > MAX_VEHICLE_ATTACH) {
+        return false;
+    }
+    slot--;
+    
+    if( !IsValidDynamicObject(vData[vehicleId][vattach][slot]) ) {
+    	return false;
+    } else {
+	new Float:attachY;
+	
+	 Streamer_GetFloatData(STREAMER_TYPE_OBJECT, vData[vehicleId][vattach][slot], E_STREAMER_ATTACH_Y, attachY);
+	 
+	 format(value, MAX_VALUE_SIZE, "%.5f", attachY);
+    }
+    
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+CBF:vAttachZ(const playerid, const argumentIdx, const resultIdx)
+{
+    new
+        arguments[TEXT_FUNCTION_ARGUMENT],
+        value[MAX_VALUE_SIZE],
+        vehicleId,
+        slot;
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+    
+    if (sscanf(arguments, "p<,>dD(-1)", slot, vehicleId)) {
+        return false;
+    }
+
+    if (!IsValidVehicle(vehicleId)) {
+        if (!IsPlayerInAnyVehicle(playerid)) {
+            return false;
+        }
+
+        vehicleId = GetPlayerVehicleID(playerid);
+    }
+
+    if (1 > slot > MAX_VEHICLE_ATTACH) {
+        return false;
+    }
+    slot--;
+    
+    if( !IsValidDynamicObject(vData[vehicleId][vattach][slot]) ) {
+    	return false;
+    } else {
+	new Float:attachZ;
+	
+	 Streamer_GetFloatData(STREAMER_TYPE_OBJECT, vData[vehicleId][vattach][slot], E_STREAMER_ATTACH_Z, attachZ);
+	 
+	 format(value, MAX_VALUE_SIZE, "%.5f", attachZ);
+    }
+    
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+CBF:vAttachRotXYZ(const playerid, const argumentIdx, const resultIdx)
+{
+    new
+        arguments[TEXT_FUNCTION_ARGUMENT],
+        value[MAX_VALUE_SIZE],
+        vehicleId,
+        slot;
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+    
+    if (sscanf(arguments, "p<,>dD(-1)", slot, vehicleId)) {
+        return false;
+    }
+
+    if (!IsValidVehicle(vehicleId)) {
+        if (!IsPlayerInAnyVehicle(playerid)) {
+            return false;
+        }
+
+        vehicleId = GetPlayerVehicleID(playerid);
+    }
+
+    if (1 > slot > MAX_VEHICLE_ATTACH) {
+        return false;
+    }
+    slot--;
+    
+    if( !IsValidDynamicObject(vData[vehicleId][vattach][slot]) ) {
+    	return false;
+    } else {
+	new Float:attachX, Float:attachY, Float:attachZ;
+	
+	 Streamer_GetFloatData(STREAMER_TYPE_OBJECT, vData[vehicleId][vattach][slot], E_STREAMER_ATTACH_R_X, attachX);
+	 Streamer_GetFloatData(STREAMER_TYPE_OBJECT, vData[vehicleId][vattach][slot], E_STREAMER_ATTACH_R_Y, attachY);
+	 Streamer_GetFloatData(STREAMER_TYPE_OBJECT, vData[vehicleId][vattach][slot], E_STREAMER_ATTACH_R_Z, attachZ);
+	 
+	 format(value, MAX_VALUE_SIZE, "%.5f %.5f %.5f", attachX, attachY, attachZ);
+    }
+    
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+CBF:vAttachRotX(const playerid, const argumentIdx, const resultIdx)
+{
+    new
+        arguments[TEXT_FUNCTION_ARGUMENT],
+        value[MAX_VALUE_SIZE],
+        vehicleId,
+        slot;
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+    
+    if (sscanf(arguments, "p<,>dD(-1)", slot, vehicleId)) {
+        return false;
+    }
+
+    if (!IsValidVehicle(vehicleId)) {
+        if (!IsPlayerInAnyVehicle(playerid)) {
+            return false;
+        }
+
+        vehicleId = GetPlayerVehicleID(playerid);
+    }
+
+    if (1 > slot > MAX_VEHICLE_ATTACH) {
+        return false;
+    }
+    slot--;
+    
+    if( !IsValidDynamicObject(vData[vehicleId][vattach][slot]) ) {
+    	return false;
+    } else {
+	new Float:attachX;
+	
+	 Streamer_GetFloatData(STREAMER_TYPE_OBJECT, vData[vehicleId][vattach][slot], E_STREAMER_ATTACH_R_X, attachX);
+	 
+	 format(value, MAX_VALUE_SIZE, "%.5f", attachX);
+    }
+    
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+CBF:vAttachRotY(const playerid, const argumentIdx, const resultIdx)
+{
+    new
+        arguments[TEXT_FUNCTION_ARGUMENT],
+        value[MAX_VALUE_SIZE],
+        vehicleId,
+        slot;
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+    
+    if (sscanf(arguments, "p<,>dD(-1)", slot, vehicleId)) {
+        return false;
+    }
+
+    if (!IsValidVehicle(vehicleId)) {
+        if (!IsPlayerInAnyVehicle(playerid)) {
+            return false;
+        }
+
+        vehicleId = GetPlayerVehicleID(playerid);
+    }
+
+    if (1 > slot > MAX_VEHICLE_ATTACH) {
+        return false;
+    }
+    slot--;
+    
+    if( !IsValidDynamicObject(vData[vehicleId][vattach][slot]) ) {
+    	return false;
+    } else {
+	new Float:attachY;
+	
+	 Streamer_GetFloatData(STREAMER_TYPE_OBJECT, vData[vehicleId][vattach][slot], E_STREAMER_ATTACH_R_Y, attachY);
+	 
+	 format(value, MAX_VALUE_SIZE, "%.5f", attachY);
+    }
+    
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+CBF:vAttachRotZ(const playerid, const argumentIdx, const resultIdx)
+{
+    new
+        arguments[TEXT_FUNCTION_ARGUMENT],
+        value[MAX_VALUE_SIZE],
+        vehicleId,
+        slot;
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+    
+    if (sscanf(arguments, "p<,>dD(-1)", slot, vehicleId)) {
+        return false;
+    }
+
+    if (!IsValidVehicle(vehicleId)) {
+        if (!IsPlayerInAnyVehicle(playerid)) {
+            return false;
+        }
+
+        vehicleId = GetPlayerVehicleID(playerid);
+    }
+
+    if (1 > slot > MAX_VEHICLE_ATTACH) {
+        return false;
+    }
+    slot--;
+    
+    if( !IsValidDynamicObject(vData[vehicleId][vattach][slot]) ) {
+    	return false;
+    } else {
+	new Float:attachZ;
+	
+	 Streamer_GetFloatData(STREAMER_TYPE_OBJECT, vData[vehicleId][vattach][slot], E_STREAMER_ATTACH_R_Z, attachZ);
+	 
+	 format(value, MAX_VALUE_SIZE, "%.5f", attachZ);
+    }
+    
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+CBF:vAttachOffsetXYZ(const playerid, const argumentIdx, const resultIdx)
+{
+    new
+        arguments[TEXT_FUNCTION_ARGUMENT],
+        value[MAX_VALUE_SIZE],
+        vehicleId,
+        slot;
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+    
+    if (sscanf(arguments, "p<,>dD(-1)", slot, vehicleId)) {
+        return false;
+    }
+
+    if (!IsValidVehicle(vehicleId)) {
+        if (!IsPlayerInAnyVehicle(playerid)) {
+            return false;
+        }
+
+        vehicleId = GetPlayerVehicleID(playerid);
+    }
+
+    if (1 > slot > MAX_VEHICLE_ATTACH) {
+        return false;
+    }
+    slot--;
+    
+    if( !IsValidDynamicObject(vData[vehicleId][vattach][slot]) ) {
+    	return false;
+    } else {
+	new Float:attachX, Float:attachY, Float:attachZ;
+	
+	 Streamer_GetFloatData(STREAMER_TYPE_OBJECT, vData[vehicleId][vattach][slot], E_STREAMER_ATTACH_OFFSET_X, attachX);
+	 Streamer_GetFloatData(STREAMER_TYPE_OBJECT, vData[vehicleId][vattach][slot], E_STREAMER_ATTACH_OFFSET_Y, attachY);
+	 Streamer_GetFloatData(STREAMER_TYPE_OBJECT, vData[vehicleId][vattach][slot], E_STREAMER_ATTACH_OFFSET_Z, attachZ);
+	 
+	 format(value, MAX_VALUE_SIZE, "%.5f %.5f %.5f", attachX, attachY, attachZ);
+    }
+    
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+CBF:vAttachOffsetX(const playerid, const argumentIdx, const resultIdx)
+{
+    new
+        arguments[TEXT_FUNCTION_ARGUMENT],
+        value[MAX_VALUE_SIZE],
+        vehicleId,
+        slot;
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+    
+    if (sscanf(arguments, "p<,>dD(-1)", slot, vehicleId)) {
+        return false;
+    }
+
+    if (!IsValidVehicle(vehicleId)) {
+        if (!IsPlayerInAnyVehicle(playerid)) {
+            return false;
+        }
+
+        vehicleId = GetPlayerVehicleID(playerid);
+    }
+
+    if (1 > slot > MAX_VEHICLE_ATTACH) {
+        return false;
+    }
+    slot--;
+    
+    if( !IsValidDynamicObject(vData[vehicleId][vattach][slot]) ) {
+    	return false;
+    } else {
+	new Float:attachX;
+	
+	 Streamer_GetFloatData(STREAMER_TYPE_OBJECT, vData[vehicleId][vattach][slot], E_STREAMER_ATTACH_OFFSET_X, attachX);
+	 
+	 format(value, MAX_VALUE_SIZE, "%.5f", attachX);
+    }
+    
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+CBF:vAttachOffsetY(const playerid, const argumentIdx, const resultIdx)
+{
+    new
+        arguments[TEXT_FUNCTION_ARGUMENT],
+        value[MAX_VALUE_SIZE],
+        vehicleId,
+        slot;
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+    
+    if (sscanf(arguments, "p<,>dD(-1)", slot, vehicleId)) {
+        return false;
+    }
+
+    if (!IsValidVehicle(vehicleId)) {
+        if (!IsPlayerInAnyVehicle(playerid)) {
+            return false;
+        }
+
+        vehicleId = GetPlayerVehicleID(playerid);
+    }
+
+    if (1 > slot > MAX_VEHICLE_ATTACH) {
+        return false;
+    }
+    slot--;
+    
+    if( !IsValidDynamicObject(vData[vehicleId][vattach][slot]) ) {
+    	return false;
+    } else {
+	new Float:attachY;
+	
+	 Streamer_GetFloatData(STREAMER_TYPE_OBJECT, vData[vehicleId][vattach][slot], E_STREAMER_ATTACH_OFFSET_Y, attachY);
+	 
+	 format(value, MAX_VALUE_SIZE, "%.5f", attachY);
+    }
+    
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+CBF:vAttachOffsetZ(const playerid, const argumentIdx, const resultIdx)
+{
+    new
+        arguments[TEXT_FUNCTION_ARGUMENT],
+        value[MAX_VALUE_SIZE],
+        vehicleId,
+        slot;
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+    
+    if (sscanf(arguments, "p<,>dD(-1)", slot, vehicleId)) {
+        return false;
+    }
+
+    if (!IsValidVehicle(vehicleId)) {
+        if (!IsPlayerInAnyVehicle(playerid)) {
+            return false;
+        }
+
+        vehicleId = GetPlayerVehicleID(playerid);
+    }
+
+    if (1 > slot > MAX_VEHICLE_ATTACH) {
+        return false;
+    }
+    slot--;
+    
+    if( !IsValidDynamicObject(vData[vehicleId][vattach][slot]) ) {
+    	return false;
+    } else {
+	new Float:attachZ;
+	
+	 Streamer_GetFloatData(STREAMER_TYPE_OBJECT, vData[vehicleId][vattach][slot], E_STREAMER_ATTACH_OFFSET_Z, attachZ);
+	 
+	 format(value, MAX_VALUE_SIZE, "%.5f", attachZ);
+    }
+    
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+CBF:nearActor(const playerid, const argumentIdx, const resultIdx)
+{
+    new
+	 	value[MAX_VALUE_SIZE],
+ 		arguments[TEXT_FUNCTION_ARGUMENT],
+		targetid,
+        Float: x,
+        Float: y,
+        Float: z,
+        world = GetPlayerVirtualWorld(playerid),
+        skinid,
+	actorid,
+        Float: nearlyDistance,
+	Float: distance = 200.0,
+        items[50];
+
+ 	ReadAmxMemoryArray(argumentIdx, arguments);
+
+ 	if (sscanf(arguments, "p<,>F(100)D(-1)", nearlyDistance, skinid)) {
+ 		return false;
+ 	}
+
+ 	targetid = getTargetIdOrSelf(playerid, targetid);
+
+	if (nearlyDistance > 200) {
+		nearlyDistance = 200;
+	} else if (nearlyDistance < 1) {
+		nearlyDistance = 1;
+	}
+
+    GetPlayerPos(targetid, x, y, z);
+
+    Streamer_GetNearbyItems(x, y, z, STREAMER_TYPE_ACTOR, items, sizeof(items), nearlyDistance, world);
+
+    for (new i; i < sizeof(items); i++)
+    {
+		new
+			Float: tempDistance,
+			actorWorldId = Streamer_GetIntData(STREAMER_TYPE_ACTOR, items[i], E_STREAMER_EXTRA_ID);
+
+	 	if (!actorWorldId) {
+			continue;
+		}
+
+		if (skinid != -1 && skinid != Streamer_GetIntData(STREAMER_TYPE_ACTOR, items[i], E_STREAMER_MODEL_ID)) {
+			continue;
+		}
+
+		if (!Streamer_GetDistanceToItem(x, y, z, STREAMER_TYPE_ACTOR, items[i], tempDistance, 2)) {
+			continue;
+		}
+
+		if (tempDistance > distance) {
+        		continue;
+		}
+
+		distance = tempDistance;
+		actorid = actorWorldId;
+ 	}
+
+	valstr(value, actorid);
+
+ 	WriteAmxMemoryArray(resultIdx, value);
+ 	return true;
+}
+
+CBF:key(const playerid, const argumentIdx, const resultIdx)
+{
+	new
+		value[MAX_VALUE_SIZE],
+		arguments[TEXT_FUNCTION_ARGUMENT],
+		targetid, side,
+		key, horizonKey, verticalKey;
+
+	ReadAmxMemoryArray(argumentIdx, arguments);
+	
+	if( sscanf(arguments, "p<,>D(0)D(-1)", side, targetid) ) {
+		return false;
+	}
+	
+	if( side == 0 ) {
+		GetPlayerKeys(targetid, key);
+		format(value, MAX_VALUE_SIZE, "%d", key);
+	} else if(side == 1) {
+		GetPlayerKeys(targetid, key, horizonKey, verticalKey);
+		format(value, MAX_VALUE_SIZE, "%d", horizonKey);
+	} else {
+		GetPlayerKeys(targetid, key, horizonKey, verticalKey);
+		format(value, MAX_VALUE_SIZE, "%d", verticalKey);
+	}
+
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
