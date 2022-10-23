@@ -4647,3 +4647,32 @@ CBF:nearActor(const playerid, const argumentIdx, const resultIdx)
  	WriteAmxMemoryArray(resultIdx, value);
  	return true;
 }
+
+CBF:key(const playerid, const argumentIdx, const resultIdx)
+{
+	new
+		value[MAX_VALUE_SIZE],
+		arguments[TEXT_FUNCTION_ARGUMENT],
+		targetid, state,
+		key, horizonKey, verticalKey;
+
+	ReadAmxMemoryArray(argumentIdx, arguments);
+	
+	if( sscanf(arguments, "p<,>D(0)D(-1)", state, targetid) ) {
+		return false;
+	}
+	
+	if( state == 0 ) {
+		GetPlayerKeys(targetid, key);
+		format(value, MAX_VALUE_SIZE, "%d", key);
+	} else if(state == 1) {
+		GetPlayerKeys(targetid, key, horizonKey, verticalKey);
+		format(value, MAX_VALUE_SIZE, "%d", horizonKey);
+	} else {
+		GetPlayerKeys(targetid, key, horizonKey, verticalKey);
+		format(value, MAX_VALUE_SIZE, "%d", verticalKey);
+	}
+
+	WriteAmxMemoryArray(resultIdx, value);
+	return true;
+}
