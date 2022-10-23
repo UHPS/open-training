@@ -4581,3 +4581,69 @@ CBF:vAttachOffsetZ(const playerid, const argumentIdx, const resultIdx)
     WriteAmxMemoryArray(resultIdx, value);
     return true;
 }
+
+CBF:nearActor(const playerid, const argumentIdx, const resultIdx)
+{
+    new
+	 	value[MAX_VALUE_SIZE],
+ 		arguments[TEXT_FUNCTION_ARGUMENT],
+		targetid,
+        Float: x,
+        Float: y,
+        Float: z,
+        world = GetPlayerVirtualWorld(playerid),
+        skinid,
+	actorid,
+        Float: nearlyDistance,
+	Float: distance = 200.0,
+        items[50];
+
+ 	ReadAmxMemoryArray(argumentIdx, arguments);
+
+ 	if (sscanf(arguments, "p<,>F(100)D(-1)", nearlyDistance, skinid)) {
+ 		return false;
+ 	}
+
+ 	targetid = getTargetIdOrSelf(playerid, targetid);
+
+	if (nearlyDistance > 200) {
+		nearlyDistance = 200;
+	} else if (nearlyDistance < 1) {
+		nearlyDistance = 1;
+	}
+
+    GetPlayerPos(targetid, x, y, z);
+
+    Streamer_GetNearbyItems(x, y, z, STREAMER_TYPE_ACTOR, items, sizeof(items), nearlyDistance, world);
+
+    for (new i; i < sizeof(items); i++)
+    {
+		new
+			Float: tempDistance,
+			actorWorldId = Streamer_GetIntData(STREAMER_TYPE_ACTOR, items[i], E_STREAMER_EXTRA_ID);
+
+	 	if (!actorWorldId) {
+			continue;
+		}
+
+		if (skinid != -1 && skinid != Streamer_GetIntData(STREAMER_TYPE_ACTOR, items[i], E_STREAMER_MODEL_ID)) {
+			continue;
+		}
+
+		if (!Streamer_GetDistanceToItem(x, y, z, STREAMER_TYPE_ACTOR, items[i], tempDistance, 2)) {
+			continue;
+		}
+
+		if (tempDistance > distance) {
+        		continue;
+		}
+
+		distance = tempDistance;
+		actorid = actorWorldId;
+ 	}
+
+	valstr(value, actorid);
+
+ 	WriteAmxMemoryArray(resultIdx, value);
+ 	return true;
+}
