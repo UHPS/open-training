@@ -48,9 +48,7 @@ CBF:array(const playerid, const argumentIdx, const resultIdx) {
         return false;
     }
 
-    if (!IsPlayerOnline(targetid)) {
-        targetid = playerid;
-    }
+    targetid = getTargetIdOrSelf(playerid, targetid);
 
     if (0 > arraySlot > MAX_PLAYER_ARRAY_SLOT) {
         return false;
@@ -113,9 +111,7 @@ CBF:pvar(const playerid, const argumentIdx, const resultIdx) {
         targetid = playerid;
     }
 
-    if (!IsPlayerOnline(targetid)) {
-        return false;
-    }
+    targetid = getTargetIdOrSelf(playerid, targetid);
 
     if (sscanf(arguments, "s[32]", varValue)) {
         return false;
@@ -1261,17 +1257,13 @@ CBF:getDistPlayer(const playerid, const argumentIdx, const resultIdx) {
         return false;
     }
 
-    if (!IsPlayerOnline(targetid)) {
-        targetid = playerid;
-    }
+    targetid = getTargetIdOrSelf(playerid, targetid);
 
     if (IsPlayerOnline(plid)) {
         valstr(value, floatround(GetPlayerDistanceFromPlayer(targetid, plid)));
     } else {
         valstr(value, 65535);
     }
-
-
 
     WriteAmxMemoryArray(resultIdx, value);
     return true;
@@ -1289,9 +1281,7 @@ CBF:getDistPos(const playerid, const argumentIdx, const resultIdx) {
         return false;
     }
 
-    if (!IsPlayerOnline(targetid)) {
-        targetid = playerid;
-    }
+    targetid = getTargetIdOrSelf(playerid, targetid);
 
     valstr(value, floatround(GetPlayerDistanceFromPoint(targetid, x, y, z)));
 
@@ -1310,9 +1300,7 @@ CBF:getDistObject(const playerid, const argumentIdx, const resultIdx) {
         return false;
     }
 
-    if (!IsPlayerOnline(targetid)) {
-        targetid = playerid;
-    }
+    targetid = getTargetIdOrSelf(playerid, targetid);
 
     valstr(value, floatround(GetPlayerDistanceFromObject(targetid, objectId)));
 
@@ -1331,9 +1319,7 @@ CBF:getDistVeh(const playerid, const argumentIdx, const resultIdx) {
         return false;
     }
 
-    if (!IsPlayerOnline(targetid)) {
-        targetid = playerid;
-    }
+    targetid = getTargetIdOrSelf(playerid, targetid);
     world = GetPlayerVirtualWorld(targetid);
 
     if (vehicleid < 0 || vehicleid > MAX_WORLD_VEHICLE) {
@@ -1600,9 +1586,7 @@ CBF:getDistActor(const playerid, const argumentIdx, const resultIdx) {
         return false;
     }
 
-    if (!IsPlayerOnline(targetid)) {
-        targetid = playerid;
-    }
+    targetid = getTargetIdOrSelf(playerid, targetid);
 
     if (actorid < 0 || actorid > MAX_ACTOR_SLOT) {
         return false;
@@ -1633,9 +1617,7 @@ CBF:retval(const playerid, const argumentIdx, const resultIdx) {
         return false;
     }
 
-    if (!IsPlayerOnline(targetid)) {
-        targetid = playerid;
-    }
+    targetid = getTargetIdOrSelf(playerid, targetid);
 
     if (retvalId < 0 || retvalId > 9) {
         return false;
@@ -1656,10 +1638,7 @@ CBF:retstr(const playerid, const argumentIdx, const resultIdx) {
 
     sscanf(arguments, "p<,>D(-1)D(-1)", retvalId, targetid);
 
-    if (!IsPlayerOnline(targetid)) {
-        targetid = playerid;
-    }
-
+    targetid = getTargetIdOrSelf(playerid, targetid);
 
     if (retvalId == -1) {
         format(value, MAX_VALUE_SIZE, "%s", pData[targetid][pRetStr]);
@@ -1715,9 +1694,7 @@ CBF:attach(const playerid, const argumentIdx, const resultIdx) {
 
     attachId--;
 
-    if (!IsPlayerOnline(targetid)) {
-        targetid = playerid;
-    }
+    targetid = getTargetIdOrSelf(playerid, targetid);
 
     valstr(value, pAttach[targetid][attachId][0]);
 
@@ -1742,9 +1719,7 @@ CBF:attachModel(const playerid, const argumentIdx, const resultIdx) {
 
     attachId--;
 
-    if (!IsPlayerOnline(targetid)) {
-        targetid = playerid;
-    }
+    targetid = getTargetIdOrSelf(playerid, targetid);
 
     valstr(value, pAttach[targetid][attachId][1]);
 
@@ -1763,9 +1738,7 @@ CBF:isAttachModel(const playerid, const argumentIdx, const resultIdx) {
         return false;
     }
 
-    if (!IsPlayerOnline(targetid)) {
-        targetid = playerid;
-    }
+    targetid = getTargetIdOrSelf(playerid, targetid);
 
     attachId = -1;
     for (new i; i < 10; i++) {
@@ -2098,10 +2071,10 @@ CBF:clist(const playerid, const argumentIdx, const resultIdx) {
         targetid = resolveTargetOrSelf(playerid, argumentIdx);
 
 	if (0 > pData[targetid][pTeam] > MAX_WORLD_TEAM) {
-		return false;
-	}
-
-    valstr(value, worldTeam[world][ pData[targetid][pTeam] ][tClist]);
+		format(value, MAX_VALUE_SIZE, "FFFFFF");
+	} else {
+        format(value, MAX_VALUE_SIZE, "%s", basicColor[ worldTeam[world][ pData[targetid][pTeam] ][tColor] ][bHEX]);
+    }
 
     WriteAmxMemoryArray(resultIdx, value);
     return true;
@@ -3256,9 +3229,7 @@ CBF:attachBone(const playerid, const argumentIdx, const resultIdx) {
 
     attachId--;
 
-    if (!IsPlayerOnline(targetid)) {
-        targetid = playerid;
-    }
+    targetid = getTargetIdOrSelf(playerid, targetid);
 
     valstr(value, pAttach[targetid][attachId][2]);
 
@@ -3283,9 +3254,7 @@ CBF:attachOffsetXYZ(const playerid, const argumentIdx, const resultIdx) {
 
     attachId--;
 
-    if (!IsPlayerOnline(targetid)) {
-        targetid = playerid;
-    }
+    targetid = getTargetIdOrSelf(playerid, targetid);
 
     format(value, MAX_VALUE_SIZE, "%.5f %.5f %.5f", fpAttach[targetid][attachId][0], fpAttach[targetid][attachId][1], fpAttach[targetid][attachId][2]);
 
@@ -3310,9 +3279,7 @@ CBF:attachOffsetX(const playerid, const argumentIdx, const resultIdx) {
 
     attachId--;
 
-    if (!IsPlayerOnline(targetid)) {
-        targetid = playerid;
-    }
+    targetid = getTargetIdOrSelf(playerid, targetid);
 
     format(value, MAX_VALUE_SIZE, "%.5f", fpAttach[targetid][attachId][0]);
 
@@ -3337,9 +3304,7 @@ CBF:attachOffsetY(const playerid, const argumentIdx, const resultIdx) {
 
     attachId--;
 
-    if (!IsPlayerOnline(targetid)) {
-        targetid = playerid;
-    }
+    targetid = getTargetIdOrSelf(playerid, targetid);
 
     format(value, MAX_VALUE_SIZE, "%.5f", fpAttach[targetid][attachId][1]);
 
@@ -3364,9 +3329,7 @@ CBF:attachOffsetZ(const playerid, const argumentIdx, const resultIdx) {
 
     attachId--;
 
-    if (!IsPlayerOnline(targetid)) {
-        targetid = playerid;
-    }
+    targetid = getTargetIdOrSelf(playerid, targetid);
 
     format(value, MAX_VALUE_SIZE, "%.5f", fpAttach[targetid][attachId][2]);
 
@@ -3391,9 +3354,7 @@ CBF:attachRotXYZ(const playerid, const argumentIdx, const resultIdx) {
 
     attachId--;
 
-    if (!IsPlayerOnline(targetid)) {
-        targetid = playerid;
-    }
+    targetid = getTargetIdOrSelf(playerid, targetid);
 
     format(value, MAX_VALUE_SIZE, "%.5f %.5f %.5f", fpAttach[targetid][attachId][3], fpAttach[targetid][attachId][4], fpAttach[targetid][attachId][5]);
 
@@ -3418,9 +3379,7 @@ CBF:attachRotX(const playerid, const argumentIdx, const resultIdx) {
 
     attachId--;
 
-    if (!IsPlayerOnline(targetid)) {
-        targetid = playerid;
-    }
+    targetid = getTargetIdOrSelf(playerid, targetid);
 
     format(value, MAX_VALUE_SIZE, "%.5", fpAttach[targetid][attachId][3]);
 
@@ -3445,9 +3404,7 @@ CBF:attachRotY(const playerid, const argumentIdx, const resultIdx) {
 
     attachId--;
 
-    if (!IsPlayerOnline(targetid)) {
-        targetid = playerid;
-    }
+    targetid = getTargetIdOrSelf(playerid, targetid);
 
     format(value, MAX_VALUE_SIZE, "%.5f", fpAttach[targetid][attachId][4]);
 
@@ -3472,9 +3429,7 @@ CBF:attachRotZ(const playerid, const argumentIdx, const resultIdx) {
 
     attachId--;
 
-    if (!IsPlayerOnline(targetid)) {
-        targetid = playerid;
-    }
+    targetid = getTargetIdOrSelf(playerid, targetid);
 
     format(value, MAX_VALUE_SIZE, "%.5f", fpAttach[targetid][attachId][5]);
 
@@ -3499,9 +3454,7 @@ CBF:attachScaleXYZ(const playerid, const argumentIdx, const resultIdx) {
 
     attachId--;
 
-    if (!IsPlayerOnline(targetid)) {
-        targetid = playerid;
-    }
+    targetid = getTargetIdOrSelf(playerid, targetid);
 
     format(value, MAX_VALUE_SIZE, "%.5f %.5f %.5f", fpAttach[targetid][attachId][6], fpAttach[targetid][attachId][7], fpAttach[targetid][attachId][8]);
 
@@ -3526,9 +3479,7 @@ CBF:attachScaleX(const playerid, const argumentIdx, const resultIdx) {
 
     attachId--;
 
-    if (!IsPlayerOnline(targetid)) {
-        targetid = playerid;
-    }
+    targetid = getTargetIdOrSelf(playerid, targetid);
 
     format(value, MAX_VALUE_SIZE, "%.5f", fpAttach[targetid][attachId][6]);
 
@@ -3553,9 +3504,7 @@ CBF:attachScaleY(const playerid, const argumentIdx, const resultIdx) {
 
     attachId--;
 
-    if (!IsPlayerOnline(targetid)) {
-        targetid = playerid;
-    }
+    targetid = getTargetIdOrSelf(playerid, targetid);
 
     format(value, MAX_VALUE_SIZE, "%.5f", fpAttach[targetid][attachId][7]);
 
@@ -3580,9 +3529,7 @@ CBF:attachScaleZ(const playerid, const argumentIdx, const resultIdx) {
 
     attachId--;
 
-    if (!IsPlayerOnline(targetid)) {
-        targetid = playerid;
-    }
+    targetid = getTargetIdOrSelf(playerid, targetid);
 
     format(value, MAX_VALUE_SIZE, "%.5f", fpAttach[targetid][attachId][8]);
 
@@ -4248,6 +4195,8 @@ CBF:key(const playerid, const argumentIdx, const resultIdx) {
     if (sscanf(arguments, "p<,>D(0)D(-1)", side, targetid)) {
         return false;
     }
+
+    targetid = getTargetIdOrSelf(playerid, targetid);
 
     GetPlayerKeys(targetid, key, horizonKey, verticalKey);
 
