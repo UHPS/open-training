@@ -4248,6 +4248,10 @@ CBF:key(const playerid, const argumentIdx, const resultIdx) {
     if (sscanf(arguments, "p<,>D(0)D(-1)", side, targetid)) {
         return false;
     }
+    
+    if (!IsPlayerOnline(targetid)) {
+    	targetid = playerid;
+    }
 
     GetPlayerKeys(targetid, key, horizonKey, verticalKey);
 
