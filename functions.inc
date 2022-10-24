@@ -1148,7 +1148,7 @@ CBF:ext(const playerid, const argumentIdx, const resultIdx) {
     world = GetPlayerVirtualWorld(playerid);
     ReadAmxMemoryArray(argumentIdx, arguments);
 
-    if (sscanf(arguments, "p<,>dd", blockid, param)) {
+    if (sscanf(arguments, "dd", blockid, param)) {
         return false;
     }
 
