@@ -1148,7 +1148,7 @@ CBF:ext(const playerid, const argumentIdx, const resultIdx) {
     world = GetPlayerVirtualWorld(playerid);
     ReadAmxMemoryArray(argumentIdx, arguments);
 
-    if (sscanf(arguments, "p<,>dd", blockid, param)) {
+    if (sscanf(arguments, "dd", blockid, param)) {
         return false;
     }
 
@@ -1429,7 +1429,7 @@ CBF:getZ(const playerid, const argumentIdx, const resultIdx) {
         Float:z;
 
     ReadAmxMemoryArray(argumentIdx, arguments);
-    if (sscanf(arguments, "p<,>ff", x, y))
+    if (sscanf(arguments, "ff", x, y))
         return false;
 
     if (!CA_RayCastLine(x, y, 600.0, x, y, -100, FLOAT_NONE, FLOAT_NONE, z))
