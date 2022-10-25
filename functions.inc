@@ -4211,3 +4211,60 @@ CBF:key(const playerid, const argumentIdx, const resultIdx) {
     WriteAmxMemoryArray(resultIdx, value);
     return true;
 }
+
+CBF:nearaction(const playerid, const argumentIdx, const resultIdx) {
+    new value[MAX_VALUE_SIZE],
+        arguments[TEXT_FUNCTION_ARGUMENT],
+        targetid,
+        Float: x,
+        Float: y,
+        Float: z,
+        world = GetPlayerVirtualWorld(playerid),
+        actionid,
+        Float: nearlyDistance,
+        Float: distance = 200.0,
+        items[50];
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+
+    if (sscanf(arguments, "F(10)", nearlyDistance)) {
+        return false;
+    }
+
+    targetid = getTargetIdOrSelf(playerid, targetid);
+
+    if (nearlyDistance > 200) {
+        nearlyDistance = 200;
+    } else if (nearlyDistance < 1) {
+        nearlyDistance = 1;
+    }
+
+    GetPlayerPos(targetid, x, y, z);
+
+    Streamer_GetNearbyItems(x, y, z, STREAMER_TYPE_3D_TEXT_LABEL, items, sizeof(items), nearlyDistance, world);
+
+    for (new i; i < sizeof(items); i++) {
+        new Float: tempDistance,
+        actionWorldId = Streamer_GetIntData(STREAMER_TYPE_3D_TEXT_LABEL, items[i], E_STREAMER_EXTRA_ID);
+
+        if (!actionWorldId) {
+            continue;
+        }
+
+        if (!Streamer_GetDistanceToItem(x, y, z, STREAMER_TYPE_3D_TEXT_LABEL, items[i], tempDistance, 2)) {
+            continue;
+        }
+
+        if (tempDistance > distance) {
+            continue;
+        }
+
+        distance = tempDistance;
+        actionid = actionWorldId;
+    }
+
+    valstr(value, objectid);
+
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
