@@ -2071,9 +2071,9 @@ CBF:clist(const playerid, const argumentIdx, const resultIdx) {
         targetid = resolveTargetOrSelf(playerid, argumentIdx);
 
     if (0 > pData[targetid][pTeam] > MAX_WORLD_TEAM) {
-        format(value, MAX_VALUE_SIZE, "FFFFFF");
+        format(value, MAX_VALUE_SIZE, "{FFFFFF}");
     } else {
-        format(value, MAX_VALUE_SIZE, "%s", basicColor[worldTeam[world][pData[targetid][pTeam]][tColor]][bHEX]);
+        format(value, MAX_VALUE_SIZE, "%s", basicColor[worldTeam[world][pData[targetid][pTeam]][tColor]][bRGB]);
     }
 
     WriteAmxMemoryArray(resultIdx, value);
