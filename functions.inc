@@ -1917,7 +1917,7 @@ CBF:raycast(const playerid, const argumentIdx, const resultIdx) {
 
     sscanf(arguments, "s[24]F(30)D(0)s[4]", category, dist, col, coord);
 
-	if (isnull(coord)) {
+    if (isnull(coord)) {
         format(coord, sizeof(coord), "xyz");
     }
 
@@ -1936,8 +1936,8 @@ CBF:raycast(const playerid, const argumentIdx, const resultIdx) {
             GetVehicleRotation(GetPlayerVehicleID(playerid), vX, vY, vZ);
 
             atX = pX + (dist * floatsin(-vZ, degrees)),
-            atY = pY + (dist * floatcos(-vZ, degrees)),
-            atZ = pZ + (dist * floatsin(vX, degrees));
+                atY = pY + (dist * floatcos(-vZ, degrees)),
+                atZ = pZ + (dist * floatsin(vX, degrees));
 
             CA_RayCastLine(pX, pY, pZ, vX, vY, pZ, atX, atY, atZ);
         } else {
@@ -2070,10 +2070,10 @@ CBF:clist(const playerid, const argumentIdx, const resultIdx) {
         world = GetPlayerVirtualWorld(playerid),
         targetid = resolveTargetOrSelf(playerid, argumentIdx);
 
-	if (0 > pData[targetid][pTeam] > MAX_WORLD_TEAM) {
-		format(value, MAX_VALUE_SIZE, "FFFFFF");
-	} else {
-        format(value, MAX_VALUE_SIZE, "%s", basicColor[ worldTeam[world][ pData[targetid][pTeam] ][tColor] ][bHEX]);
+    if (0 > pData[targetid][pTeam] > MAX_WORLD_TEAM) {
+        format(value, MAX_VALUE_SIZE, "FFFFFF");
+    } else {
+        format(value, MAX_VALUE_SIZE, "%s", basicColor[worldTeam[world][pData[targetid][pTeam]][tColor]][bHEX]);
     }
 
     WriteAmxMemoryArray(resultIdx, value);
@@ -2448,27 +2448,22 @@ CBF:front(const playerid, const argumentIdx, const resultIdx) {
 CBF:floatnum(const playerid, const argumentIdx, const resultIdx) {
     new value[MAX_VALUE_SIZE],
         arguments[TEXT_FUNCTION_ARGUMENT],
-        Float: num[2],
-        type[2],
-        Float: numRes;
+        Float: firstNumber,
+        Float: secondNumber;
 
     ReadAmxMemoryArray(argumentIdx, arguments);
 
-    if (sscanf(arguments, "fs[1]f", num[0], type, num[1])) {
+    if(!sscanf(arguments, "p<+>ff", firstNumber, secondNumber)) {
+        format(value, MAX_VALUE_SIZE, "%.2f", firstNumber + secondNumber);
+    } else if(!sscanf(arguments, "p<->ff", firstNumber, secondNumber)) {
+        format(value, MAX_VALUE_SIZE, "%.2f", firstNumber - secondNumber);
+    } else if(!sscanf(arguments, "p<*>ff", firstNumber, secondNumber)) {
+        format(value, MAX_VALUE_SIZE, "%.2f", firstNumber * secondNumber);
+    } else if(!sscanf(arguments, "p</>ff", firstNumber, secondNumber)) {
+        format(value, MAX_VALUE_SIZE, "%.2f", firstNumber / secondNumber);
+    } else {
         return false;
     }
-
-    if (!strcmp(type, "-")) {
-        numRes = num[0] - num[1];
-    } else if (!strcmp(type, "*")) {
-        numRes = num[0] * num[1];
-    } else if (!strcmp(type, "/")) {
-        numRes = num[0] / num[1];
-    } else {
-        numRes = num[0] + num[1];
-    }
-
-    format(value, MAX_VALUE_SIZE, "%.2f", numRes);
 
     WriteAmxMemoryArray(resultIdx, value);
     return true;
@@ -2885,13 +2880,13 @@ CBF:getdate(const playerid, const argumentIdx, const resultIdx) {
     new value[MAX_VALUE_SIZE],
         arguments[TEXT_FUNCTION_ARGUMENT],
         category[12],
-		year, month, day, hour, minute, second;
+        year, month, day, hour, minute, second;
 
     ReadAmxMemoryArray(argumentIdx, arguments);
 
     sscanf(arguments, "s[12]", category);
 
-	gmtime(gettime(), year, month, day, hour, minute, second);
+    gmtime(gettime(), year, month, day, hour, minute, second);
 
     if (!isnull(category)) {
 
