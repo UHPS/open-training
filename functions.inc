@@ -154,7 +154,7 @@ CBF:vdata(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:teamOnline(const playerid, const argumentIdx, const resultIdx) {
+CBF:teamonline(const playerid, const argumentIdx, const resultIdx) {
     new arguments[TEXT_FUNCTION_ARGUMENT],
         value[MAX_VALUE_SIZE],
         world = GetPlayerVirtualWorld(playerid),
@@ -416,7 +416,7 @@ CBF:speed(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:vehName(const playerid, const argumentIdx, const resultIdx) {
+CBF:vehname(const playerid, const argumentIdx, const resultIdx) {
     new value[MAX_VALUE_SIZE],
         targetid = resolveTargetOrSelf(playerid, argumentIdx);
 
@@ -430,7 +430,7 @@ CBF:vehName(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:vehModel(const playerid, const argumentIdx, const resultIdx) {
+CBF:vehmodel(const playerid, const argumentIdx, const resultIdx) {
     new value[MAX_VALUE_SIZE],
         targetid = resolveTargetOrSelf(playerid, argumentIdx);
 
@@ -444,7 +444,7 @@ CBF:vehModel(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:vehHealth(const playerid, const argumentIdx, const resultIdx) {
+CBF:vehhealth(const playerid, const argumentIdx, const resultIdx) {
     new value[MAX_VALUE_SIZE],
         Float: health,
         targetid = resolveTargetOrSelf(playerid, argumentIdx);
@@ -460,7 +460,7 @@ CBF:vehHealth(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:gunName(const playerid, const argumentIdx, const resultIdx) {
+CBF:gunname(const playerid, const argumentIdx, const resultIdx) {
     new value[MAX_VALUE_SIZE],
         targetid = resolveTargetOrSelf(playerid, argumentIdx);
 
@@ -520,7 +520,7 @@ CBF:channel(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:GetVehModel(const playerid, const argumentIdx, const resultIdx) {
+CBF:getvehmodel(const playerid, const argumentIdx, const resultIdx) {
     new value[MAX_VALUE_SIZE],
         arguments[TEXT_FUNCTION_ARGUMENT],
         vehModel;
@@ -537,7 +537,7 @@ CBF:GetVehModel(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:vehSeat(const playerid, const argumentIdx, const resultIdx) {
+CBF:vehseat(const playerid, const argumentIdx, const resultIdx) {
     new value[MAX_VALUE_SIZE],
         targetid = resolveTargetOrSelf(playerid, argumentIdx);
 
@@ -821,7 +821,7 @@ CBF:rz(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:getDistAction(const playerid, const argumentIdx, const resultIdx) {
+CBF:getdistaction(const playerid, const argumentIdx, const resultIdx) {
     new arguments[TEXT_FUNCTION_ARGUMENT],
         value[MAX_VALUE_SIZE];
 
@@ -854,7 +854,7 @@ CBF:getDistAction(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:actionXYZ(const playerid, const argumentIdx, const resultIdx) {
+CBF:actionxyz(const playerid, const argumentIdx, const resultIdx) {
     new arguments[TEXT_FUNCTION_ARGUMENT],
         value[MAX_VALUE_SIZE];
 
@@ -887,7 +887,7 @@ CBF:actionXYZ(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:actionX(const playerid, const argumentIdx, const resultIdx) {
+CBF:actionx(const playerid, const argumentIdx, const resultIdx) {
     new arguments[TEXT_FUNCTION_ARGUMENT],
         value[MAX_VALUE_SIZE];
 
@@ -917,7 +917,7 @@ CBF:actionX(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:actionY(const playerid, const argumentIdx, const resultIdx) {
+CBF:actiony(const playerid, const argumentIdx, const resultIdx) {
     new arguments[TEXT_FUNCTION_ARGUMENT],
         value[MAX_VALUE_SIZE];
 
@@ -947,7 +947,7 @@ CBF:actionY(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:actionZ(const playerid, const argumentIdx, const resultIdx) {
+CBF:actionz(const playerid, const argumentIdx, const resultIdx) {
     new arguments[TEXT_FUNCTION_ARGUMENT],
         value[MAX_VALUE_SIZE];
 
@@ -1119,7 +1119,7 @@ CBF:target(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:teamName(const playerid, const argumentIdx, const resultIdx) {
+CBF:teamname(const playerid, const argumentIdx, const resultIdx) {
     new world,
     value[MAX_VALUE_SIZE],
         targetid = resolveTargetOrSelf(playerid, argumentIdx);
@@ -1192,7 +1192,7 @@ CBF:issuerGun(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:vehColor(const playerid, const argumentIdx, const resultIdx) {
+CBF:vehcolor(const playerid, const argumentIdx, const resultIdx) {
     new value[MAX_VALUE_SIZE],
         targetid = resolveTargetOrSelf(playerid, argumentIdx);
 
@@ -1209,7 +1209,7 @@ CBF:vehColor(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:vehColor1(const playerid, const argumentIdx, const resultIdx) {
+CBF:vehcolor1(const playerid, const argumentIdx, const resultIdx) {
     new value[MAX_VALUE_SIZE],
         targetid = resolveTargetOrSelf(playerid, argumentIdx);
 
@@ -1226,7 +1226,7 @@ CBF:vehColor1(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:vehColor2(const playerid, const argumentIdx, const resultIdx) {
+CBF:vehcolor2(const playerid, const argumentIdx, const resultIdx) {
     new value[MAX_VALUE_SIZE],
         targetid = resolveTargetOrSelf(playerid, argumentIdx);
 
@@ -1245,7 +1245,7 @@ CBF:vehColor2(const playerid, const argumentIdx, const resultIdx) {
 
 
 
-CBF:getDistPlayer(const playerid, const argumentIdx, const resultIdx) {
+CBF:getdistplayer(const playerid, const argumentIdx, const resultIdx) {
     new value[MAX_VALUE_SIZE],
         arguments[TEXT_FUNCTION_ARGUMENT],
         targetid,
@@ -1269,7 +1269,7 @@ CBF:getDistPlayer(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:getDistPos(const playerid, const argumentIdx, const resultIdx) {
+CBF:getdistpos(const playerid, const argumentIdx, const resultIdx) {
     new value[MAX_VALUE_SIZE],
         arguments[TEXT_FUNCTION_ARGUMENT],
         Float:x, Float:y, Float:z,
@@ -1289,7 +1289,7 @@ CBF:getDistPos(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:getDistObject(const playerid, const argumentIdx, const resultIdx) {
+CBF:getdistobject(const playerid, const argumentIdx, const resultIdx) {
     new value[MAX_VALUE_SIZE],
         arguments[TEXT_FUNCTION_ARGUMENT],
         targetid, objectId;
@@ -1308,7 +1308,7 @@ CBF:getDistObject(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:getDistVeh(const playerid, const argumentIdx, const resultIdx) {
+CBF:getdistveh(const playerid, const argumentIdx, const resultIdx) {
     new value[MAX_VALUE_SIZE],
         arguments[TEXT_FUNCTION_ARGUMENT],
         targetid, vehicleid, world;
@@ -1332,7 +1332,7 @@ CBF:getDistVeh(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:vehPos(const playerid, const argumentIdx, const resultIdx) {
+CBF:vehpos(const playerid, const argumentIdx, const resultIdx) {
     new value[MAX_VALUE_SIZE],
         arguments[TEXT_FUNCTION_ARGUMENT],
         vehicleid, world;
@@ -1420,7 +1420,7 @@ CBF:nearply(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:getZ(const playerid, const argumentIdx, const resultIdx) {
+CBF:getz(const playerid, const argumentIdx, const resultIdx) {
     new value[MAX_VALUE_SIZE],
         arguments[TEXT_FUNCTION_ARGUMENT],
         Float:FLOAT_NONE,
@@ -1452,7 +1452,7 @@ CBF:strlen(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:actorXYZ(const playerid, const argumentIdx, const resultIdx) {
+CBF:actorxyz(const playerid, const argumentIdx, const resultIdx) {
     new value[MAX_VALUE_SIZE],
         arguments[TEXT_FUNCTION_ARGUMENT],
         actorid, Float:aX, Float:aY, Float:aZ,
@@ -1483,7 +1483,7 @@ CBF:actorXYZ(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:actorX(const playerid, const argumentIdx, const resultIdx) {
+CBF:actorx(const playerid, const argumentIdx, const resultIdx) {
     new value[MAX_VALUE_SIZE],
         arguments[TEXT_FUNCTION_ARGUMENT],
         actorid, Float:aX,
@@ -1513,7 +1513,7 @@ CBF:actorX(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:actorY(const playerid, const argumentIdx, const resultIdx) {
+CBF:actory(const playerid, const argumentIdx, const resultIdx) {
     new value[MAX_VALUE_SIZE],
         arguments[TEXT_FUNCTION_ARGUMENT],
         actorid, Float:aY,
@@ -1543,7 +1543,7 @@ CBF:actorY(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:actorZ(const playerid, const argumentIdx, const resultIdx) {
+CBF:actorz(const playerid, const argumentIdx, const resultIdx) {
     new value[MAX_VALUE_SIZE],
         arguments[TEXT_FUNCTION_ARGUMENT],
         actorid, Float:aZ,
@@ -1573,7 +1573,7 @@ CBF:actorZ(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:getDistActor(const playerid, const argumentIdx, const resultIdx) {
+CBF:getdistactor(const playerid, const argumentIdx, const resultIdx) {
     new value[MAX_VALUE_SIZE],
         arguments[TEXT_FUNCTION_ARGUMENT],
         actorid, Float:aX, Float:aY, Float:aZ,
@@ -1654,7 +1654,7 @@ CBF:retstr(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:getDist(const playerid, const argumentIdx, const resultIdx) {
+CBF:getdist(const playerid, const argumentIdx, const resultIdx) {
     new value[MAX_VALUE_SIZE],
         arguments[TEXT_FUNCTION_ARGUMENT];
 
@@ -1702,7 +1702,7 @@ CBF:attach(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:attachModel(const playerid, const argumentIdx, const resultIdx) {
+CBF:attachmodel(const playerid, const argumentIdx, const resultIdx) {
     new value[MAX_VALUE_SIZE],
         arguments[TEXT_FUNCTION_ARGUMENT],
         attachId, targetid;
@@ -1727,7 +1727,7 @@ CBF:attachModel(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:isAttachModel(const playerid, const argumentIdx, const resultIdx) {
+CBF:isattachmodel(const playerid, const argumentIdx, const resultIdx) {
     new value[MAX_VALUE_SIZE],
         arguments[TEXT_FUNCTION_ARGUMENT],
         modelId, targetid, attachId;
@@ -1754,7 +1754,7 @@ CBF:isAttachModel(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:randomPlayer(const playerid, const argumentIdx, const resultIdx) {
+CBF:randomplayer(const playerid, const argumentIdx, const resultIdx) {
     new world,
     value[MAX_VALUE_SIZE],
         arguments[TEXT_FUNCTION_ARGUMENT];
@@ -1855,7 +1855,7 @@ CBF:moder(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:specState(const playerid, const argumentIdx, const resultIdx) {
+CBF:specstate(const playerid, const argumentIdx, const resultIdx) {
     new value[MAX_VALUE_SIZE],
         targetid = resolveTargetOrSelf(playerid, argumentIdx);
 
@@ -1869,7 +1869,7 @@ CBF:specState(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:specTarget(const playerid, const argumentIdx, const resultIdx) {
+CBF:spectarget(const playerid, const argumentIdx, const resultIdx) {
     new value[MAX_VALUE_SIZE],
         targetid = resolveTargetOrSelf(playerid, argumentIdx);
 
@@ -1985,7 +1985,7 @@ CBF:raycast(const playerid, const argumentIdx, const resultIdx) {
 }
 
 
-CBF:chatStyle(const playerid, const argumentIdx, const resultIdx) {
+CBF:chatstyle(const playerid, const argumentIdx, const resultIdx) {
     new value[MAX_VALUE_SIZE],
         targetid = resolveTargetOrSelf(playerid, argumentIdx);
 
@@ -2005,7 +2005,7 @@ CBF:freeze(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:freezeTime(const playerid, const argumentIdx, const resultIdx) {
+CBF:freezetime(const playerid, const argumentIdx, const resultIdx) {
     new value[MAX_VALUE_SIZE],
         targetid = resolveTargetOrSelf(playerid, argumentIdx);
 
@@ -2035,7 +2035,7 @@ CBF:mute(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:muteTime(const playerid, const argumentIdx, const resultIdx) {
+CBF:mutetime(const playerid, const argumentIdx, const resultIdx) {
     new value[MAX_VALUE_SIZE],
         targetid = resolveTargetOrSelf(playerid, argumentIdx);
 
@@ -2055,7 +2055,7 @@ CBF:taser(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:lastActor(const playerid, const argumentIdx, const resultIdx) {
+CBF:lastactor(const playerid, const argumentIdx, const resultIdx) {
     new value[MAX_VALUE_SIZE],
         targetid = resolveTargetOrSelf(playerid, argumentIdx);
 
@@ -2080,7 +2080,7 @@ CBF:clist(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:fightStyle(const playerid, const argumentIdx, const resultIdx) {
+CBF:fightstyle(const playerid, const argumentIdx, const resultIdx) {
     new value[MAX_VALUE_SIZE],
         targetid = resolveTargetOrSelf(playerid, argumentIdx);
 
@@ -2141,7 +2141,7 @@ CBF:nearveh(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:isWorld(const playerid, const argumentIdx, const resultIdx) {
+CBF:isworld(const playerid, const argumentIdx, const resultIdx) {
     new value[MAX_VALUE_SIZE],
         targetid = resolveTargetOrSelf(playerid, argumentIdx);
 
@@ -2245,7 +2245,7 @@ CBF:siren(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:oMoveXYZ(const playerid, const argumentIdx, const resultIdx) {
+CBF:omovexyz(const playerid, const argumentIdx, const resultIdx) {
     new arguments[TEXT_FUNCTION_ARGUMENT],
         value[MAX_VALUE_SIZE],
         objectid,
@@ -2276,7 +2276,7 @@ CBF:oMoveXYZ(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:oMoveX(const playerid, const argumentIdx, const resultIdx) {
+CBF:omovex(const playerid, const argumentIdx, const resultIdx) {
     new arguments[TEXT_FUNCTION_ARGUMENT],
         value[MAX_VALUE_SIZE],
         objectid,
@@ -2304,7 +2304,7 @@ CBF:oMoveX(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:oMoveY(const playerid, const argumentIdx, const resultIdx) {
+CBF:omovey(const playerid, const argumentIdx, const resultIdx) {
     new arguments[TEXT_FUNCTION_ARGUMENT],
         value[MAX_VALUE_SIZE],
         objectid,
@@ -2332,7 +2332,7 @@ CBF:oMoveY(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:oMoveZ(const playerid, const argumentIdx, const resultIdx) {
+CBF:omovez(const playerid, const argumentIdx, const resultIdx) {
     new arguments[TEXT_FUNCTION_ARGUMENT],
         value[MAX_VALUE_SIZE],
         objectid,
@@ -2359,7 +2359,7 @@ CBF:oMoveZ(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:oArray(const playerid, const argumentIdx, const resultIdx) {
+CBF:oarray(const playerid, const argumentIdx, const resultIdx) {
     new value[MAX_VALUE_SIZE],
         arguments[TEXT_FUNCTION_ARGUMENT],
         world = GetPlayerVirtualWorld(playerid),
@@ -2383,7 +2383,7 @@ CBF:oArray(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:oState(const playerid, const argumentIdx, const resultIdx) {
+CBF:ostate(const playerid, const argumentIdx, const resultIdx) {
     new value[MAX_VALUE_SIZE],
         arguments[TEXT_FUNCTION_ARGUMENT],
         world = GetPlayerVirtualWorld(playerid),
@@ -2474,7 +2474,7 @@ CBF:floatnum(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:oMove(const playerid, const argumentIdx, const resultIdx) {
+CBF:omove(const playerid, const argumentIdx, const resultIdx) {
     new value[MAX_VALUE_SIZE],
         arguments[TEXT_FUNCTION_ARGUMENT],
         world = GetPlayerVirtualWorld(playerid),
@@ -2494,7 +2494,7 @@ CBF:oMove(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:nearObj(const playerid, const argumentIdx, const resultIdx) {
+CBF:nearobj(const playerid, const argumentIdx, const resultIdx) {
     new value[MAX_VALUE_SIZE],
         arguments[TEXT_FUNCTION_ARGUMENT],
         targetid,
@@ -2556,7 +2556,7 @@ CBF:nearObj(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:vehParam(const playerid, const argumentIdx, const resultIdx) {
+CBF:vehparam(const playerid, const argumentIdx, const resultIdx) {
     new value[MAX_VALUE_SIZE],
         arguments[TEXT_FUNCTION_ARGUMENT],
         vehicleid,
@@ -2585,7 +2585,7 @@ CBF:vehParam(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:worldName(const playerid, const argumentIdx, const resultIdx) {
+CBF:worldname(const playerid, const argumentIdx, const resultIdx) {
     new value[MAX_VALUE_SIZE],
         world = GetPlayerVirtualWorld(playerid);
 
@@ -2595,7 +2595,7 @@ CBF:worldName(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:worldDesc(const playerid, const argumentIdx, const resultIdx) {
+CBF:worlddesc(const playerid, const argumentIdx, const resultIdx) {
     new value[MAX_VALUE_SIZE],
         world = GetPlayerVirtualWorld(playerid);
 
@@ -2605,7 +2605,7 @@ CBF:worldDesc(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:vehCount(const playerid, const argumentIdx, const resultIdx) {
+CBF:vehcount(const playerid, const argumentIdx, const resultIdx) {
     new value[MAX_VALUE_SIZE],
         world = GetPlayerVirtualWorld(playerid);
 
@@ -2615,7 +2615,7 @@ CBF:vehCount(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:objectCount(const playerid, const argumentIdx, const resultIdx) {
+CBF:objectcount(const playerid, const argumentIdx, const resultIdx) {
     new value[MAX_VALUE_SIZE],
         world = GetPlayerVirtualWorld(playerid);
 
@@ -2627,10 +2627,10 @@ CBF:objectCount(const playerid, const argumentIdx, const resultIdx) {
 
 // Пример как можно сделать аллиасы
 CBF:maxObj(const playerid, const argumentIdx, const resultIdx) {
-    return cbf_maxObjectCount(playerid, argumentIdx, resultIdx);
+    return cbf_maxobjectcount(playerid, argumentIdx, resultIdx);
 }
 
-CBF:maxObjectCount(const playerid, const argumentIdx, const resultIdx) {
+CBF:maxobjectcount(const playerid, const argumentIdx, const resultIdx) {
     new value[MAX_VALUE_SIZE],
         world = GetPlayerVirtualWorld(playerid);
 
@@ -2640,7 +2640,7 @@ CBF:maxObjectCount(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:pXYZ(const playerid, const argumentIdx, const resultIdx) {
+CBF:pxyz(const playerid, const argumentIdx, const resultIdx) {
     new value[MAX_VALUE_SIZE],
         world = GetPlayerVirtualWorld(playerid),
         arguments[TEXT_FUNCTION_ARGUMENT],
@@ -2668,7 +2668,7 @@ CBF:pXYZ(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:pX(const playerid, const argumentIdx, const resultIdx) {
+CBF:px(const playerid, const argumentIdx, const resultIdx) {
     new value[MAX_VALUE_SIZE],
         world = GetPlayerVirtualWorld(playerid),
         arguments[TEXT_FUNCTION_ARGUMENT],
@@ -2696,7 +2696,7 @@ CBF:pX(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:pY(const playerid, const argumentIdx, const resultIdx) {
+CBF:py(const playerid, const argumentIdx, const resultIdx) {
     new value[MAX_VALUE_SIZE],
         world = GetPlayerVirtualWorld(playerid),
         arguments[TEXT_FUNCTION_ARGUMENT],
@@ -2724,7 +2724,7 @@ CBF:pY(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:pZ(const playerid, const argumentIdx, const resultIdx) {
+CBF:pz(const playerid, const argumentIdx, const resultIdx) {
     new value[MAX_VALUE_SIZE],
         world = GetPlayerVirtualWorld(playerid),
         arguments[TEXT_FUNCTION_ARGUMENT],
@@ -2752,7 +2752,7 @@ CBF:pZ(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:pRX(const playerid, const argumentIdx, const resultIdx) {
+CBF:prx(const playerid, const argumentIdx, const resultIdx) {
     new value[MAX_VALUE_SIZE],
         world = GetPlayerVirtualWorld(playerid),
         arguments[TEXT_FUNCTION_ARGUMENT],
@@ -2781,7 +2781,7 @@ CBF:pRX(const playerid, const argumentIdx, const resultIdx) {
 }
 
 
-CBF:pInt(const playerid, const argumentIdx, const resultIdx) {
+CBF:pint(const playerid, const argumentIdx, const resultIdx) {
     new value[MAX_VALUE_SIZE],
         world = GetPlayerVirtualWorld(playerid),
         arguments[TEXT_FUNCTION_ARGUMENT],
@@ -2809,7 +2809,7 @@ CBF:pInt(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:pLock(const playerid, const argumentIdx, const resultIdx) {
+CBF:plock(const playerid, const argumentIdx, const resultIdx) {
     new value[MAX_VALUE_SIZE],
         world = GetPlayerVirtualWorld(playerid),
         arguments[TEXT_FUNCTION_ARGUMENT],
@@ -2833,7 +2833,7 @@ CBF:pLock(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:pOwner(const playerid, const argumentIdx, const resultIdx) {
+CBF:powner(const playerid, const argumentIdx, const resultIdx) {
     new value[MAX_VALUE_SIZE],
         world = GetPlayerVirtualWorld(playerid),
         arguments[TEXT_FUNCTION_ARGUMENT],
@@ -2857,7 +2857,7 @@ CBF:pOwner(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:pVehicle(const playerid, const argumentIdx, const resultIdx) {
+CBF:pvehicle(const playerid, const argumentIdx, const resultIdx) {
     new value[MAX_VALUE_SIZE],
         world = GetPlayerVirtualWorld(playerid),
         arguments[TEXT_FUNCTION_ARGUMENT],
@@ -2881,7 +2881,7 @@ CBF:pVehicle(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:getDate(const playerid, const argumentIdx, const resultIdx) {
+CBF:getdate(const playerid, const argumentIdx, const resultIdx) {
     new value[MAX_VALUE_SIZE],
         arguments[TEXT_FUNCTION_ARGUMENT],
         category[12],
@@ -2919,7 +2919,7 @@ CBF:getDate(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:getTime(const playerid, const argumentIdx, const resultIdx) {
+CBF:gettime(const playerid, const argumentIdx, const resultIdx) {
     new value[MAX_VALUE_SIZE],
         arguments[TEXT_FUNCTION_ARGUMENT],
         category[12], hour, minute, second;
@@ -2951,7 +2951,7 @@ CBF:getTime(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:pModel(const playerid, const argumentIdx, const resultIdx) {
+CBF:pmodel(const playerid, const argumentIdx, const resultIdx) {
     new value[MAX_VALUE_SIZE],
         world = GetPlayerVirtualWorld(playerid),
         arguments[TEXT_FUNCTION_ARGUMENT],
@@ -2980,11 +2980,11 @@ CBF:pModel(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:pStatus(const playerid, const argumentIdx, const resultIdx) {
-    return cbf_pState(playerid, argumentIdx, resultIdx);
+CBF:pstatus(const playerid, const argumentIdx, const resultIdx) {
+    return cbf_pstate(playerid, argumentIdx, resultIdx);
 }
 
-CBF:pState(const playerid, const argumentIdx, const resultIdx) {
+CBF:pstate(const playerid, const argumentIdx, const resultIdx) {
     new value[MAX_VALUE_SIZE],
         world = GetPlayerVirtualWorld(playerid),
         arguments[TEXT_FUNCTION_ARGUMENT],
@@ -3008,7 +3008,7 @@ CBF:pState(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:pTeam(const playerid, const argumentIdx, const resultIdx) {
+CBF:pteam(const playerid, const argumentIdx, const resultIdx) {
     new value[MAX_VALUE_SIZE],
         world = GetPlayerVirtualWorld(playerid),
         arguments[TEXT_FUNCTION_ARGUMENT],
@@ -3036,7 +3036,7 @@ CBF:veh(const playerid, const argumentIdx, const resultIdx) {
     return cbf_vehicle(playerid, argumentIdx, resultIdx);
 }
 
-CBF:actorStatus(const playerid, const argumentIdx, const resultIdx) {
+CBF:actorstatus(const playerid, const argumentIdx, const resultIdx) {
     new value[MAX_VALUE_SIZE],
         arguments[TEXT_FUNCTION_ARGUMENT],
         actorid,
@@ -3062,11 +3062,11 @@ CBF:actorStatus(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:actorState(const playerid, const argumentIdx, const resultIdx) {
-    return cbf_actorStatus(playerid, argumentIdx, resultIdx);
+CBF:actorstate(const playerid, const argumentIdx, const resultIdx) {
+    return cbf_actorstatus(playerid, argumentIdx, resultIdx);
 }
 
-CBF:actorAnim(const playerid, const argumentIdx, const resultIdx) {
+CBF:actoranim(const playerid, const argumentIdx, const resultIdx) {
     new value[MAX_VALUE_SIZE],
         arguments[TEXT_FUNCTION_ARGUMENT],
         actorid,
@@ -3092,7 +3092,7 @@ CBF:actorAnim(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:actorAltAnim(const playerid, const argumentIdx, const resultIdx) {
+CBF:actoraltanim(const playerid, const argumentIdx, const resultIdx) {
     new value[MAX_VALUE_SIZE],
         arguments[TEXT_FUNCTION_ARGUMENT],
         actorid,
@@ -3118,7 +3118,7 @@ CBF:actorAltAnim(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:actorSkin(const playerid, const argumentIdx, const resultIdx) {
+CBF:actorskin(const playerid, const argumentIdx, const resultIdx) {
     new value[MAX_VALUE_SIZE],
         arguments[TEXT_FUNCTION_ARGUMENT],
         actorid, modelId,
@@ -3145,7 +3145,7 @@ CBF:actorSkin(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:actorHealth(const playerid, const argumentIdx, const resultIdx) {
+CBF:actorhealth(const playerid, const argumentIdx, const resultIdx) {
     new value[MAX_VALUE_SIZE],
         arguments[TEXT_FUNCTION_ARGUMENT],
         actorid, Float: aHealth,
@@ -3172,7 +3172,7 @@ CBF:actorHealth(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:actorInvulnerable(const playerid, const argumentIdx, const resultIdx) {
+CBF:actorinvulnerable(const playerid, const argumentIdx, const resultIdx) {
     new value[MAX_VALUE_SIZE],
         arguments[TEXT_FUNCTION_ARGUMENT],
         actorid, status,
@@ -3199,15 +3199,15 @@ CBF:actorInvulnerable(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:actorGM(const playerid, const argumentIdx, const resultIdx) {
-    return cbf_actorInvulnerable(playerid, argumentIdx, resultIdx);
+CBF:actorgm(const playerid, const argumentIdx, const resultIdx) {
+    return cbf_actorinvulnerable(playerid, argumentIdx, resultIdx);
 }
 
 CBF:weapon(const playerid, const argumentIdx, const resultIdx) {
     return cbf_gun(playerid, argumentIdx, resultIdx);
 }
 
-CBF:attachBone(const playerid, const argumentIdx, const resultIdx) {
+CBF:attachbone(const playerid, const argumentIdx, const resultIdx) {
     new value[MAX_VALUE_SIZE],
         arguments[TEXT_FUNCTION_ARGUMENT],
         attachId, targetid;
@@ -3232,7 +3232,7 @@ CBF:attachBone(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:attachOffsetXYZ(const playerid, const argumentIdx, const resultIdx) {
+CBF:attachoffsetxyz(const playerid, const argumentIdx, const resultIdx) {
     new value[MAX_VALUE_SIZE],
         arguments[TEXT_FUNCTION_ARGUMENT],
         attachId, targetid;
@@ -3257,7 +3257,7 @@ CBF:attachOffsetXYZ(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:attachOffsetX(const playerid, const argumentIdx, const resultIdx) {
+CBF:attachoffsetx(const playerid, const argumentIdx, const resultIdx) {
     new value[MAX_VALUE_SIZE],
         arguments[TEXT_FUNCTION_ARGUMENT],
         attachId, targetid;
@@ -3282,7 +3282,7 @@ CBF:attachOffsetX(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:attachOffsetY(const playerid, const argumentIdx, const resultIdx) {
+CBF:attachoffsety(const playerid, const argumentIdx, const resultIdx) {
     new value[MAX_VALUE_SIZE],
         arguments[TEXT_FUNCTION_ARGUMENT],
         attachId, targetid;
@@ -3307,7 +3307,7 @@ CBF:attachOffsetY(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:attachOffsetZ(const playerid, const argumentIdx, const resultIdx) {
+CBF:attachoffsetz(const playerid, const argumentIdx, const resultIdx) {
     new value[MAX_VALUE_SIZE],
         arguments[TEXT_FUNCTION_ARGUMENT],
         attachId, targetid;
@@ -3332,7 +3332,7 @@ CBF:attachOffsetZ(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:attachRotXYZ(const playerid, const argumentIdx, const resultIdx) {
+CBF:attachrotxyz(const playerid, const argumentIdx, const resultIdx) {
     new value[MAX_VALUE_SIZE],
         arguments[TEXT_FUNCTION_ARGUMENT],
         attachId, targetid;
@@ -3357,7 +3357,7 @@ CBF:attachRotXYZ(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:attachRotX(const playerid, const argumentIdx, const resultIdx) {
+CBF:attachrotx(const playerid, const argumentIdx, const resultIdx) {
     new value[MAX_VALUE_SIZE],
         arguments[TEXT_FUNCTION_ARGUMENT],
         attachId, targetid;
@@ -3382,7 +3382,7 @@ CBF:attachRotX(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:attachRotY(const playerid, const argumentIdx, const resultIdx) {
+CBF:attachroty(const playerid, const argumentIdx, const resultIdx) {
     new value[MAX_VALUE_SIZE],
         arguments[TEXT_FUNCTION_ARGUMENT],
         attachId, targetid;
@@ -3407,7 +3407,7 @@ CBF:attachRotY(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:attachRotZ(const playerid, const argumentIdx, const resultIdx) {
+CBF:attachrotz(const playerid, const argumentIdx, const resultIdx) {
     new value[MAX_VALUE_SIZE],
         arguments[TEXT_FUNCTION_ARGUMENT],
         attachId, targetid;
@@ -3432,7 +3432,7 @@ CBF:attachRotZ(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:attachScaleXYZ(const playerid, const argumentIdx, const resultIdx) {
+CBF:attachscalexyz(const playerid, const argumentIdx, const resultIdx) {
     new value[MAX_VALUE_SIZE],
         arguments[TEXT_FUNCTION_ARGUMENT],
         attachId, targetid;
@@ -3457,7 +3457,7 @@ CBF:attachScaleXYZ(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:attachScaleX(const playerid, const argumentIdx, const resultIdx) {
+CBF:attachscalex(const playerid, const argumentIdx, const resultIdx) {
     new value[MAX_VALUE_SIZE],
         arguments[TEXT_FUNCTION_ARGUMENT],
         attachId, targetid;
@@ -3482,7 +3482,7 @@ CBF:attachScaleX(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:attachScaleY(const playerid, const argumentIdx, const resultIdx) {
+CBF:attachscaley(const playerid, const argumentIdx, const resultIdx) {
     new value[MAX_VALUE_SIZE],
         arguments[TEXT_FUNCTION_ARGUMENT],
         attachId, targetid;
@@ -3507,7 +3507,7 @@ CBF:attachScaleY(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:attachScaleZ(const playerid, const argumentIdx, const resultIdx) {
+CBF:attachscalez(const playerid, const argumentIdx, const resultIdx) {
     new value[MAX_VALUE_SIZE],
         arguments[TEXT_FUNCTION_ARGUMENT],
         attachId, targetid;
@@ -3532,7 +3532,7 @@ CBF:attachScaleZ(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:vAttach(const playerid, const argumentIdx, const resultIdx) {
+CBF:vattach(const playerid, const argumentIdx, const resultIdx) {
     new arguments[TEXT_FUNCTION_ARGUMENT],
         value[MAX_VALUE_SIZE],
         vehicleId,
@@ -3567,7 +3567,7 @@ CBF:vAttach(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:vAttachModel(const playerid, const argumentIdx, const resultIdx) {
+CBF:vattachmodel(const playerid, const argumentIdx, const resultIdx) {
     new arguments[TEXT_FUNCTION_ARGUMENT],
         value[MAX_VALUE_SIZE],
         vehicleId,
@@ -3603,7 +3603,7 @@ CBF:vAttachModel(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:isvAttachModel(const playerid, const argumentIdx, const resultIdx) {
+CBF:isvattachmodel(const playerid, const argumentIdx, const resultIdx) {
     new arguments[TEXT_FUNCTION_ARGUMENT],
         value[MAX_VALUE_SIZE],
         vehicleId,
@@ -3643,7 +3643,7 @@ CBF:isvAttachModel(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:vAttachXYZ(const playerid, const argumentIdx, const resultIdx) {
+CBF:vattachxyz(const playerid, const argumentIdx, const resultIdx) {
     new arguments[TEXT_FUNCTION_ARGUMENT],
         value[MAX_VALUE_SIZE],
         vehicleId,
@@ -3684,7 +3684,7 @@ CBF:vAttachXYZ(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:vAttachX(const playerid, const argumentIdx, const resultIdx) {
+CBF:vattachx(const playerid, const argumentIdx, const resultIdx) {
     new arguments[TEXT_FUNCTION_ARGUMENT],
         value[MAX_VALUE_SIZE],
         vehicleId,
@@ -3723,7 +3723,7 @@ CBF:vAttachX(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:vAttachY(const playerid, const argumentIdx, const resultIdx) {
+CBF:vattachy(const playerid, const argumentIdx, const resultIdx) {
     new arguments[TEXT_FUNCTION_ARGUMENT],
         value[MAX_VALUE_SIZE],
         vehicleId,
@@ -3762,7 +3762,7 @@ CBF:vAttachY(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:vAttachZ(const playerid, const argumentIdx, const resultIdx) {
+CBF:vattachz(const playerid, const argumentIdx, const resultIdx) {
     new arguments[TEXT_FUNCTION_ARGUMENT],
         value[MAX_VALUE_SIZE],
         vehicleId,
@@ -3801,7 +3801,7 @@ CBF:vAttachZ(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:vAttachRotXYZ(const playerid, const argumentIdx, const resultIdx) {
+CBF:vattachrotxyz(const playerid, const argumentIdx, const resultIdx) {
     new arguments[TEXT_FUNCTION_ARGUMENT],
         value[MAX_VALUE_SIZE],
         vehicleId,
@@ -3842,7 +3842,7 @@ CBF:vAttachRotXYZ(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:vAttachRotX(const playerid, const argumentIdx, const resultIdx) {
+CBF:vattachrotx(const playerid, const argumentIdx, const resultIdx) {
     new arguments[TEXT_FUNCTION_ARGUMENT],
         value[MAX_VALUE_SIZE],
         vehicleId,
@@ -3881,7 +3881,7 @@ CBF:vAttachRotX(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:vAttachRotY(const playerid, const argumentIdx, const resultIdx) {
+CBF:vattachroty(const playerid, const argumentIdx, const resultIdx) {
     new arguments[TEXT_FUNCTION_ARGUMENT],
         value[MAX_VALUE_SIZE],
         vehicleId,
@@ -3920,7 +3920,7 @@ CBF:vAttachRotY(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:vAttachRotZ(const playerid, const argumentIdx, const resultIdx) {
+CBF:vattachrotz(const playerid, const argumentIdx, const resultIdx) {
     new arguments[TEXT_FUNCTION_ARGUMENT],
         value[MAX_VALUE_SIZE],
         vehicleId,
@@ -3959,7 +3959,7 @@ CBF:vAttachRotZ(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:vAttachOffsetXYZ(const playerid, const argumentIdx, const resultIdx) {
+CBF:vattachoffsetxyz(const playerid, const argumentIdx, const resultIdx) {
     new arguments[TEXT_FUNCTION_ARGUMENT],
         value[MAX_VALUE_SIZE],
         vehicleId,
@@ -4000,7 +4000,7 @@ CBF:vAttachOffsetXYZ(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:vAttachOffsetX(const playerid, const argumentIdx, const resultIdx) {
+CBF:vattachoffsetx(const playerid, const argumentIdx, const resultIdx) {
     new arguments[TEXT_FUNCTION_ARGUMENT],
         value[MAX_VALUE_SIZE],
         vehicleId,
@@ -4039,7 +4039,7 @@ CBF:vAttachOffsetX(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:vAttachOffsetY(const playerid, const argumentIdx, const resultIdx) {
+CBF:vattachoffsety(const playerid, const argumentIdx, const resultIdx) {
     new arguments[TEXT_FUNCTION_ARGUMENT],
         value[MAX_VALUE_SIZE],
         vehicleId,
@@ -4078,7 +4078,7 @@ CBF:vAttachOffsetY(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:vAttachOffsetZ(const playerid, const argumentIdx, const resultIdx) {
+CBF:vattachoffsetz(const playerid, const argumentIdx, const resultIdx) {
     new arguments[TEXT_FUNCTION_ARGUMENT],
         value[MAX_VALUE_SIZE],
         vehicleId,
@@ -4117,7 +4117,7 @@ CBF:vAttachOffsetZ(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
-CBF:nearActor(const playerid, const argumentIdx, const resultIdx) {
+CBF:nearactor(const playerid, const argumentIdx, const resultIdx) {
     new value[MAX_VALUE_SIZE],
         arguments[TEXT_FUNCTION_ARGUMENT],
         targetid,
