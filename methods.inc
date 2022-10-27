@@ -160,10 +160,6 @@ CB:FreezePlayer(const playerid, const blockid, const actionid, const world, cons
     }
 
     if(cmBlock[world][blockid][cbMode]) {
-        if(!cbCompareMode(playerid, blockid, world)) {
-            return false;
-        }
-
         if(time == -1) {
             TogglePlayerControllable(playerid, 0);
         } else {
@@ -209,9 +205,6 @@ CB:SetSkill(const playerid, const blockid, const actionid, const world, const ar
     }
 
     if(!cmBlock[world][blockid][cbMode]) {
-        if(!cbCompareMode(playerid, blockid, world)) {
-            return false;
-        }
 
         SetPlayerSkillLevel(playerid, type, skill);
         return true;
@@ -244,9 +237,6 @@ CB:SetStyle(const playerid, const blockid, const actionid, const world, const ar
     }
 
     if(!cmBlock[world][blockid][cbMode]) {
-        if(!cbCompareMode(playerid, blockid, world)) {
-            return false;
-        }
 
     	switch(type) {
             case 1: pData[playerid][pStyle] = 4;
@@ -283,9 +273,6 @@ CB:SetStyle(const playerid, const blockid, const actionid, const world, const ar
 
 CB:KickPlayer(const playerid, const blockid, const actionid, const world, const argumentIdx) {
     if(!cmBlock[world][blockid][cbMode]) {
-        if(!cbCompareMode(playerid, blockid, world)) {
-            return false;
-        }
 
         SetPlayerVw(playerid, 0);
         return true;
@@ -319,9 +306,7 @@ CB:BubblePlayer(const playerid, const blockid, const actionid, const world, cons
     }
 
     if(!cmBlock[world][blockid][cbMode]) {
-        if(!cbCompareMode(playerid, blockid, world)) {
-            return false;
-        }
+
 
         SetPlayerChatBubble(playerid, text, 0xFFFFFFFF, 10.0, time);
         return true;
@@ -406,9 +391,6 @@ CB:SetGravity(const playerid, const blockid, const actionid, const world, const 
     }
 
     if(!cmBlock[world][blockid][cbMode]) {
-        if(!cbCompareMode(playerid, blockid, world)) {
-            return false;
-        }
 
         SetPlayerGravity(playerid, worldGravity);
         return true;
@@ -441,9 +423,6 @@ CB:GiveDamage(const playerid, const blockid, const actionid, const world, const 
     }
 
     if(!cmBlock[world][blockid][cbMode]) {
-        if(!cbCompareMode(playerid, blockid, world)) {
-            return false;
-        }
 
         AntiCheatGetHealth(playerid, pData[playerid][pHealth]);
         AntiCheatGetArmour(playerid, pData[playerid][pArmour]);
@@ -519,9 +498,7 @@ CB:SetDrunk(const playerid, const blockid, const actionid, const world, const ar
     }
 
     if(!cmBlock[world][blockid][cbMode]) {
-        if(!cbCompareMode(playerid, blockid, world)) {
-            return false;
-        }
+
 
         SetPlayerDrunkLevel(playerid, drunkLvl);
         return true;
@@ -562,9 +539,6 @@ CB:EditCallSign(const playerid, const blockid, const actionid, const world, cons
 	}
 
     if(!cmBlock[world][blockid][cbMode]) {
-        if(!cbCompareMode(playerid, blockid, world)) {
-            return false;
-        }
 
         if(!IsPlayerInAnyVehicle(playerid)) {
 		    return false;
@@ -988,11 +962,8 @@ CB:setVehCollision(const playerid, const blockid, const actionid, const world, c
     }
 
     if(!cmBlock[world][blockid][cbMode]) {
-        if(!cbCompareMode(playerid, blockid, world)) {
-            return false;
-        }
-
         DisableRemoteVehicleCollisions(playerid, status);
+        return true;
     }
 
     foreach(new targetid : Player) {
@@ -1018,9 +989,6 @@ CB:playStream(const playerid, const blockid, const actionid, const world, const 
     }
 
     if(!cmBlock[world][blockid][cbMode]) {
-        if(!cbCompareMode(playerid, blockid, world)) {
-            return false;
-        }
 
         PlayAudioStreamForPlayer(playerid, url);
         return true;
@@ -1073,11 +1041,7 @@ CB:SetModelObject(const playerid, const blockid, const actionid, const world, co
 
 CB:SelectObject(const playerid, const blockid, const actionid, const world, const argumentIdx) {
     if(!cmBlock[world][blockid][cbMode]) {
-       if(!cbCompareMode(playerid, blockid, world)) {
-            return false;
-        }
-
-        Select object(playerid);
+        SelectObject(playerid);
         return true;
     }
 
@@ -1116,9 +1080,6 @@ CB:EditObject(const playerid, const blockid, const actionid, const world, const 
 
 CB:CancelEdit(const playerid, const blockid, const actionid, const world, const argumentIdx) {
     if(!cmBlock[world][blockid][cbMode]) {
-       if(!cbCompareMode(playerid, blockid, world)) {
-            return false;
-        }
 
         CancelEdit(playerid);
         return true;
@@ -1224,9 +1185,7 @@ CB:ShowDialog(const playerid, const blockid, const actionid, const world, const 
     }
 
     if(!cmBlock[world][blockid][cbMode]) {
-        if(!cbCompareMode(playerid, blockid, world)) {
-            return false;
-        }
+
 
         pData[playerid][pRetVal][10] = callBlock;
         Dialog_Show(playerid, CBMainDialog, type, "\t{FFFFFF}[ Командный блок ]", str, "Y", "X");
@@ -1340,9 +1299,6 @@ CB:GiveTaser(const playerid, const blockid, const actionid, const world, const a
     }
 
     if(!cmBlock[world][blockid][cbMode]) {
-        if(!cbCompareMode(playerid, blockid, world)) {
-            return false;
-        }
 
         if(toggle) {
             if(pData[playerid][pTazer]) {
@@ -1416,9 +1372,6 @@ CB:SetPlate(const playerid, const blockid, const actionid, const world, const ar
     }
 
     if(!cmBlock[world][blockid][cbMode]) {
-        if(!cbCompareMode(playerid, blockid, world)) {
-            return false;
-        }
 
         if(GetPlayerVehicleSeat(playerid) != 0) {
             return false;
@@ -1502,10 +1455,6 @@ CB:SetVehicleAttach(const playerid, const blockid, const actionid, const world, 
 
     if(!cmBlock[world][blockid][cbMode]) {
 
-        if(!cbCompareMode(playerid, blockid, world)) {
-            return false;
-        }
-
         if(!IsPlayerInAnyVehicle(playerid)) {
             return false;
         }
@@ -1582,10 +1531,6 @@ CB:UnVehicleAttach(const playerid, const blockid, const actionid, const world, c
     }
 
     if(!cmBlock[world][blockid][cbMode]) {
-
-        if(!cbCompareMode(playerid, blockid, world)) {
-            return false;
-        }
 
         if(!IsPlayerInAnyVehicle(playerid)) {
             return false;
@@ -1672,10 +1617,6 @@ CB:SetPlayerAngle(const playerid, const blockid, const actionid, const world, co
     }
 
     if(!cmBlock[world][blockid][cbMode]) {
-        if(!cbCompareMode(playerid, blockid, world)) {
-            return false;
-        }
-
         SetPlayerFacingAngle(playerid, angle);
         return true;
     }
@@ -1888,10 +1829,6 @@ CB:ActorSetAnim(const playerid, const blockid, const actionid, const world, cons
 
 CB:PlayerRess(const playerid, const blockid, const actionid, const world, const argumentIdx) {
     if(!cmBlock[world][blockid][cbMode]) {
-        if(!cbCompareMode(playerid, blockid, world)) {
-            return false;
-        }
-
         World_PlayerReviwe(playerid);
         return true;
     }
@@ -1927,11 +1864,6 @@ CB:PlayerSetDeath(const playerid, const blockid, const actionid, const world, co
     }
 
     if(!cmBlock[world][blockid][cbMode]) {
-
-        if(!cbCompareMode(playerid, blockid, world)) {
-            return false;
-        }
-
         pData[playerid][pDead] = true;
         pData[playerid][pDeadStage] = time;
         GetPlayerPos(playerid, pData[playerid][pDeadX], pData[playerid][pDeadY], pData[playerid][pDeadZ]);
@@ -2033,10 +1965,6 @@ CB:VehicleStatus(const playerid, const blockid, const actionid, const world, con
     }
 
     if(!cmBlock[world][blockid][cbMode]) {
-        if(!cbCompareMode(playerid, blockid, world)) {
-            return false;
-        }
-
         if(!IsPlayerInAnyVehicle(playerid)) {
             return false;
         }
@@ -2081,9 +2009,7 @@ CB:VehWindowStatus(const playerid, const blockid, const actionid, const world, c
     }
 
     if(!cmBlock[world][blockid][cbMode]) {
-        if(!cbCompareMode(playerid, blockid, world)) {
-            return false;
-        }
+
 
         if (!IsPlayerInAnyVehicle(playerid)) {
             return false;
@@ -2124,9 +2050,7 @@ CB:SetVehicleTires(const playerid, const blockid, const actionid, const world, c
 	}
     
     if(!cmBlock[world][blockid][cbMode]) {
-        if(!cbCompareMode(playerid, blockid, world)) {
-            return false;
-        }
+
 
         if(!IsPlayerInAnyVehicle(playerid)) {
             return false;
@@ -2215,9 +2139,7 @@ CB:PutPlayerInVeh(const playerid, const blockid, const actionid, const world, co
 
 CB:KickPlayerFromVeh(const playerid, const blockid, const actionid, const world, const argumentIdx) {
     if(!cmBlock[world][blockid][cbMode]) {
-        if(!cbCompareMode(playerid, blockid, world)) {
-            return false;
-        }
+
 
         if(!IsPlayerInAnyVehicle(playerid)) {
             return false;
@@ -2279,15 +2201,11 @@ CB:SetPlayerWorldMute(const playerid, const blockid, const actionid, const world
 
     userid = resolveTargetOrSelf(userid, playerid);
 
-    if(!cmBlock[world][blockid][cbMode]) {
-        if(!cbCompareMode(userid, blockid, world)) {
-            return false;
-        }
-
-        pData[userid][pWorldMute] = gettime() + time*60;
-        return true;
+    if(!cbCompareMode(userid, blockid, world)) {
+        return false;
     }
 
+    pData[userid][pWorldMute] = gettime() + time*60;
     return true;
 }
 
@@ -2306,9 +2224,7 @@ CB:SetPlayerCameraPos(const playerid, const blockid, const actionid, const world
     }
 
     if(!cmBlock[world][blockid][cbMode]) {
-        if(!cbCompareMode(playerid, blockid, world)) {
-            return false;
-        }
+
 
         TogglePlayerSpectating(playerid, true);
         SetPlayerCameraPos(playerid, x, y, z);
@@ -2341,10 +2257,6 @@ CB:SetPlayerCameraLookAt(const playerid, const blockid, const actionid, const wo
     }
 
     if(!cmBlock[world][blockid][cbMode]) {
-        if(!cbCompareMode(playerid, blockid, world)) {
-            return false;
-        }
-
         SetPlayerCameraLookAt(playerid, x, y, z);
         return true;
     }
@@ -2367,10 +2279,6 @@ CB:ReturnPlayerCamera(const playerid, const blockid, const actionid, const world
     ReadAmxMemoryArray(argumentIdx, arguments);
 
     if(!cmBlock[world][blockid][cbMode]) {
-        if(!cbCompareMode(playerid, blockid, world)) {
-            return false;
-        }
-
         TogglePlayerSpectating(playerid, false);
         SetCameraBehindPlayer(playerid)
         return true;
