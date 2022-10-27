@@ -1752,3 +1752,276 @@ CB:AddServer(const playerid, const blockid, const actionid, const world, const a
 
    return true;
 }
+
+
+
+
+
+
+// НОВЫЕ ФУНКЦИИ
+
+CB:PlayCrimeReport(const playerid, const blockid, const actionid, const world, const argumentIdx) {
+  new suspectid,
+      crimeid,
+      arguments[TEXT_FUNCTION_ARGUMENT];
+    
+    ReadAmxMemoryArray(argumentIdx, arguments);
+
+  if (sscanf(arguments, "dd", suspectid, crimeid)) {
+    return SendMissCBMessage(playerid, blockid, actionid, "suspectid crimeid");
+  }
+
+  if (0 > crimeid > 99) {
+    return SendErrorCBMessage(playerid, blockid, actionid, "crimeid", "0-99");
+  }
+
+  if(!cmBlock[world][blockid][cbMode]) {
+    PlayCrimeReportForPlayer(playerid, suspectid, crimeid);
+
+    return true;
+  }
+
+  foreach(new targetid : Player) {
+    if(!cbCompareMode(targetid, blockid, world)) {
+      continue;
+    }
+
+    PlayCrimeReportForPlayer(targetid, suspectid, crimeid);
+  }
+
+
+  return true;
+}
+
+
+CB:InterpolateCamera(const playerid, const blockid, const actionid, const world, const argumentIdx) {
+	new 	Float: startX,
+		Float: startY,
+		Float: startZ,
+		Float: stopX,
+		Float: stopY,
+		Float: stopZ,
+		mtime,
+		meth,
+		arguments[TEXT_FUNCTION_ARGUMENT];
+	
+	ReadAmxMemoryArray(argumentIdx, arguments);
+	
+	if (sscanf(arguments, "ffffffD(1000)D(0)", startX, startY, startZ, stopX, stopY, stopZ, mtime, meth)) {
+    		return SendMissCBMessage(playerid, blockid, actionid, "startX startY startZ stopX stopY stopZ time method(0/1)");
+  	}
+	
+	if(!cmBlock[world][blockid][cbMode]) {
+		TogglePlayerSpectating(playerid, true);
+		if(meth == 0)
+			InterpolateCameraPos(playerid, startX, startY, startZ, stopX, stopY, stopZ, time, CAMERA_MOVE);
+		else
+			InterpolateCameraLookAt(playerid, startX, startY, startZ, stopX, stopY, stopZ, time, CAMERA_MOVE);
+		
+		return true;
+	}
+	
+	foreach(new targetid : Player)
+	{
+		if (!cbCompareMode(targetid, blockid, world)) {
+    		 continue;
+    		}
+		
+		TogglePlayerSpectating(targetid, true);
+		if(meth == 0)
+			InterpolateCameraPos(targetid, startX, startY, startZ, stopX, stopY, stopZ, time, CAMERA_MOVE);
+		else
+			InterpolateCameraLookAt(targetid, startX, startY, startZ, stopX, stopY, stopZ, time, CAMERA_MOVE);
+		
+	}
+
+	return true;
+}
+
+
+CB:RenameTeam(const playerid, const blockid, const actionid, const world, const argumentIdx) {
+  new teamid,
+      newname[36],
+      arguments[TEXT_FUNCTION_ARGUMENT];
+    
+    ReadAmxMemoryArray(argumentIdx, arguments);
+
+  if (sscanf(arguments, "ds[36]", teamid, newname)) {
+    return SendMissCBMessage(playerid, blockid, actionid, "teamid string");
+  }
+
+  if (1 > teamid > 20) {
+    return SendErrorCBMessage(playerid, blockid, actionid, "teamid", "1-20");
+  }
+  teamid--;
+
+  format(worldTeam[world][teamid][tName], sizeof(worldTeam[world][teamid][tName]), "%s", newname);
+
+  return true;
+}
+
+CB:SetTeamSkin(const playerid, const blockid, const actionid, const world, const argumentIdx) {
+  new teamid,
+      newskin,
+      arguments[TEXT_FUNCTION_ARGUMENT];
+    
+    ReadAmxMemoryArray(argumentIdx, arguments);
+
+  if (sscanf(arguments, "dd", teamid, newskin)) {
+    return SendMissCBMessage(playerid, blockid, actionid, "teamid skin");
+  }
+
+  if (1 > teamid > 20) {
+    return SendErrorCBMessage(playerid, blockid, actionid, "teamid", "1-20");
+  }
+  teamid--;
+
+  if (0 > newskin > 311) {
+      return SendErrorCBMessage(playerid, blockid, actionId, "skin", "0-311"):
+  }
+
+  worldTeam[world][teamid][tSkin] = newskin;
+
+  return true;
+}
+
+CB:SetTeamChannel(const playerid, const blockid, const actionid, const world, const argumentIdx) {
+  new teamid,
+      channel,
+      arguments[TEXT_FUNCTION_ARGUMENT];
+    
+    ReadAmxMemoryArray(argumentIdx, arguments);
+
+  if (sscanf(arguments, "dd", teamid, channel)) {
+    return SendMissCBMessage(playerid, blockid, actionid, "teamid channel");
+  }
+
+  if (1 > teamid > 20) {
+    return SendErrorCBMessage(playerid, blockid, actionid, "teamid", "1-20");
+  }
+  teamid--;
+
+  if (0 > channel > 999) {
+    return SendErrorCBMessage(playerid, blockid, actionId, "channel", "0-999"):
+  }
+
+  worldTeam[world][teamid][tChannel] = channel;
+
+  return true;
+}
+
+CB:SetTeamHealth(const playerid, const blockid, const actionid, const world, const argumentIdx) {
+  new teamid,
+      health,
+      arguments[TEXT_FUNCTION_ARGUMENT];
+    
+    ReadAmxMemoryArray(argumentIdx, arguments);
+
+  if (sscanf(arguments, "dd", teamid, health)) {
+    return SendMissCBMessage(playerid, blockid, actionid, "teamid health");
+  }
+
+  if (1 > teamid > 20) {
+    return SendErrorCBMessage(playerid, blockid, actionid, "teamid", "1-20");
+  }
+  teamid--;
+
+  if (1 > health > 100) {
+    return SendErrorCBMessage(playerid, blockid, actionId, "health", "1-100"):
+  }
+
+  worldTeam[world][teamid][tHealth] = health;
+
+  return true;
+}
+
+CB:SetTeamArmour(const playerid, const blockid, const actionid, const world, const argumentIdx) {
+  new teamid,
+      armour,
+      arguments[TEXT_FUNCTION_ARGUMENT];
+    
+    ReadAmxMemoryArray(argumentIdx, arguments);
+
+  if (sscanf(arguments, "dd", teamid, armour)) {
+    return SendMissCBMessage(playerid, blockid, actionid, "teamid armour");
+  }
+
+  if (1 > teamid > 20) {
+    return SendErrorCBMessage(playerid, blockid, actionid, "teamid", "1-20");
+  }
+  teamid--;
+
+  if (0 > health > 100) {
+    return SendErrorCBMessage(playerid, blockid, actionId, "armour", "0-100"):
+  }
+
+  worldTeam[world][teamid][tArmour] = armour;
+
+  return true;
+}
+
+
+CB:SetTeamSpawn(const playerid, const blockid, const actionid, const world, const argumentIdx) {
+  new Float: x,
+      Float: y,
+      Float: z,
+      Float: angle,
+      teamid,
+      interior,
+      arguments[TEXT_FUNCTION_ARGUMENT];
+    
+    ReadAmxMemoryArray(argumentIdx, arguments);
+
+  if (sscanf(arguments, "dffffd", teamid, x, y, z, angle, interior)) {
+    return SendMissCBMessage(playerid, blockid, actionid, "teamid x y z angle interior");
+  }
+
+  if (1 > teamid > 20) {
+    return SendErrorCBMessage(playerid, blockid, actionid, "teamid", "1-20");
+  }
+  teamid--;
+
+  if (0 > interior > 99) {
+    return SendErrorCBMessage(playerid, blockid, actionId, "interior", "0-99"):
+  }
+
+  worldTeam[world][teamid][tSpawn][0] = x;
+  worldTeam[world][teamid][tSpawn][1] = y;
+  worldTeam[world][teamid][tSpawn][2] = z;
+  worldTeam[world][teamid][tSpawn][3] = angle;
+
+  worldTeam[world][teamid][tInt] = interior;
+
+  return true;
+}
+
+CB:SetTeamFFire(const playerid, const blockid, const actionid, const world, const argumentIdx) {
+  new ffire,
+      teamid,
+      arguments[TEXT_FUNCTION_ARGUMENT];
+    
+    ReadAmxMemoryArray(argumentIdx, arguments);
+
+  if (sscanf(arguments, "dd", teamid, ffire)) {
+    return SendMissCBMessage(playerid, blockid, actionid, "teamid ffire");
+  }
+
+  if (1 > teamid > 20) {
+    return SendErrorCBMessage(playerid, blockid, actionid, "teamid", "1-20");
+  }
+  teamid--;
+
+  if (0 > ffire > 2) {
+    return SendErrorCBMessage(playerid, blockid, actionId, "ffire", "0-2"):
+  }
+
+  if (ffire == 0) {
+    worldTeam[world][teamid][tFFire] = !worldTeam[world][teamid][tFFire];
+  } else if (ffie == 1) {
+    worldTeam[world][teamid][tFFire] = 0;
+  } else if (ffire == 2) {
+    worldTeam[world][teamid][tFFire] = 1;
+  }
+
+  return true;
+}
