@@ -4258,3 +4258,24 @@ CBF:nearaction(const playerid, const argumentIdx, const resultIdx) {
     WriteAmxMemoryArray(resultIdx, value);
     return true;
 }
+
+CBF:gearstate(const playerid, const argumentIdx, const resultIdx) {
+    new arguments[TEXT_FUNCTION_ARGUMENT],
+        value[MAX_VALUE_SIZE],
+        vehicleid;
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+
+    if (sscanf(arguments, "d", vehicleid)) {
+        vehicleid = GetPlayerVehicleID(playerid);
+    }
+
+    if (0 >= vehicleid > MAX_VEHICLES) {
+        valstr(value, 0);
+    } else {
+        valstr(value, vData[vehicleid][vGearState]);
+    }
+
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
