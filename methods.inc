@@ -409,7 +409,8 @@ CB:setInterior(const playerid, const blockid, const actionid, const world, const
     }
 
     if (!cmBlock[world][blockid][cbMode]) {
-        PlayerPlaySound(playerid, sound, x, y, z);
+        SetPlayerInterior(playerid, sound, x, y, z);
+
         return true;
     }
 
@@ -418,9 +419,197 @@ CB:setInterior(const playerid, const blockid, const actionid, const world, const
             continue;
         }
 
-        PlayerPlaySound(targetid, sound, x, y, z);
+        SetPlayerInterior(targetid, sound, x, y, z);
     }
 
     return true;
 }
 
+CB:setChannel(const playerid, const blockid, const actionid, const world, const argumentIdx) {
+    new channel,
+        arguments[TEXT_FUNCTION_ARGUMENT];
+
+        ReadAmxMemoryArray(argumentIdx, arguments);
+
+    if (sscanf(arguments, "d", channel)) {
+        return SendMissCBMessage(playerid, blockid, actionid, "channel");
+    }
+
+    if (0 > channel > 999) {
+        return SendErrorCBMessage(playerid, blockid, actionid, "channel", "0-999"); 
+    }
+
+    if(!cmBlock[world][blockid][cbMode]) {
+        pData[playerid][pChannel] = channel;
+
+        return true;
+    }
+
+    foreach(new targetid : Player) {
+        if (!cbCompareMode(targetid, blockid, world)) {
+            continue;
+        }
+
+        pData[targetid][pChannel] = channel;
+    }
+    return true;
+}
+
+CB:setTeam(const playerid, const blockid, const actionid, const world, const argumentIdx) {
+    new team,
+        arguments[TEXT_FUNCTION_ARGUMENT];
+
+        ReadAmxMemoryArray(argumentIdx, arguments);
+
+    if (sscanf(arguments, "d", team)) {
+        return SendMissCBMessage(playerid, blockid, actionid, "team");
+    }
+
+    if (0 > team > MAX_WORLD_TEAM) {
+        return SendErrorCBMessage(playerid, blockid, actionid, "team", "0-999"); 
+    }
+
+    teamid--;
+
+    if(!cmBlock[world][blockid][cbMode]) {
+        pData[playerid][pTeam] = teamid;
+
+        if(teamid != -1) {
+            if(worldTeam[world][teamid][tSkin]) {
+			    pData[playerid][pSkin] = worldTeam[world][teamid][tSkin];
+            }
+        }
+
+        SpawnZone(playerid);
+	    SpawnPlayer(playerid);
+
+        return true;
+    }
+
+    foreach(new targetid : Player) {
+        if (!cbCompareMode(targetid, blockid, world)) {
+            continue;
+        }
+
+        pData[targetid][pTeam] = teamid;
+
+         if(teamid != -1) {
+            if(worldTeam[world][teamid][tSkin]) {
+			    pData[targetid][pSkin] = worldTeam[world][teamid][tSkin];
+            }
+        }
+
+        SpawnZone(targetid);
+	    SpawnPlayer(targetid);
+    }
+    return true;
+}
+
+CB:setAnim(const playerid, const blockid, const actionid, const world, const argumentIdx) {
+    new lib[16],
+        anim[32],
+        loop,
+        freeze,
+        arguments[TEXT_FUNCTION_ARGUMENT];
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+
+    if (sscanf(arguments, "s[16]s[32]ll", lib, anim, loop, freeze)) {
+        return SendMissCBMessage(playerid, blockid, actionid, "lib anim loop freeze");
+    }
+
+    if(!cmBlock[world][blockid][cbMode]) {
+        if(freeze)
+			ApplyAnimationEx(playerid, lib, anim, 4.1, loop, 1, 1, freeze, 0, 1);
+		else
+			ApplyAnimation(playerid, lib, anim, 4.1, loop, 1, 1, freeze, 0, 1);
+
+        return true;
+    }
+
+    foreach(new targetid : Player) {
+        if (!cbCompareMode(targetid, blockid, world)) {
+            continue;
+        }
+
+        if(freeze)
+			ApplyAnimationEx(targetid, lib, anim, 4.1, loop, 1, 1, freeze, 0, 1);
+		else
+			ApplyAnimation(targetid, lib, anim, 4.1, loop, 1, 1, freeze, 0, 1);
+
+    }
+    return true;
+}
+
+CB:giveVehicle(const playerid, const blockid, const actionid, const world, const argumentIdx) {
+    new interior,
+        model[32],
+        Float: playerPos[4],
+        color1,
+        color2,
+        siren,
+        vehicleid;
+        arguments[TEXT_FUNCTION_ARGUMENT];
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+
+    if (sscanf(arguments, "s[32]I(-1)I(-1)D(0)", model, color1, color2, siren)) {
+        return SendMissCBMessage(playerid, blockid, actionid, "model [color1 color2 siren]");
+    }
+
+    if(!cmBlock[world][blockid][cbMode]) {
+
+        if(IsPlayerInAnyVehicle(playerid)) {
+            return true;
+        }
+
+        GetPlayerPos(playerid, playerPos[0], playerPos[1], playerPos[2]);
+        GetPlayerFacingAngle(playerid, playerPos[3]);
+        interior = GetPlayerInterior(playerid);
+
+        vehicleid = CreateVehicleEx(model[0], playerPos, color1, color2, world, interior, siren);
+
+        if(vehicleid == -1)
+		{
+				return SendMissCBMessage(playerid, blockid, actionid, "Достигнут лимит транспорта!");
+		}
+
+        pData[playerid][pRetVal][0] = vehicleid;
+
+        vData[ tempWorld[world][vehSlot][vehicleid] ][vOwner] = pData[playerid][pID];
+		vData[ tempWorld[world][vehSlot][vehicleid] ][vTeam] = -1;
+
+        PutPlayerVeh(playerid, tempWorld[world][vehSlot][vehicleid], 0);
+
+        return true;
+    }
+
+    foreach(new targetid : Player) {
+        if (!cbCompareMode(targetid, blockid, world)) {
+            continue;
+        }
+
+
+        GetPlayerPos(targetid, playerPos[0], playerPos[1], playerPos[2]);
+        GetPlayerFacingAngle(targetid, playerPos[3]);
+        interior = GetPlayerInterior(targetid);
+
+        vehicleid = CreateVehicleEx(model[0], playerPos, color1, color2, world, interior, siren);
+
+        if(vehicleid == -1)
+		{
+				return SendMissCBMessage(targetid, blockid, actionid, "Достигнут лимит транспорта!");
+		}
+
+        pData[targetid][pRetVal][0] = vehicleid;
+
+        vData[ tempWorld[world][vehSlot][vehicleid] ][vOwner] = pData[targetid][pID];
+		vData[ tempWorld[world][vehSlot][vehicleid] ][vTeam] = -1;
+
+        PutPlayerVeh(targetid, tempWorld[world][vehSlot][vehicleid], 0);
+
+        return true;
+
+    }
+    return true;
+}
