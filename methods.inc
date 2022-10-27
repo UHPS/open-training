@@ -608,8 +608,6 @@ CB:giveVehicle(const playerid, const blockid, const actionid, const world, const
 
         PutPlayerVeh(targetid, tempWorld[world][vehSlot][vehicleid], 0);
 
-        return true;
-
     }
     return true;
 }
