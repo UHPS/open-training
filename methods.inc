@@ -360,3 +360,67 @@ CB:sendMessage(const playerid, const blockid, const actionid, const world, const
 
     return true;
 }
+
+CB:playSound(const playerid, const blockid, const actionid, const world, const argumentIdx) {
+    new sound,
+    	Float: x,
+	Float: y,
+	Float: z,
+        arguments[TEXT_FUNCTION_ARGUMENT];
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+
+    if (sscanf(arguments, "dF(0)F(0)F(0)", sound, x, y, z)) {
+        return SendMissCBMessage(playerid, blockid, actionid, "sound [x y z]");
+    }
+
+    if (0 > weapon > 65535) {
+        return SendErrorCBMessage(playerid, blockid, actionid, "sound", "0-65535");
+    }
+
+    if (!cmBlock[world][blockid][cbMode]) {
+        PlayerPlaySound(playerid, sound, x, y, z);
+        return true;
+    }
+
+    foreach(new targetid : Player) {
+        if (!cbCompareMode(targetid, blockid, world)) {
+            continue;
+        }
+
+        PlayerPlaySound(targetid, sound, x, y, z);
+    }
+
+    return true;
+}
+
+CB:setInterior(const playerid, const blockid, const actionid, const world, const argumentIdx) {
+    new interior,
+        arguments[TEXT_FUNCTION_ARGUMENT];
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+
+    if (sscanf(arguments, "d", interior)) {
+        return SendMissCBMessage(playerid, blockid, actionid, "interior");
+    }
+
+    if (0 > interior > 99) {
+        return SendErrorCBMessage(playerid, blockid, actionid, "interior", "0-99");
+    }
+
+    if (!cmBlock[world][blockid][cbMode]) {
+        PlayerPlaySound(playerid, sound, x, y, z);
+        return true;
+    }
+
+    foreach(new targetid : Player) {
+        if (!cbCompareMode(targetid, blockid, world)) {
+            continue;
+        }
+
+        PlayerPlaySound(targetid, sound, x, y, z);
+    }
+
+    return true;
+}
+
