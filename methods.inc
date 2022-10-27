@@ -2018,9 +2018,9 @@ CB:SetTeamFFire(const playerid, const blockid, const actionid, const world, cons
   if (ffire == 0) {
     worldTeam[world][teamid][tFFire] = !worldTeam[world][teamid][tFFire];
   } else if (ffie == 1) {
-    worldTeam[world][teamid][tFFire] = 0;
+    worldTeam[world][teamid][tFFire] = False;
   } else if (ffire == 2) {
-    worldTeam[world][teamid][tFFire] = 1;
+    worldTeam[world][teamid][tFFire] = True;
   }
 
   return true;
