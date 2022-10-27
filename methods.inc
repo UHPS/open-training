@@ -597,9 +597,9 @@ CB:giveVehicle(const playerid, const blockid, const actionid, const world, const
         vehicleid = CreateVehicleEx(model[0], playerPos, color1, color2, world, interior, siren);
 
         if(vehicleid == -1)
-		{
-				return SendMissCBMessage(targetid, blockid, actionid, "Достигнут лимит транспорта!");
-		}
+	{
+		return SendMissCBMessage(targetid, blockid, actionid, "Достигнут лимит транспорта!");
+	}
 
         pData[targetid][pRetVal][0] = vehicleid;
 
