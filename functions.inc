@@ -4146,7 +4146,7 @@ CBF:nearactor(const playerid, const argumentIdx, const resultIdx) {
 
     for (new i; i < sizeof(items); i++) {
         new Float: tempDistance,
-        actorWorldId = Streamer_GetIntData(STREAMER_TYPE_ACTOR, items[i], E_STREAMER_EXTRA_ID);
+        actorWorldId = actorSystem[ items[i] ][localID];
 
         if (!actorWorldId) {
             continue;
