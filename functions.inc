@@ -1277,7 +1277,7 @@ CBF:getdistpos(const playerid, const argumentIdx, const resultIdx) {
 
     ReadAmxMemoryArray(argumentIdx, arguments);
 
-    if (sscanf(arguments, "p<,>fffD(-1)", x, y, z, targetid)) {
+    if (sscanf(arguments, "fffD(-1)", x, y, z, targetid)) {
         return false;
     }
 
@@ -1667,7 +1667,7 @@ CBF:getdist(const playerid, const argumentIdx, const resultIdx) {
 
     ReadAmxMemoryArray(argumentIdx, arguments);
 
-    if (sscanf(arguments, "p<,>ffffff", firstX, firstY, firstZ, secondX, secondY, secondZ)) {
+    if (sscanf(arguments, "ffffff", firstX, firstY, firstZ, secondX, secondY, secondZ)) {
         return false;
     }
 
