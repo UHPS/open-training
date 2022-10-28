@@ -32,7 +32,7 @@ CB:giveWeapon(const playerid, const blockid, const actionid, const world, const 
 
     ReadAmxMemoryArray(argumentIdx, arguments);
 
-    if (sscanf(params, "dd", weapon, ammo)) {
+    if (sscanf(arguments, "dd", weapon, ammo)) {
         return SendMissCBMessage(playerid, blockid, actionid, "weapon, ammo"); // [CB:%d/%d player:%d]: Не указано значение: weapon, ammo
     }
 
@@ -2290,7 +2290,7 @@ CB:ReturnPlayerCamera(const playerid, const blockid, const actionid, const world
         }
 
         TogglePlayerSpectating(targetid, false);
-        SetCameraBehindPlayer(targetid)
+        SetCameraBehindPlayer(targetid);
     }
 
     return true;
