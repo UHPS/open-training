@@ -330,9 +330,29 @@ CBF:armour(const playerid, const argumentIdx, const resultIdx) {
 }
 
 CBF:playerid(const playerid, const argumentIdx, const resultIdx) {
-    new value[MAX_VALUE_SIZE];
+    new value[MAX_VALUE_SIZE],
+        arguments[TEXT_FUNCTION_ARGUMENT],
+        accountid;
+        
+    if ( sscanf(arguments, "D(0)", accountid) ) {
+        return false;
+    }
 
-    valstr(value, playerid);
+    if(accountid == 0) {
+        valstr(value, playerid);
+    } else {
+        valstr(value, -1);
+        foreach(new targetid : Player) 
+        {
+            if(accountid != pData[targetid][pID]) {
+                continue;
+            }
+            
+            valstr(value, targetid);
+            break;
+        }
+    
+    }
     WriteAmxMemoryArray(resultIdx, value);
     return true;
 }
@@ -4275,6 +4295,25 @@ CBF:gearstate(const playerid, const argumentIdx, const resultIdx) {
     } else {
         valstr(value, vData[vehicleid][vGearState]);
     }
+
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+CBF:strins(const playerid, const argumentIdx, const resultIdx) {
+    new arguments[TEXT_FUNCTION_ARGUMENT],
+        value[MAX_VALUE_SIZE],
+        text[132],
+        substr[66], index;
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+
+    if (sscanf(arguments, "p<,>s[66]s[66]D(0)", text, substr, index)) {
+        return false;
+    }
+    strins(text, substr, index, 132);
+    
+    format(value, MAX_VALUE_SIZE, "%s[132]", text);
 
     WriteAmxMemoryArray(resultIdx, value);
     return true;
