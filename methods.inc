@@ -2336,3 +2336,48 @@ CB:SetObjectArray(const playerid, const blockid, const actionid, const world, co
 
     return true;
 }
+
+CB:AttachCameraToObject(const playerid, const blockid, const actionid, const world, const argumentIdx) {
+    new
+        arguments[TEXT_FUNCTION_ARGUMENT],
+        objectid;
+    
+    ReadAmxMemoryArray(argumentIdx, arguments);
+
+    if(sscanf(arguments, "d", objectid)) {
+        return SendMissCBMessage(playerid, blockid, actionid, "objectid");
+    }
+
+    objectid = VECTOR_get_val(WorldObjectSystem[world][wosObject], objectid);
+    if(objectid <= 0) {
+        return SendErrorCBMessage(playerid, blockid, actionid, "objectid", "valid_object");
+    }
+
+    if(!cmBlock[world][blockid][cbMode]) {
+        AttachCameraToObject(playerid, objectid);
+        return true;
+    }
+
+    foreach(new targetid : Player) {
+        if(!cbCompareMode(targetid, blockid, world)) {
+            continue;
+        }
+
+        AttachCameraToObject(targetid, objectid);
+    }
+
+    return true;
+}
+
+CB:UnObjectCamera(const playerid, const blockid, const actionid, const world, const argumentIdx) {
+    if(!cmBlock[world][blockid][cbMode]) {
+        SetCameraBehindPlayer(playerid);
+        return true;
+    }
+
+    foreach(new targetid : Player) {
+        SetCameraBehindPlayer(targetid);
+    }
+
+    return true;
+}
