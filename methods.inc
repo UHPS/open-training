@@ -4477,3 +4477,142 @@ CB:SetTeamFFire(const playerid, const blockid, const actionid, const world, cons
 
     return true;
 }
+
+CB:ActionMe(const playerid, const blockid, const actionid, const world, const argumentIdx) {
+  new arguments[TEXT_FUNCTION_ARGUMENT];
+    
+ ReadAmxMemoryArray(argumentIdx, arguments);
+
+  if(isnull(arguments)) {
+    return SendMissCBMessage(playerid, blockid, actionid, "string");
+  }
+
+  if(!cmBlock[world][blockid][cbMode]) {
+		cmd_me(playerid, arguments);
+		return true;
+	}
+
+  foreach(new targetid : Player) {
+    if(!cbCompareMode(targetid, blockid, world)) {
+      continue;
+    }
+
+    cmd_me(targetid, arguments);
+  }
+
+
+  return true;
+}
+
+CB:ActionAme(const playerid, const blockid, const actionid, const world, const argumentIdx) {
+  new arguments[TEXT_FUNCTION_ARGUMENT];
+    
+  ReadAmxMemoryArray(argumentIdx, arguments);
+
+  if (isnull(arguments)) {
+    return SendMissCBMessage(playerid, blockid, actionid, "string");
+  }
+
+  if(!cmBlock[world][blockid][cbMode]) {
+		cmd_ame(playerid, arguments);
+		return true;
+	}
+
+  foreach(new targetid : Player) {
+    if(!cbCompareMode(targetid, blockid, world)) {
+      continue;
+    }
+
+    cmd_ame(targetid, arguments);
+  }
+
+
+  return true;
+}
+
+CB:ActionDo(const playerid, const blockid, const actionid, const world, const argumentIdx) {
+  new arguments[TEXT_FUNCTION_ARGUMENT];
+    
+  ReadAmxMemoryArray(argumentIdx, arguments);
+
+  if (isnull(arguments)) {
+    return SendMissCBMessage(playerid, blockid, actionid, "string");
+  }
+
+  if(!cmBlock[world][blockid][cbMode]) {
+		cmd_do(playerid, arguments);
+		return true;
+	}
+
+  foreach(new targetid : Player) {
+    if(!cbCompareMode(targetid, blockid, world)) {
+      continue;
+    }
+
+    cmd_do(targetid, arguments);
+  }
+
+
+  return true;
+}
+
+CB:ActionTry(const playerid, const blockid, const actionid, const world, const argumentIdx) {
+  new arguments[TEXT_FUNCTION_ARGUMENT];
+    
+  ReadAmxMemoryArray(argumentIdx, arguments);
+
+  if (isnull(arguments)) {
+    return SendMissCBMessage(playerid, blockid, actionid, "string");
+  }
+
+  if(!cmBlock[world][blockid][cbMode]) {
+		cmd_try(playerid, arguments);
+		return true;
+	}
+
+  foreach(new targetid : Player) {
+    if(!cbCompareMode(targetid, blockid, world)) {
+      continue;
+    }
+
+    cmd_try(targetid, arguments);
+  }
+
+
+  return true;
+}
+
+CB:ChangePame(const playerid, const blockid, const actionid, const world, const argumentIdx) {
+  new slot,
+      str[142],
+      arguments[TEXT_FUNCTION_ARGUMENT];
+    
+  ReadAmxMemoryArray(argumentIdx, arguments);
+
+  if (sscanf(arguments, "ds[142]", slot, str)) {
+    return SendMissCBMessage(playerid, blockid, actionid, "slot string");
+  }
+
+  if (1 > slot > 10) {
+    return SendErrorCBMessage(playerid, blockid, actionid, "slot", "1-10");
+  }
+  slot--;
+
+  if(!cmBlock[world][blockid][cbMode]) {
+	strdel(pData[playerid][pPame], slot * 144, (slot + 1) * 144);
+    strins(pData[playerid][pPame], str, slot * 144);
+		return true;
+	}
+
+  foreach(new targetid : Player) {
+    if(!cbCompareMode(targetid, blockid, world)) {
+      continue;
+    }
+
+	strdel(pData[targetid][pPame], slot * 144, (slot + 1) * 144);
+    strins(pData[targetid][pPame], str, slot * 144);
+  }
+
+
+  return true;
+}
