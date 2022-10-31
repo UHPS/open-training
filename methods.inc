@@ -4659,3 +4659,76 @@ CB:setPlyWorldBounds(const playerid, const blockid, const actionid, const world,
     SetPlayerWorldBounds(userid, x_max, x_min, y_max, y_min);
     return true;
 }
+
+CB:SetActorCustomAnimation(const playerid, const blockid, const actionid, const world, const argumentIdx) {
+  new actorid,
+      lib[16],
+      anim[32],
+      Float: speed,
+      loop,
+      lockx,
+      locky,
+      freeze,
+      time,
+      arguments[TEXT_FUNCTION_ARGUMENT];
+    
+  ReadAmxMemoryArray(argumentIdx, arguments);
+
+  if (sscanf(arguments, "ds[16]s[32]F(4.1)D(0)D(0)D(0)D(0)D(0)", actorid, lib, anim, speed, loop, lockx, locky, freeze, time)) {
+    return SendMissCBMessage(playerid, blockid, actionid, "actorid lib anim speed(4.1) loop(0/1) lockx(0/1) locky(0/1) freeze(0/1) time(ms)");
+  }
+
+  if (0 > actorid > MAX_ACTOR_SLOT) {
+    return SendErrorCBMessage(playerid, blockid, actionid, "actorid", "0+");
+  }
+
+  if (!IsValidDynamicActor(tempWorld[world][aSlot][actorid])) {
+     return false;
+  }
+
+  if(0 > loop > 1) {
+    return SendErrorCBMessage(playerid, blockid, actionid, "loop", "0/1");
+  }
+  
+  if(0 > lockx > 1) {
+    return SendErrorCBMessage(playerid, blockid, actionid, "lockx", "0/1");
+  }
+  
+  if(0 > locky > 1) {
+    return SendErrorCBMessage(playerid, blockid, actionid, "locky", "0/1");
+  }
+  
+  if(0 > freeze > 1) {
+    return SendErrorCBMessage(playerid, blockid, actionid, "freeze", "0/1");
+  }
+
+  ApplyDynamicActorAnimation(tempWorld[world][aSlot][actorid], lib, anim, speed, loop, lockx, locky, freeze, time);
+  actorSystem[ tempWorld[world][aSlot][actorid] ][UsedAnim] 	= true;
+
+  return true;
+}
+
+CB:ClearActorAnimation(const playerid, const blockid, const actionid, const world, const argumentIdx) {
+  new actorid,
+      arguments[TEXT_FUNCTION_ARGUMENT];
+    
+  ReadAmxMemoryArray(argumentIdx, arguments);
+
+  if (sscanf(arguments, "d", actorid)) {
+    return SendMissCBMessage(playerid, blockid, actionid, "actorid");
+  }
+
+  if (0 > actorid > MAX_ACTOR_SLOT) {
+    return SendErrorCBMessage(playerid, blockid, actionid, "actorid", "0+");
+  }
+
+  if (!IsValidDynamicActor(tempWorld[world][aSlot][actorid])) {
+     return false;
+  }
+
+  ClearDynamicActorAnimations(tempWorld[world][aSlot][actorid]);
+  actorSystem[ tempWorld[world][aSlot][actorid] ][UsedAnim] 	= false;
+  actorSystem[ tempWorld[world][aSlot][actorid] ][AltAnim] 	= false;
+
+  return true;
+}
