@@ -177,4 +177,7 @@ new blockMethodList[][] = {
 
 	{true, 3, "cb_specPlayerTarget", "Следить за игроком", "Включить режим слежки за игроком: < targetid > < *playerid >"},
 	{true, 3, "cb_setPlyWorldBounds", "Изменить ограничение размера игрового мира", "Изменяет ограничение размеров мира для конкретного игрока:\n< playerid > < x_max > < x_min > < y_max > < y_min >\n\nРазмеры границы по умолчанию: 20000.00 -20000.00 20000.00 -20000.00"},
+
+	{true, 6, "cb_SetActorCustomAnimation", "Установить свою анимацию актёру", "Устанавливает кастомную анимацию актёру: < actorID > < lib > < anim > < speed > < loop > < lockX > < lockY > < freeze > < time>"},
+	{true, 6, "cb_ClearActorAnimation", "Обнулить анимацию актёру", "Обнуляет анимацию актёру: < actorID >"},
 };
