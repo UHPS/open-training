@@ -4329,3 +4329,29 @@ CBF:cameraZoom(const playerid, const argumentIdx, const resultIdx) {
     WriteAmxMemoryArray(resultIdx, value);
     return true;
 }
+
+CBF:isNitro(const playerid, const argumentIdx, const resultIdx) {
+    new
+        value = [MAX_VALUE_SIZE],
+        arguments[TEXT_FUNCTION_ARGUMENT]
+        vehid;
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+
+    if(sscanf(arguments, "d", vehid)) {
+        vehid = GetPlayerVehicleID(playerid);
+    }
+
+    if(0 >= vehid >= MAX_VEHICLES) {
+        valstr(value, "0");
+    } else {
+        if( GetVehicleComponentInSlot(vehid, CARMODTYPE_NITRO) == 1010 ) {
+            valstr(value, "1");
+        } else {
+            valstr(value, '0');
+        }
+    }
+
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
