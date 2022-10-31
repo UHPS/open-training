@@ -4616,3 +4616,46 @@ CB:ChangePame(const playerid, const blockid, const actionid, const world, const 
 
   return true;
 }
+
+CB:specPlayerTarget(const playerid, const blockid, const actionid, const world, const argumentIdx) {
+    new
+        arguments[TEXT_FUNCTION_ARGUMENT],
+        targetid,
+        userid;
+    
+    ReadAmxMemoryArray(argumentIdx, arguments);
+
+    if(sscanf(arguments, "dD(-1)D(-1)", targetid, userid)) {
+        return SendMissCBMessage(playerid, blockid, actionid, "targetid *playerid");
+    }
+
+    targetid = resolveTargetOrSelf(targetid, playerid);
+    userid = resolveTargetOrSelf(userid, playerid);
+
+    TogglePlayerSpectating(userid, true);
+    PlayerSpectatePlayer(userid, targetid);
+    SetPlayerInterior(userid, GetPlayerInterior(targetid) );
+
+    return true;
+}
+
+CB:setPlyWorldBounds(const playerid, const blockid, const actionid, const world, const argumentIdx) {
+    new
+        arguments[TEXT_FUNCTION_ARGUMENT],
+        userid;
+
+    new
+        Float:x_max, Float:x_min,
+        Float:y_max, Float:y_min;
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+
+    if(sscanf(arguments, "dD(-1)ffff", userid, x_max, x_min, y_max, y_min)) {
+        return SendMissCBMessage(playerid, blockid, actionid, "playerid x_max x_min y_max y_min");
+    }
+
+    userid = resolveTargetOrSelf(userid, playerid);
+
+    SetPlayerWorldBounds(userid, x_max, x_min, y_max, y_min);
+    return true;
+}
