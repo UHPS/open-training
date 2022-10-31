@@ -4318,3 +4318,14 @@ CBF:strins(const playerid, const argumentIdx, const resultIdx) {
     WriteAmxMemoryArray(resultIdx, value);
     return true;
 }
+
+CBF:cameraZoom(const playerid, const argumentIdx, const resultIdx) {
+    new
+        value = [MAX_VALUE_SIZE],
+        targetid = resolveTargetOrSelf(targetid, playerid);
+
+    valstr(value, GetPlayerCameraZoom(targetid) );
+    
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
