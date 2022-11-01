@@ -2549,8 +2549,12 @@ CBF:nearobj(const playerid, const argumentIdx, const resultIdx) {
             continue;
         }
 
-        if (modelid != -1 && modelid != Streamer_GetIntData(STREAMER_TYPE_OBJECT, items[i], E_STREAMER_MODEL_ID)) {
+        if(modelid == -1) {
             continue;
+        } else {
+            if(modelid != Streamer_GetIntData(STREAMER_TYPE_OBJECT, items[i], E_STREAMER_MODEL_ID) ) {
+                continue;
+            }
         }
 
         if (!Streamer_GetDistanceToItem(x, y, z, STREAMER_TYPE_OBJECT, items[i], tempDistance, 2)) {
