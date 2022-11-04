@@ -4732,3 +4732,47 @@ CB:ClearActorAnimation(const playerid, const blockid, const actionid, const worl
 
   return true;
 }
+
+CB:SendDeathMessage(const playerid, const blockid, const actionid, const world, const argumentIdx) {
+  new killer,
+      killee,
+      weapon,
+      arguments[TEXT_FUNCTION_ARGUMENT];
+    
+  ReadAmxMemoryArray(argumentIdx, arguments);
+
+  if (sscanf(arguments, "ddd", killer, killee, weapon)) {
+    return SendMissCBMessage(playerid, blockid, actionid, "killerid killee weapon(reason)");
+  }
+
+  if (0 > weapon > 255) {
+    return SendErrorCBMessage(playerid, blockid, actionid, "weapon(reason)", "0-255");
+  }
+
+  if(!cmBlock[world][blockid][cbMode]) {
+    if(pData[playerid][pAdmin] != 0 || VW[world][vDev]) {
+      new str[144];
+      format(str, sizeof(str), "[CB:%d]: {FFFFFF}Сообщение о смерти от КБ: %s(%d) - %s(%d).", blockid, GetPlayerName(killer), killer, GetPlayerName(killee), killee);
+      SendClientMessage(playerid, COLOR_ORANGE, str);
+      }
+   SendDeathMessageToPlayer(playerid, killer, killee, weapon);
+   return true;
+   }
+
+  foreach(new targetid : Player) {
+    if(!cbCompareMode(targetid, blockid, world)) {
+      continue;
+    }
+
+    if(pData[targetid][pAdmin] != 0 || VW[world][vDev]) {
+      new str[144];
+      format(str, sizeof(str), "[CB:%d]: {FFFFFF}Сообщение о смерти от КБ: %s(%d) - %s(%d).", blockid, GetPlayerName(killer), killer, GetPlayerName(killee), killee);
+      SendClientMessage(targetid, COLOR_ORANGE, str);
+    }
+
+    SendDeathMessageToPlayer(targetid, killer, killee, weapon);
+  }
+
+
+  return true;
+}
