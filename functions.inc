@@ -101,7 +101,7 @@ CBF:var(const playerid, const argumentIdx, const resultIdx) {
 
 CBF:pvar(const playerid, const argumentIdx, const resultIdx) {
     new targetid,
-    arguments[TEXT_FUNCTION_ARGUMENT],
+        arguments[TEXT_FUNCTION_ARGUMENT],
         value[MAX_VALUE_SIZE],
         varValue[MAX_VAR_DATA_LEN];
 
@@ -112,10 +112,6 @@ CBF:pvar(const playerid, const argumentIdx, const resultIdx) {
     }
 
     targetid = getTargetIdOrSelf(playerid, targetid);
-
-    if (sscanf(arguments, "s[32]", varValue)) {
-        return false;
-    }
 
     if (getPlayerVarData(targetid, varValue, value) == INVALID_VECTOR_INDEX) {
         return false;
