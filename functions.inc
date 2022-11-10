@@ -4321,7 +4321,7 @@ CBF:strins(const playerid, const argumentIdx, const resultIdx) {
 
 CBF:camerazoom(const playerid, const argumentIdx, const resultIdx) {
     new
-        value = [MAX_VALUE_SIZE],
+        value[MAX_VALUE_SIZE],
         targetid = resolveTargetOrSelf(targetid, playerid);
 
     valstr(value, GetPlayerCameraZoom(targetid) );
@@ -4332,7 +4332,7 @@ CBF:camerazoom(const playerid, const argumentIdx, const resultIdx) {
 
 CBF:surfingveh(const playerid, const argumentIdx, const resultIdx) {
     new
-        value = [MAX_VALUE_SIZE],
+        value[MAX_VALUE_SIZE],
         targetid = resolveTargetOrSelf(targetid, playerid);
 
     valstr(value, GetPlayerSurfingVehicleID(targetid) );
@@ -4343,7 +4343,7 @@ CBF:surfingveh(const playerid, const argumentIdx, const resultIdx) {
 
 CBF:weaponstate(const playerid, const argumentIdx, const resultIdx) {
     new
-        value = [MAX_VALUE_SIZE],
+        value[MAX_VALUE_SIZE],
         targetid = resolveTargetOrSelf(targetid, playerid);
 
     valstr(value, GetPlayerWeaponState(targetid) );
