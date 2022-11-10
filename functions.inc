@@ -4322,9 +4322,11 @@ CBF:strins(const playerid, const argumentIdx, const resultIdx) {
 CBF:camerazoom(const playerid, const argumentIdx, const resultIdx) {
     new
         value[MAX_VALUE_SIZE],
-        targetid = resolveTargetOrSelf(targetid, playerid);
+        targetid;
 
-    valstr(value, GetPlayerCameraZoom(targetid) );
+    resolveTargetOrSelf(targetid, playerid);
+
+    format(value, MAX_VALUE_SIZE, "%f.2", GetPlayerCameraZoom(targetid) );
 
     WriteAmxMemoryArray(resultIdx, value);
     return true;
@@ -4333,7 +4335,9 @@ CBF:camerazoom(const playerid, const argumentIdx, const resultIdx) {
 CBF:surfingveh(const playerid, const argumentIdx, const resultIdx) {
     new
         value[MAX_VALUE_SIZE],
-        targetid = resolveTargetOrSelf(targetid, playerid);
+        targetid;
+
+    resolveTargetOrSelf(targetid, playerid);
 
     valstr(value, GetPlayerSurfingVehicleID(targetid) );
 
@@ -4344,7 +4348,9 @@ CBF:surfingveh(const playerid, const argumentIdx, const resultIdx) {
 CBF:weaponstate(const playerid, const argumentIdx, const resultIdx) {
     new
         value[MAX_VALUE_SIZE],
-        targetid = resolveTargetOrSelf(targetid, playerid);
+        targetid;
+
+    resolveTargetOrSelf(targetid, playerid);
 
     valstr(value, GetPlayerWeaponState(targetid) );
 
@@ -4353,5 +4359,5 @@ CBF:weaponstate(const playerid, const argumentIdx, const resultIdx) {
 }
 
 CBF:gunstate(const playerid, const argumentIdx, const resultIdx) {
-    return cbf_weaponstate(const playerid, const argumentIdx, const resultIdx);
+    return cbf_weaponstate(playerid, argumentIdx, resultIdx);
 }
