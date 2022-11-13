@@ -50,7 +50,7 @@ CBF:array(const playerid, const argumentIdx, const resultIdx) {
 
     targetid = getTargetIdOrSelf(playerid, targetid);
 
-    if (0 > arraySlot > MAX_PLAYER_ARRAY_SLOT) {
+    if (0 > arraySlot || arraySlot > MAX_PLAYER_ARRAY_SLOT) {
         return false;
     }
 
@@ -71,7 +71,7 @@ CBF:server(const playerid, const argumentIdx, const resultIdx) {
         return false;
     }
 
-    if (0 > arraySlot > MAX_WORLD_ARRAY_SLOT) {
+    if (0 > arraySlot || arraySlot > MAX_WORLD_ARRAY_SLOT) {
         return false;
     }
 
@@ -141,7 +141,7 @@ CBF:vdata(const playerid, const argumentIdx, const resultIdx) {
         vehicleId = GetPlayerVehicleID(playerid);
     }
 
-    if (0 > vehicleSlot > MAX_VEHICLE_ARRAY_SLOT) {
+    if (0 > vehicleSlot || vehicleSlot > MAX_VEHICLE_ARRAY_SLOT) {
         return false;
     }
 
@@ -165,7 +165,7 @@ CBF:teamonline(const playerid, const argumentIdx, const resultIdx) {
 
     teamSlot--; // Смещение индекса.
 
-    if (0 > teamSlot > MAX_TEAM_SLOT) {
+    if (0 > teamSlot || teamSlot > MAX_TEAM_SLOT) {
         return false;
     }
 
@@ -250,11 +250,11 @@ CBF:ammo(const playerid, const argumentIdx, const resultIdx) {
 
     if (sscanf(arguments, "dD(-1)", targetid, weaponSlot)) {
         targetid = playerid;
-    } else {
-        targetid = getTargetIdOrSelf(playerid, targetid);
     }
 
-    if (0 > weaponSlot > PR_MAX_WEAPON_SLOTS) {
+    targetid = getTargetIdOrSelf(playerid, targetid);
+
+    if (0 > weaponSlot || weaponSlot >= PR_MAX_WEAPON_SLOTS) {
         weaponSlot = getGunSlot(GetPlayerWeapon(targetid));
     }
 
@@ -1154,21 +1154,20 @@ CBF:teamname(const playerid, const argumentIdx, const resultIdx) {
 }
 
 CBF:ext(const playerid, const argumentIdx, const resultIdx) {
-    new world,
-    arguments[TEXT_FUNCTION_ARGUMENT],
+    new world = GetPlayerVirtualWorld(playerid),
+        arguments[TEXT_FUNCTION_ARGUMENT],
         value[MAX_VALUE_SIZE];
 
     new blockid,
-    param;
+        param;
 
-    world = GetPlayerVirtualWorld(playerid);
     ReadAmxMemoryArray(argumentIdx, arguments);
 
     if (sscanf(arguments, "dd", blockid, param)) {
         return false;
     }
 
-    if (0 > blockid > VW[world][wMaxCB]) {
+    if (0 > blockid || blockid > VW[world][wMaxCB]) {
         return false;
     }
 
@@ -2086,7 +2085,7 @@ CBF:clist(const playerid, const argumentIdx, const resultIdx) {
         world = GetPlayerVirtualWorld(playerid),
         targetid = resolveTargetOrSelf(playerid, argumentIdx);
 
-    if (0 > pData[targetid][pTeam] > MAX_WORLD_TEAM) {
+    if (0 > pData[targetid][pTeam] || pData[targetid][pTeam] > MAX_WORLD_TEAM) {
         format(value, MAX_VALUE_SIZE, "{FFFFFF}");
     } else {
         format(value, MAX_VALUE_SIZE, "%s", basicColor[worldTeam[world][pData[targetid][pTeam]][tColor]][bRGB]);
@@ -2579,7 +2578,7 @@ CBF:vehparam(const playerid, const argumentIdx, const resultIdx) {
         return false;
     }
 
-    if (0 > param > 6) {
+    if (0 > param || param > 6) {
         return false;
     }
     if (vehicleid <= 0) {
@@ -3563,7 +3562,7 @@ CBF:vattach(const playerid, const argumentIdx, const resultIdx) {
         vehicleId = GetPlayerVehicleID(playerid);
     }
 
-    if (1 > slot > MAX_VEHICLES_ATTACH) {
+    if (1 > slot || slot > MAX_VEHICLES_ATTACH) {
         return false;
     }
     slot--;
@@ -3598,7 +3597,7 @@ CBF:vattachmodel(const playerid, const argumentIdx, const resultIdx) {
         vehicleId = GetPlayerVehicleID(playerid);
     }
 
-    if (1 > slot > MAX_VEHICLES_ATTACH) {
+    if (1 > slot || slot > MAX_VEHICLES_ATTACH) {
         return false;
     }
     slot--;
@@ -3674,7 +3673,7 @@ CBF:vattachxyz(const playerid, const argumentIdx, const resultIdx) {
         vehicleId = GetPlayerVehicleID(playerid);
     }
 
-    if (1 > slot > MAX_VEHICLES_ATTACH) {
+    if (1 > slot || slot > MAX_VEHICLES_ATTACH) {
         return false;
     }
     slot--;
@@ -3715,7 +3714,7 @@ CBF:vattachx(const playerid, const argumentIdx, const resultIdx) {
         vehicleId = GetPlayerVehicleID(playerid);
     }
 
-    if (1 > slot > MAX_VEHICLES_ATTACH) {
+    if (1 > slot || slot > MAX_VEHICLES_ATTACH) {
         return false;
     }
     slot--;
@@ -3754,7 +3753,7 @@ CBF:vattachy(const playerid, const argumentIdx, const resultIdx) {
         vehicleId = GetPlayerVehicleID(playerid);
     }
 
-    if (1 > slot > MAX_VEHICLES_ATTACH) {
+    if (1 > slot || slot > MAX_VEHICLES_ATTACH) {
         return false;
     }
     slot--;
@@ -3793,7 +3792,7 @@ CBF:vattachz(const playerid, const argumentIdx, const resultIdx) {
         vehicleId = GetPlayerVehicleID(playerid);
     }
 
-    if (1 > slot > MAX_VEHICLES_ATTACH) {
+    if (1 > slot || slot > MAX_VEHICLES_ATTACH) {
         return false;
     }
     slot--;
@@ -3832,7 +3831,7 @@ CBF:vattachrotxyz(const playerid, const argumentIdx, const resultIdx) {
         vehicleId = GetPlayerVehicleID(playerid);
     }
 
-    if (1 > slot > MAX_VEHICLES_ATTACH) {
+    if (1 > slot || slot > MAX_VEHICLES_ATTACH) {
         return false;
     }
     slot--;
@@ -3873,7 +3872,7 @@ CBF:vattachrotx(const playerid, const argumentIdx, const resultIdx) {
         vehicleId = GetPlayerVehicleID(playerid);
     }
 
-    if (1 > slot > MAX_VEHICLES_ATTACH) {
+    if (1 > slot || slot > MAX_VEHICLES_ATTACH) {
         return false;
     }
     slot--;
@@ -3912,7 +3911,7 @@ CBF:vattachroty(const playerid, const argumentIdx, const resultIdx) {
         vehicleId = GetPlayerVehicleID(playerid);
     }
 
-    if (1 > slot > MAX_VEHICLES_ATTACH) {
+    if (1 > slot || slot > MAX_VEHICLES_ATTACH) {
         return false;
     }
     slot--;
@@ -3951,7 +3950,7 @@ CBF:vattachrotz(const playerid, const argumentIdx, const resultIdx) {
         vehicleId = GetPlayerVehicleID(playerid);
     }
 
-    if (1 > slot > MAX_VEHICLES_ATTACH) {
+    if (1 > slot || slot > MAX_VEHICLES_ATTACH) {
         return false;
     }
     slot--;
@@ -3990,7 +3989,7 @@ CBF:vattachoffsetxyz(const playerid, const argumentIdx, const resultIdx) {
         vehicleId = GetPlayerVehicleID(playerid);
     }
 
-    if (1 > slot > MAX_VEHICLES_ATTACH) {
+    if (1 > slot || slot > MAX_VEHICLES_ATTACH) {
         return false;
     }
     slot--;
@@ -4031,7 +4030,7 @@ CBF:vattachoffsetx(const playerid, const argumentIdx, const resultIdx) {
         vehicleId = GetPlayerVehicleID(playerid);
     }
 
-    if (1 > slot > MAX_VEHICLES_ATTACH) {
+    if (1 > slot || slot > MAX_VEHICLES_ATTACH) {
         return false;
     }
     slot--;
@@ -4070,7 +4069,7 @@ CBF:vattachoffsety(const playerid, const argumentIdx, const resultIdx) {
         vehicleId = GetPlayerVehicleID(playerid);
     }
 
-    if (1 > slot > MAX_VEHICLES_ATTACH) {
+    if (1 > slot || slot > MAX_VEHICLES_ATTACH) {
         return false;
     }
     slot--;
@@ -4109,7 +4108,7 @@ CBF:vattachoffsetz(const playerid, const argumentIdx, const resultIdx) {
         vehicleId = GetPlayerVehicleID(playerid);
     }
 
-    if (1 > slot > MAX_VEHICLES_ATTACH) {
+    if (1 > slot || slot > MAX_VEHICLES_ATTACH) {
         return false;
     }
     slot--;
@@ -4286,7 +4285,7 @@ CBF:gearstate(const playerid, const argumentIdx, const resultIdx) {
         vehicleid = GetPlayerVehicleID(playerid);
     }
 
-    if (0 >= vehicleid > MAX_VEHICLES) {
+    if (0 >= vehicleid || vehicleid > MAX_VEHICLES) {
         valstr(value, 0);
     } else {
         valstr(value, vData[vehicleid][vGearState]);
