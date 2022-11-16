@@ -181,5 +181,5 @@ new blockMethodList[][] = {
 	{true, 6, "cb_SetActorCustomAnimation", "Установить свою анимацию актёру", "Устанавливает кастомную анимацию актёру: < actorID > < lib > < anim > < speed > < loop > < lockX > < lockY > < freeze > < time>"},
 	{true, 6, "cb_ClearActorAnimation", "Обнулить анимацию актёру", "Обнуляет анимацию актёру: < actorID >"},
 	{true, 3, "cb_SendDeathMessage", "Информация про смерть", "Отсылает информацию про смерть игрока: < killer > < killee > < weapon (reason) >"},
-	
+	{true, 3, "cb_ToggleClock", "Показать/скрыть игровое время", "Показывает или скрывает игровое время: < 0/1 >"},
 };
