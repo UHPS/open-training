@@ -1863,7 +1863,7 @@ CBF:moder(const playerid, const argumentIdx, const resultIdx) {
     valstr(value, pData[targetid][pModer]);
 
     if (GetWorldOwner(targetid, world)) {
-        valstr(value, 6);
+        valstr(value, 999);
     }
 
     WriteAmxMemoryArray(resultIdx, value);
@@ -4317,9 +4317,7 @@ CBF:strins(const playerid, const argumentIdx, const resultIdx) {
 CBF:camerazoom(const playerid, const argumentIdx, const resultIdx) {
     new
         value[MAX_VALUE_SIZE],
-        targetid;
-
-    resolveTargetOrSelf(targetid, playerid);
+        targetid = resolveTargetOrSelf(playerid, argumentIdx);
 
     format(value, MAX_VALUE_SIZE, "%f.2", GetPlayerCameraZoom(targetid) );
 
@@ -4330,9 +4328,7 @@ CBF:camerazoom(const playerid, const argumentIdx, const resultIdx) {
 CBF:surfingveh(const playerid, const argumentIdx, const resultIdx) {
     new
         value[MAX_VALUE_SIZE],
-        targetid;
-
-    resolveTargetOrSelf(targetid, playerid);
+        targetid = resolveTargetOrSelf(playerid, argumentIdx);
 
     valstr(value, GetPlayerSurfingVehicleID(targetid) );
 
@@ -4343,9 +4339,7 @@ CBF:surfingveh(const playerid, const argumentIdx, const resultIdx) {
 CBF:weaponstate(const playerid, const argumentIdx, const resultIdx) {
     new
         value[MAX_VALUE_SIZE],
-        targetid;
-
-    resolveTargetOrSelf(targetid, playerid);
+        targetid = resolveTargetOrSelf(playerid, argumentIdx);
 
     valstr(value, GetPlayerWeaponState(targetid) );
 
