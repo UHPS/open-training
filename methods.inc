@@ -4776,3 +4776,34 @@ CB:SendDeathMessage(const playerid, const blockid, const actionid, const world, 
 
   return true;
 }
+
+CB:ToggleClock(const playerid, const blockid, const actionid, const world, const argumentIdx) {
+  new toggle,
+      arguments[TEXT_FUNCTION_ARGUMENT];
+    
+  ReadAmxMemoryArray(argumentIdx, arguments);
+
+  if (sscanf(arguments, "d", toggle)) {
+    return SendMissCBMessage(playerid, blockid, actionid, "toggle");
+  }
+
+  if (toggle < 0 || toggle > 1) {
+    return SendErrorCBMessage(playerid, blockid, actionid, "toggle", "0 or 1");
+  }
+
+  if(!cmBlock[world][blockid][cbMode]) {
+		TogglePlayerClock(playerid, toggle);
+		return true;
+	}
+
+  foreach(new targetid : Player) {
+    if(!cbCompareMode(targetid, blockid, world)) {
+      continue;
+    }
+
+		TogglePlayerClock(targetid, toggle);
+  }
+
+
+  return true;
+}
