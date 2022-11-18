@@ -1968,7 +1968,7 @@ CBF:raycast(const playerid, const argumentIdx, const resultIdx) {
 
     if (col == 1) {
         if (atX == 0.0 && atY == 0.0 && atZ == 0.0) {
-            format(value, MAX_VALUE_SIZE, "%.1f %1.f %1.f", vX, vY, vZ);
+            format(value, MAX_VALUE_SIZE, "%.1f %1.f %1.f", vX, vY, pZ);
         } else {
             format(value, MAX_VALUE_SIZE, "%.1f %.1f %.1f", atX, atY, atZ);
         }
