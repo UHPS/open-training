@@ -330,6 +330,8 @@ CBF:playerid(const playerid, const argumentIdx, const resultIdx) {
         arguments[TEXT_FUNCTION_ARGUMENT],
         accountid;
 
+    ReadAmxMemoryArray(argumentIdx, arguments);
+    
     if ( sscanf(arguments, "D(0)", accountid) ) {
         return false;
     }
@@ -4349,4 +4351,37 @@ CBF:weaponstate(const playerid, const argumentIdx, const resultIdx) {
 
 CBF:gunstate(const playerid, const argumentIdx, const resultIdx) {
     return cbf_weaponstate(playerid, argumentIdx, resultIdx);
+}
+
+CBF:trailer(const playerid, const argumentIdx, const resultIdx) {
+    new
+        value[MAX_VALUE_SIZE],
+        targetid = resolveTargetOrSelf(playerid, argumentIdx);
+
+    if( IsPlayerInAnyVehicle(targetid) ) {
+        valstr(value, GetVehicleTrailer( GetPlayerVehicleID(targetid) ) );
+    } else {
+        valstr(value, -1);
+    }
+
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+CBF:istrailerattached(const playerid, const argumentIdx, const resultIdx) {
+    new
+        value[MAX_VALUE_SIZE],
+        vehicleid,
+        arguments[TEXT_FUNCTION_ARGUMENT];
+        
+     ReadAmxMemoryArray(argumentIdx, arguments);   
+     
+     if( sscanf(arguments, "d", vehicleid) ) {
+        return false;
+     }
+     
+     valstr(value, IsTrailerAttachedToVehicle(vehicleid) );
+ 
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
 }
