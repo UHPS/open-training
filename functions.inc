@@ -1785,7 +1785,7 @@ CBF:randomplayer(const playerid, const argumentIdx, const resultIdx) {
         playerCount = -1,
         playerList[500];
 
-    sscanf(arguments, "p<,>s[24]D(0)D(0)", category, type[0], type[1]);
+    sscanf(arguments, "s[24]D(0)D(0)", category, type[0], type[1]);
 
     if (!isnull(category)) {
         if (!strcmp(category, "team", true)) {
@@ -1829,6 +1829,8 @@ CBF:randomplayer(const playerid, const argumentIdx, const resultIdx) {
             categoryType = 19;
         else if (!strcmp(category, "moder", true))
             categoryType = 20;
+        else if (!strcmp(category, "vehseat", true))
+            categoryType = 21;
     }
 
     foreach(new player : Player) {
@@ -1908,7 +1910,10 @@ CBF:randomplayer(const playerid, const argumentIdx, const resultIdx) {
              } else if (categoryType == 20) {
                 if (!pData[player][pModer])
                     continue;
-             }
+             } else if (categoryType == 21) {
+                if (GetPlayerVehicleSeat(player) != type[0])
+                    continue;
+             }       
         }
 
         playerCount++;
