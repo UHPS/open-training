@@ -101,7 +101,7 @@ CBF:var(const playerid, const argumentIdx, const resultIdx) {
 
 CBF:pvar(const playerid, const argumentIdx, const resultIdx) {
     new targetid,
-        arguments[TEXT_FUNCTION_ARGUMENT],
+    arguments[TEXT_FUNCTION_ARGUMENT],
         value[MAX_VALUE_SIZE],
         varValue[MAX_VAR_DATA_LEN];
 
@@ -331,18 +331,17 @@ CBF:playerid(const playerid, const argumentIdx, const resultIdx) {
         accountid;
 
     ReadAmxMemoryArray(argumentIdx, arguments);
-    
-    if ( sscanf(arguments, "D(0)", accountid) ) {
+
+    if (sscanf(arguments, "D(0)", accountid)) {
         return false;
     }
 
-    if(accountid == 0) {
+    if (accountid == 0) {
         valstr(value, playerid);
     } else {
         valstr(value, -1);
-        foreach(new targetid : Player)
-        {
-            if(accountid != pData[targetid][pID]) {
+        foreach(new targetid : Player) {
+            if (accountid != pData[targetid][pID]) {
                 continue;
             }
 
@@ -1816,7 +1815,7 @@ CBF:randomplayer(const playerid, const argumentIdx, const resultIdx) {
         else if (!strcmp(category, "vip", true))
             categoryType = 13;
         else if (!strcmp(category, "taser", true))
-            categoryType = 14; 
+            categoryType = 14;
         else if (!strcmp(category, "surfingveh", true))
             categoryType = 15;
         else if (!strcmp(category, "int", true))
@@ -1881,39 +1880,39 @@ CBF:randomplayer(const playerid, const argumentIdx, const resultIdx) {
                 if (!pData[player][vip])
                     continue;
             } else if (categoryType == 14) {
-                if (!pData[targetid][pTazer])
+                if (!pData[player][pTazer])
                     continue;
             } else if (categoryType == 15) {
                 if (GetPlayerSurfingVehicleID(player) != type[0])
                     continue;
             } else if (categoryType == 16) {
-                if (pData[player][pInterior] != type [0])
+                if (pData[player][pInterior] != type[0])
                     continue;
             } else if (categoryType == 17) {
                 if (type[0] < 1 || type[0] > 10)
                     continue;
-            
-                if (!pAttach[player][ type[0] ][0])
+
+                if (!pAttach[player][type[0]][0])
                     continue;
             } else if (categoryType == 18) {
-                 if (type[0] < 1 || type[0] > 10)
+                if (type[0] < 1 || type[0] > 10)
                     continue;
-                    
-                if (pAttach[player][ type[0] ][1] != type[1])
+
+                if (pAttach[player][player][1] != type[1])
                     continue;
-             } else if (categoryType == 19) {
+            } else if (categoryType == 19) {
                 if (type[0] < 0 || type[0] > 9)
                     continue;
-                  
-                 if (pData[player][pRetVal][ type[0] ] != type[1])
+
+                if (pData[player][pRetVal][type[0]] != type[1])
                     continue;
-             } else if (categoryType == 20) {
+            } else if (categoryType == 20) {
                 if (!pData[player][pModer])
                     continue;
-             } else if (categoryType == 21) {
+            } else if (categoryType == 21) {
                 if (GetPlayerVehicleSeat(player) != type[0])
                     continue;
-             }       
+            }
         }
 
         playerCount++;
@@ -2544,13 +2543,13 @@ CBF:floatnum(const playerid, const argumentIdx, const resultIdx) {
 
     ReadAmxMemoryArray(argumentIdx, arguments);
 
-    if(!sscanf(arguments, "p<+>ff", firstNumber, secondNumber)) {
+    if (!sscanf(arguments, "p<+>ff", firstNumber, secondNumber)) {
         format(value, MAX_VALUE_SIZE, "%.2f", firstNumber + secondNumber);
-    } else if(!sscanf(arguments, "p<->ff", firstNumber, secondNumber)) {
+    } else if (!sscanf(arguments, "p<->ff", firstNumber, secondNumber)) {
         format(value, MAX_VALUE_SIZE, "%.2f", firstNumber - secondNumber);
-    } else if(!sscanf(arguments, "p<*>ff", firstNumber, secondNumber)) {
+    } else if (!sscanf(arguments, "p<*>ff", firstNumber, secondNumber)) {
         format(value, MAX_VALUE_SIZE, "%.2f", firstNumber * secondNumber);
-    } else if(!sscanf(arguments, "p</>ff", firstNumber, secondNumber)) {
+    } else if (!sscanf(arguments, "p</>ff", firstNumber, secondNumber)) {
         format(value, MAX_VALUE_SIZE, "%.2f", firstNumber / secondNumber);
     } else {
         return false;
@@ -4237,7 +4236,7 @@ CBF:nearactor(const playerid, const argumentIdx, const resultIdx) {
 
     for (new i; i < sizeof(items); i++) {
         new Float: tempDistance,
-        actorWorldId = actorSystem[ items[i] ][localID];
+        actorWorldId = actorSystem[items[i]][localID];
 
         if (!actorWorldId) {
             continue;
@@ -4391,33 +4390,30 @@ CBF:strins(const playerid, const argumentIdx, const resultIdx) {
 }
 
 CBF:camerazoom(const playerid, const argumentIdx, const resultIdx) {
-    new
-        value[MAX_VALUE_SIZE],
+    new value[MAX_VALUE_SIZE],
         targetid = resolveTargetOrSelf(playerid, argumentIdx);
 
-    format(value, MAX_VALUE_SIZE, "%f.2", GetPlayerCameraZoom(targetid) );
+    format(value, MAX_VALUE_SIZE, "%f.2", GetPlayerCameraZoom(targetid));
 
     WriteAmxMemoryArray(resultIdx, value);
     return true;
 }
 
 CBF:surfingveh(const playerid, const argumentIdx, const resultIdx) {
-    new
-        value[MAX_VALUE_SIZE],
+    new value[MAX_VALUE_SIZE],
         targetid = resolveTargetOrSelf(playerid, argumentIdx);
 
-    valstr(value, GetPlayerSurfingVehicleID(targetid) );
+    valstr(value, GetPlayerSurfingVehicleID(targetid));
 
     WriteAmxMemoryArray(resultIdx, value);
     return true;
 }
 
 CBF:weaponstate(const playerid, const argumentIdx, const resultIdx) {
-    new
-        value[MAX_VALUE_SIZE],
+    new value[MAX_VALUE_SIZE],
         targetid = resolveTargetOrSelf(playerid, argumentIdx);
 
-    valstr(value, GetPlayerWeaponState(targetid) );
+    valstr(value, GetPlayerWeaponState(targetid));
 
     WriteAmxMemoryArray(resultIdx, value);
     return true;
@@ -4428,12 +4424,11 @@ CBF:gunstate(const playerid, const argumentIdx, const resultIdx) {
 }
 
 CBF:trailer(const playerid, const argumentIdx, const resultIdx) {
-    new
-        value[MAX_VALUE_SIZE],
+    new value[MAX_VALUE_SIZE],
         targetid = resolveTargetOrSelf(playerid, argumentIdx);
 
-    if( IsPlayerInAnyVehicle(targetid) ) {
-        valstr(value, GetVehicleTrailer( GetPlayerVehicleID(targetid) ) );
+    if (IsPlayerInAnyVehicle(targetid)) {
+        valstr(value, GetVehicleTrailer(GetPlayerVehicleID(targetid)));
     } else {
         valstr(value, -1);
     }
@@ -4443,19 +4438,18 @@ CBF:trailer(const playerid, const argumentIdx, const resultIdx) {
 }
 
 CBF:istrailerattached(const playerid, const argumentIdx, const resultIdx) {
-    new
-        value[MAX_VALUE_SIZE],
+    new value[MAX_VALUE_SIZE],
         vehicleid,
         arguments[TEXT_FUNCTION_ARGUMENT];
-        
-     ReadAmxMemoryArray(argumentIdx, arguments);   
-     
-     if( sscanf(arguments, "d", vehicleid) ) {
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+
+    if (sscanf(arguments, "d", vehicleid)) {
         return false;
-     }
-     
-     valstr(value, IsTrailerAttachedToVehicle(vehicleid) );
- 
+    }
+
+    valstr(value, IsTrailerAttachedToVehicle(vehicleid));
+
     WriteAmxMemoryArray(resultIdx, value);
     return true;
 }
