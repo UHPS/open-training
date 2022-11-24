@@ -330,6 +330,8 @@ CBF:playerid(const playerid, const argumentIdx, const resultIdx) {
         arguments[TEXT_FUNCTION_ARGUMENT],
         accountid;
 
+    ReadAmxMemoryArray(argumentIdx, arguments);
+    
     if ( sscanf(arguments, "D(0)", accountid) ) {
         return false;
     }
@@ -1783,7 +1785,7 @@ CBF:randomplayer(const playerid, const argumentIdx, const resultIdx) {
         playerCount = -1,
         playerList[500];
 
-    sscanf(arguments, "p<,>s[24]D(0)D(0)", category, type[0], type[1]);
+    sscanf(arguments, "s[24]D(0)D(0)", category, type[0], type[1]);
 
     if (!isnull(category)) {
         if (!strcmp(category, "team", true)) {
@@ -1803,6 +1805,32 @@ CBF:randomplayer(const playerid, const argumentIdx, const resultIdx) {
             categoryType = 7;
         else if (!strcmp(category, "alive", true))
             categoryType = 8;
+        else if (!strcmp(category, "score", true))
+            categoryType = 9;
+        else if (!strcmp(category, "gun", true) || !strcmp(category, "weapon", true))
+            categoryType = 10;
+        else if (!strcmp(category, "channel", true))
+            categoryType = 11;
+        else if (!strcmp(category, "afk", true))
+            categoryType = 12;
+        else if (!strcmp(category, "vip", true))
+            categoryType = 13;
+        else if (!strcmp(category, "taser", true))
+            categoryType = 14; 
+        else if (!strcmp(category, "surfingveh", true))
+            categoryType = 15;
+        else if (!strcmp(category, "int", true))
+            categoryType = 16;
+        else if (!strcmp(category, "attach", true))
+            categoryType = 17;
+        else if (!strcmp(category, "attachmodel", true))
+            categoryType = 18;
+        else if (!strcmp(category, "retval", true))
+            categoryType = 19;
+        else if (!strcmp(category, "moder", true))
+            categoryType = 20;
+        else if (!strcmp(category, "vehseat", true))
+            categoryType = 21;
     }
 
     foreach(new player : Player) {
@@ -1820,7 +1848,7 @@ CBF:randomplayer(const playerid, const argumentIdx, const resultIdx) {
                 if (GetVehicleModel(GetPlayerVehicleID(player)) != type[0])
                     continue;
             } else if (categoryType == 4) {
-                if (type[0] < 0 || type[0] > 26)
+                if (type[0] < 0 || type[0] > MAX_PLAYER_ARRAY_SLOT)
                     continue;
 
                 if (pData[player][cbData][type[0]] != type[1])
@@ -1837,7 +1865,55 @@ CBF:randomplayer(const playerid, const argumentIdx, const resultIdx) {
             } else if (categoryType == 8) {
                 if (pData[player][pDead])
                     continue;
-            }
+            } else if (categoryType == 9) {
+                if (GetPlayerScore(player) != type[0])
+                    continue;
+            } else if (categoryType == 10) {
+                if (GetPlayerWeapon(player) != type[0])
+                    continue;
+            } else if (categoryType == 11) {
+                if (pData[player][pChannel] != type[0])
+                    continue;
+            } else if (categoryType == 12) {
+                if (pData[player][pAFK] != type[0])
+                    continue;
+            } else if (categoryType == 13) {
+                if (!pData[player][vip])
+                    continue;
+            } else if (categoryType == 14) {
+                if (!pData[targetid][pTazer])
+                    continue;
+            } else if (categoryType == 15) {
+                if (GetPlayerSurfingVehicleID(player) != type[0])
+                    continue;
+            } else if (categoryType == 16) {
+                if (pData[player][pInterior] != type [0])
+                    continue;
+            } else if (categoryType == 17) {
+                if (type[0] < 1 || type[0] > 10)
+                    continue;
+            
+                if (!pAttach[player][ type[0] ][0])
+                    continue;
+            } else if (categoryType == 18) {
+                 if (type[0] < 1 || type[0] > 10)
+                    continue;
+                    
+                if (pAttach[player][ type[0] ][1] != type[1])
+                    continue;
+             } else if (categoryType == 19) {
+                if (type[0] < 0 || type[0] > 9)
+                    continue;
+                  
+                 if (pData[player][pRetVal][ type[0] ] != type[1])
+                    continue;
+             } else if (categoryType == 20) {
+                if (!pData[player][pModer])
+                    continue;
+             } else if (categoryType == 21) {
+                if (GetPlayerVehicleSeat(player) != type[0])
+                    continue;
+             }       
         }
 
         playerCount++;
@@ -4349,4 +4425,37 @@ CBF:weaponstate(const playerid, const argumentIdx, const resultIdx) {
 
 CBF:gunstate(const playerid, const argumentIdx, const resultIdx) {
     return cbf_weaponstate(playerid, argumentIdx, resultIdx);
+}
+
+CBF:trailer(const playerid, const argumentIdx, const resultIdx) {
+    new
+        value[MAX_VALUE_SIZE],
+        targetid = resolveTargetOrSelf(playerid, argumentIdx);
+
+    if( IsPlayerInAnyVehicle(targetid) ) {
+        valstr(value, GetVehicleTrailer( GetPlayerVehicleID(targetid) ) );
+    } else {
+        valstr(value, -1);
+    }
+
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+CBF:istrailerattached(const playerid, const argumentIdx, const resultIdx) {
+    new
+        value[MAX_VALUE_SIZE],
+        vehicleid,
+        arguments[TEXT_FUNCTION_ARGUMENT];
+        
+     ReadAmxMemoryArray(argumentIdx, arguments);   
+     
+     if( sscanf(arguments, "d", vehicleid) ) {
+        return false;
+     }
+     
+     valstr(value, IsTrailerAttachedToVehicle(vehicleid) );
+ 
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
 }
