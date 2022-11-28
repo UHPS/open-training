@@ -4470,6 +4470,7 @@ CBF:playerlist(const playerid, const argumentIdx, const resultIdx) {
         item;
 
     sscanf(arguments, "ds[24]D(0)D(0)", item, category, type[0], type[1]);
+    item--;
 
     if (!isnull(category)) {
         if (!strcmp(category, "team", true)) {
@@ -4761,10 +4762,7 @@ CBF:playercount(const playerid, const argumentIdx, const resultIdx) {
         playerCount++;
     }
 
-    if (playerCount != -1)
-        valstr(value, playerCount);
-    else
-        valstr(value, 0);
+    valstr(value, (playerCount + 1));
 
     WriteAmxMemoryArray(resultIdx, value);
     return true;
