@@ -4383,7 +4383,7 @@ CBF:strins(const playerid, const argumentIdx, const resultIdx) {
     }
     strins(text, substr, index, 132);
 
-    format(value, MAX_VALUE_SIZE, "%s[132]", text);
+    format(value, MAX_VALUE_SIZE, "%s", text);
 
     WriteAmxMemoryArray(resultIdx, value);
     return true;
@@ -4449,6 +4449,322 @@ CBF:istrailerattached(const playerid, const argumentIdx, const resultIdx) {
     }
 
     valstr(value, IsTrailerAttachedToVehicle(vehicleid));
+
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+CBF:playerlist(const playerid, const argumentIdx, const resultIdx) {
+    new world,
+    value[MAX_VALUE_SIZE],
+    arguments[TEXT_FUNCTION_ARGUMENT];
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+    world = GetPlayerVirtualWorld(playerid);
+
+    new category[24],
+        categoryType,
+        type[2],
+        playerCount = -1,
+        playerList[500],
+        item;
+
+    sscanf(arguments, "ds[24]D(0)D(0)", item, category, type[0], type[1]);
+
+    if (!isnull(category)) {
+        if (!strcmp(category, "team", true)) {
+            type[0]--;
+            categoryType = 1;
+        } else if (!strcmp(category, "skin", true))
+            categoryType = 2;
+        else if (!strcmp(category, "veh", true))
+            categoryType = 3;
+        else if (!strcmp(category, "data", true))
+            categoryType = 4;
+        else if (!strcmp(category, "wanted", true))
+            categoryType = 5;
+        else if (!strcmp(category, "action", true))
+            categoryType = 6;
+        else if (!strcmp(category, "dead", true))
+            categoryType = 7;
+        else if (!strcmp(category, "alive", true))
+            categoryType = 8;
+        else if (!strcmp(category, "score", true))
+            categoryType = 9;
+        else if (!strcmp(category, "gun", true) || !strcmp(category, "weapon", true))
+            categoryType = 10;
+        else if (!strcmp(category, "channel", true))
+            categoryType = 11;
+        else if (!strcmp(category, "afk", true))
+            categoryType = 12;
+        else if (!strcmp(category, "vip", true))
+            categoryType = 13;
+        else if (!strcmp(category, "taser", true))
+            categoryType = 14;
+        else if (!strcmp(category, "surfingveh", true))
+            categoryType = 15;
+        else if (!strcmp(category, "int", true))
+            categoryType = 16;
+        else if (!strcmp(category, "attach", true))
+            categoryType = 17;
+        else if (!strcmp(category, "attachmodel", true))
+            categoryType = 18;
+        else if (!strcmp(category, "retval", true))
+            categoryType = 19;
+        else if (!strcmp(category, "moder", true))
+            categoryType = 20;
+        else if (!strcmp(category, "vehseat", true))
+            categoryType = 21;
+    }
+
+    foreach(new player : Player) {
+        if (GetPlayerVirtualWorld(player) != world)
+            continue;
+
+        if (categoryType != 0) {
+            if (categoryType == 1) {
+                if (pData[player][pTeam] != type[0])
+                    continue;
+            } else if (categoryType == 2) {
+                if (pData[player][pSkin] != type[0])
+                    continue;
+            } else if (categoryType == 3) {
+                if (GetVehicleModel(GetPlayerVehicleID(player)) != type[0])
+                    continue;
+            } else if (categoryType == 4) {
+                if (type[0] < 0 || type[0] > MAX_PLAYER_ARRAY_SLOT)
+                    continue;
+
+                if (pData[player][cbData][type[0]] != type[1])
+                    continue;
+            } else if (categoryType == 5) {
+                if (GetPlayerWantedLevel(player) != type[0])
+                    continue;
+            } else if (categoryType == 6) {
+                if (GetPlayerSpecialAction(player) != type[0])
+                    continue;
+            } else if (categoryType == 7) {
+                if (!pData[player][pDead])
+                    continue;
+            } else if (categoryType == 8) {
+                if (pData[player][pDead])
+                    continue;
+            } else if (categoryType == 9) {
+                if (GetPlayerScore(player) != type[0])
+                    continue;
+            } else if (categoryType == 10) {
+                if (GetPlayerWeapon(player) != type[0])
+                    continue;
+            } else if (categoryType == 11) {
+                if (pData[player][pChannel] != type[0])
+                    continue;
+            } else if (categoryType == 12) {
+                if (pData[player][pAFK] != type[0])
+                    continue;
+            } else if (categoryType == 13) {
+                if (!pData[player][vip])
+                    continue;
+            } else if (categoryType == 14) {
+                if (!pData[player][pTazer])
+                    continue;
+            } else if (categoryType == 15) {
+                if (GetPlayerSurfingVehicleID(player) != type[0])
+                    continue;
+            } else if (categoryType == 16) {
+                if (pData[player][pInterior] != type[0])
+                    continue;
+            } else if (categoryType == 17) {
+                if (type[0] < 1 || type[0] > 10)
+                    continue;
+
+                if (!pAttach[player][type[0]][0])
+                    continue;
+            } else if (categoryType == 18) {
+                if (type[0] < 1 || type[0] > 10)
+                    continue;
+
+                if (pAttach[player][player][1] != type[1])
+                    continue;
+            } else if (categoryType == 19) {
+                if (type[0] < 0 || type[0] > 9)
+                    continue;
+
+                if (pData[player][pRetVal][type[0]] != type[1])
+                    continue;
+            } else if (categoryType == 20) {
+                if (!pData[player][pModer])
+                    continue;
+            } else if (categoryType == 21) {
+                if (GetPlayerVehicleSeat(player) != type[0])
+                    continue;
+            }
+        }
+
+        playerCount++;
+        playerList[playerCount] = player;
+    }
+
+    if (playerCount != -1)
+        valstr(value, playerList[ item ]);
+    else
+        valstr(value, 0);
+
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+
+CBF:playercount(const playerid, const argumentIdx, const resultIdx) {
+    new world,
+    value[MAX_VALUE_SIZE],
+    arguments[TEXT_FUNCTION_ARGUMENT];
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+    world = GetPlayerVirtualWorld(playerid);
+
+    new category[24],
+        categoryType,
+        type[2],
+        playerCount = -1;
+
+    sscanf(arguments, "s[24]D(0)D(0)", category, type[0], type[1]);
+
+    if (!isnull(category)) {
+        if (!strcmp(category, "team", true)) {
+            type[0]--;
+            categoryType = 1;
+        } else if (!strcmp(category, "skin", true))
+            categoryType = 2;
+        else if (!strcmp(category, "veh", true))
+            categoryType = 3;
+        else if (!strcmp(category, "data", true))
+            categoryType = 4;
+        else if (!strcmp(category, "wanted", true))
+            categoryType = 5;
+        else if (!strcmp(category, "action", true))
+            categoryType = 6;
+        else if (!strcmp(category, "dead", true))
+            categoryType = 7;
+        else if (!strcmp(category, "alive", true))
+            categoryType = 8;
+        else if (!strcmp(category, "score", true))
+            categoryType = 9;
+        else if (!strcmp(category, "gun", true) || !strcmp(category, "weapon", true))
+            categoryType = 10;
+        else if (!strcmp(category, "channel", true))
+            categoryType = 11;
+        else if (!strcmp(category, "afk", true))
+            categoryType = 12;
+        else if (!strcmp(category, "vip", true))
+            categoryType = 13;
+        else if (!strcmp(category, "taser", true))
+            categoryType = 14;
+        else if (!strcmp(category, "surfingveh", true))
+            categoryType = 15;
+        else if (!strcmp(category, "int", true))
+            categoryType = 16;
+        else if (!strcmp(category, "attach", true))
+            categoryType = 17;
+        else if (!strcmp(category, "attachmodel", true))
+            categoryType = 18;
+        else if (!strcmp(category, "retval", true))
+            categoryType = 19;
+        else if (!strcmp(category, "moder", true))
+            categoryType = 20;
+        else if (!strcmp(category, "vehseat", true))
+            categoryType = 21;
+    }
+
+    foreach(new player : Player) {
+        if (GetPlayerVirtualWorld(player) != world)
+            continue;
+
+        if (categoryType != 0) {
+            if (categoryType == 1) {
+                if (pData[player][pTeam] != type[0])
+                    continue;
+            } else if (categoryType == 2) {
+                if (pData[player][pSkin] != type[0])
+                    continue;
+            } else if (categoryType == 3) {
+                if (GetVehicleModel(GetPlayerVehicleID(player)) != type[0])
+                    continue;
+            } else if (categoryType == 4) {
+                if (type[0] < 0 || type[0] > MAX_PLAYER_ARRAY_SLOT)
+                    continue;
+
+                if (pData[player][cbData][type[0]] != type[1])
+                    continue;
+            } else if (categoryType == 5) {
+                if (GetPlayerWantedLevel(player) != type[0])
+                    continue;
+            } else if (categoryType == 6) {
+                if (GetPlayerSpecialAction(player) != type[0])
+                    continue;
+            } else if (categoryType == 7) {
+                if (!pData[player][pDead])
+                    continue;
+            } else if (categoryType == 8) {
+                if (pData[player][pDead])
+                    continue;
+            } else if (categoryType == 9) {
+                if (GetPlayerScore(player) != type[0])
+                    continue;
+            } else if (categoryType == 10) {
+                if (GetPlayerWeapon(player) != type[0])
+                    continue;
+            } else if (categoryType == 11) {
+                if (pData[player][pChannel] != type[0])
+                    continue;
+            } else if (categoryType == 12) {
+                if (pData[player][pAFK] != type[0])
+                    continue;
+            } else if (categoryType == 13) {
+                if (!pData[player][vip])
+                    continue;
+            } else if (categoryType == 14) {
+                if (!pData[player][pTazer])
+                    continue;
+            } else if (categoryType == 15) {
+                if (GetPlayerSurfingVehicleID(player) != type[0])
+                    continue;
+            } else if (categoryType == 16) {
+                if (pData[player][pInterior] != type[0])
+                    continue;
+            } else if (categoryType == 17) {
+                if (type[0] < 1 || type[0] > 10)
+                    continue;
+
+                if (!pAttach[player][type[0]][0])
+                    continue;
+            } else if (categoryType == 18) {
+                if (type[0] < 1 || type[0] > 10)
+                    continue;
+
+                if (pAttach[player][player][1] != type[1])
+                    continue;
+            } else if (categoryType == 19) {
+                if (type[0] < 0 || type[0] > 9)
+                    continue;
+
+                if (pData[player][pRetVal][type[0]] != type[1])
+                    continue;
+            } else if (categoryType == 20) {
+                if (!pData[player][pModer])
+                    continue;
+            } else if (categoryType == 21) {
+                if (GetPlayerVehicleSeat(player) != type[0])
+                    continue;
+            }
+        }
+
+        playerCount++;
+    }
+
+    if (playerCount != -1)
+        valstr(value, playerCount);
+    else
+        valstr(value, 0);
 
     WriteAmxMemoryArray(resultIdx, value);
     return true;
