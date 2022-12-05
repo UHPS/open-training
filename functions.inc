@@ -4767,3 +4767,657 @@ CBF:playercount(const playerid, const argumentIdx, const resultIdx) {
     WriteAmxMemoryArray(resultIdx, value);
     return true;
 }
+
+CBF:gatestatus(const playerid, const argumentIdx, const resultIdx) {
+    new value[MAX_VALUE_SIZE],
+        world = GetPlayerVirtualWorld(playerid),
+        arguments[TEXT_FUNCTION_ARGUMENT],
+        gateSlot;
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+
+    if (sscanf(arguments, "d", gateSlot)) {
+        return false;
+    }
+
+    if (gateSlot <= 0 || gateSlot > MAX_WORLD_GATES) {
+        return false;
+    }
+
+    gateSlot--;
+    
+    if (!IsValideGate(world, gateSlot)) {
+        return false;
+    }
+
+    valstr(value, worldGate[world][gateSlot][gStatus]);
+
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+CBF:gatestate(const playerid, const argumentIdx, const resultIdx) {
+    return cbf_gatestatus(playerid, argumentIdx, resultIdx);
+}
+
+CBF:gateid(const playerid, const argumentIdx, const resultIdx) {
+    new value[MAX_VALUE_SIZE],
+        world = GetPlayerVirtualWorld(playerid),
+        arguments[TEXT_FUNCTION_ARGUMENT],
+        gateSlot;
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+
+    if (sscanf(arguments, "d", gateSlot)) {
+        return false;
+    }
+
+    if (gateSlot <= 0 || gateSlot > MAX_WORLD_GATES) {
+        return false;
+    }
+
+    gateSlot--;
+    
+    if (!IsValideGate(world, gateSlot)) {
+        return false;
+    }
+
+    valstr(value, worldGate[world][gateSlot][gID]);
+
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+CBF:gateteam(const playerid, const argumentIdx, const resultIdx) {
+    new value[MAX_VALUE_SIZE],
+        world = GetPlayerVirtualWorld(playerid),
+        arguments[TEXT_FUNCTION_ARGUMENT],
+        gateSlot;
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+
+    if (sscanf(arguments, "d", gateSlot)) {
+        return false;
+    }
+
+    if (gateSlot <= 0 || gateSlot > MAX_WORLD_GATES) {
+        return false;
+    }
+
+    gateSlot--;
+    
+    if (!IsValideGate(world, gateSlot)) {
+        return false;
+    }
+
+    valstr(value, worldGate[world][gateSlot][gTeam]);
+
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+CBF:gatetype(const playerid, const argumentIdx, const resultIdx) {
+    new value[MAX_VALUE_SIZE],
+        world = GetPlayerVirtualWorld(playerid),
+        arguments[TEXT_FUNCTION_ARGUMENT],
+        gateSlot;
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+
+    if (sscanf(arguments, "d", gateSlot)) {
+        return false;
+    }
+
+    if (gateSlot <= 0 || gateSlot > MAX_WORLD_GATES) {
+        return false;
+    }
+
+    gateSlot--;
+    
+    if (!IsValideGate(world, gateSlot)) {
+        return false;
+    }
+
+    valstr(value, worldGate[world][gateSlot][gType]);
+
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+CBF:gatelocal(const playerid, const argumentIdx, const resultIdx) {
+    new value[MAX_VALUE_SIZE],
+        world = GetPlayerVirtualWorld(playerid),
+        arguments[TEXT_FUNCTION_ARGUMENT],
+        gateSlot;
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+
+    if (sscanf(arguments, "d", gateSlot)) {
+        return false;
+    }
+
+    if (gateSlot <= 0 || gateSlot > MAX_WORLD_GATES) {
+        return false;
+    }
+
+    gateSlot--;
+    
+    if (!IsValideGate(world, gateSlot)) {
+        return false;
+    }
+
+    valstr(value, worldGate[world][gateSlot][gLocal]);
+
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+CBF:gatespeed(const playerid, const argumentIdx, const resultIdx) {
+    new value[MAX_VALUE_SIZE],
+        world = GetPlayerVirtualWorld(playerid),
+        arguments[TEXT_FUNCTION_ARGUMENT],
+        gateSlot;
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+
+    if (sscanf(arguments, "d", gateSlot)) {
+        return false;
+    }
+
+    if (gateSlot <= 0 || gateSlot > MAX_WORLD_GATES) {
+        return false;
+    }
+
+    gateSlot--;
+    
+    if (!IsValideGate(world, gateSlot)) {
+        return false;
+    }
+
+    format(value, MAX_VALUE_SIZE, "%.2f", worldGate[world][gateSlot][gSpeed]);
+
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+CBF:gatestartposxyz(const playerid, const argumentIdx, const resultIdx) {
+    new value[MAX_VALUE_SIZE],
+        world = GetPlayerVirtualWorld(playerid),
+        arguments[TEXT_FUNCTION_ARGUMENT],
+        gateSlot;
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+
+    if (sscanf(arguments, "d", gateSlot)) {
+        return false;
+    }
+
+    if (gateSlot <= 0 || gateSlot > MAX_WORLD_GATES) {
+        return false;
+    }
+
+    gateSlot--;
+    
+    if (!IsValideGate(world, gateSlot)) {
+        return false;
+    }
+
+    format(value, MAX_VALUE_SIZE, "%.2f %.2f %.2f", worldGate[world][gateSlot][gPosStartX], worldGate[world][gateSlot][gPosStartY], worldGate[world][gateSlot][gPosStartZ]);
+
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+CBF:gatestartposx(const playerid, const argumentIdx, const resultIdx) {
+    new value[MAX_VALUE_SIZE],
+        world = GetPlayerVirtualWorld(playerid),
+        arguments[TEXT_FUNCTION_ARGUMENT],
+        gateSlot;
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+
+    if (sscanf(arguments, "d", gateSlot)) {
+        return false;
+    }
+
+    if (gateSlot <= 0 || gateSlot > MAX_WORLD_GATES) {
+        return false;
+    }
+
+    gateSlot--;
+    
+    if (!IsValideGate(world, gateSlot)) {
+        return false;
+    }
+
+    format(value, MAX_VALUE_SIZE, "%.2f", worldGate[world][gateSlot][gPosStartX]);
+
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+
+CBF:gatestartposy(const playerid, const argumentIdx, const resultIdx) {
+    new value[MAX_VALUE_SIZE],
+        world = GetPlayerVirtualWorld(playerid),
+        arguments[TEXT_FUNCTION_ARGUMENT],
+        gateSlot;
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+
+    if (sscanf(arguments, "d", gateSlot)) {
+        return false;
+    }
+
+    if (gateSlot <= 0 || gateSlot > MAX_WORLD_GATES) {
+        return false;
+    }
+
+    gateSlot--;
+    
+    if (!IsValideGate(world, gateSlot)) {
+        return false;
+    }
+
+    format(value, MAX_VALUE_SIZE, "%.2f", worldGate[world][gateSlot][gPosStartY]);
+
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+
+CBF:gatestartposz(const playerid, const argumentIdx, const resultIdx) {
+    new value[MAX_VALUE_SIZE],
+        world = GetPlayerVirtualWorld(playerid),
+        arguments[TEXT_FUNCTION_ARGUMENT],
+        gateSlot;
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+
+    if (sscanf(arguments, "d", gateSlot)) {
+        return false;
+    }
+
+    if (gateSlot <= 0 || gateSlot > MAX_WORLD_GATES) {
+        return false;
+    }
+
+    gateSlot--;
+    
+    if (!IsValideGate(world, gateSlot)) {
+        return false;
+    }
+
+    format(value, MAX_VALUE_SIZE, "%.2f", worldGate[world][gateSlot][gPosStartZ]);
+
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+CBF:gatestartposrxyz(const playerid, const argumentIdx, const resultIdx) {
+    new value[MAX_VALUE_SIZE],
+        world = GetPlayerVirtualWorld(playerid),
+        arguments[TEXT_FUNCTION_ARGUMENT],
+        gateSlot;
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+
+    if (sscanf(arguments, "d", gateSlot)) {
+        return false;
+    }
+
+    if (gateSlot <= 0 || gateSlot > MAX_WORLD_GATES) {
+        return false;
+    }
+
+    gateSlot--;
+    
+    if (!IsValideGate(world, gateSlot)) {
+        return false;
+    }
+
+    format(value, MAX_VALUE_SIZE, "%.2f %.2f %.2f", worldGate[world][gateSlot][gPosStartRX], worldGate[world][gateSlot][gPosStartRY], worldGate[world][gateSlot][gPosStartRZ]);
+
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+CBF:gatestartposrx(const playerid, const argumentIdx, const resultIdx) {
+    new value[MAX_VALUE_SIZE],
+        world = GetPlayerVirtualWorld(playerid),
+        arguments[TEXT_FUNCTION_ARGUMENT],
+        gateSlot;
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+
+    if (sscanf(arguments, "d", gateSlot)) {
+        return false;
+    }
+
+    if (gateSlot <= 0 || gateSlot > MAX_WORLD_GATES) {
+        return false;
+    }
+
+    gateSlot--;
+    
+    if (!IsValideGate(world, gateSlot)) {
+        return false;
+    }
+
+    format(value, MAX_VALUE_SIZE, "%.2f", worldGate[world][gateSlot][gPosStartRX]);
+
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+CBF:gatestartposry(const playerid, const argumentIdx, const resultIdx) {
+    new value[MAX_VALUE_SIZE],
+        world = GetPlayerVirtualWorld(playerid),
+        arguments[TEXT_FUNCTION_ARGUMENT],
+        gateSlot;
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+
+    if (sscanf(arguments, "d", gateSlot)) {
+        return false;
+    }
+
+    if (gateSlot <= 0 || gateSlot > MAX_WORLD_GATES) {
+        return false;
+    }
+
+    gateSlot--;
+    
+    if (!IsValideGate(world, gateSlot)) {
+        return false;
+    }
+
+    format(value, MAX_VALUE_SIZE, "%.2f", worldGate[world][gateSlot][gPosStartRY]);
+
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+CBF:gatestartposrz(const playerid, const argumentIdx, const resultIdx) {
+    new value[MAX_VALUE_SIZE],
+        world = GetPlayerVirtualWorld(playerid),
+        arguments[TEXT_FUNCTION_ARGUMENT],
+        gateSlot;
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+
+    if (sscanf(arguments, "d", gateSlot)) {
+        return false;
+    }
+
+    if (gateSlot <= 0 || gateSlot > MAX_WORLD_GATES) {
+        return false;
+    }
+
+    gateSlot--;
+    
+    if (!IsValideGate(world, gateSlot)) {
+        return false;
+    }
+
+    format(value, MAX_VALUE_SIZE, "%.2f", worldGate[world][gateSlot][gPosStartRZ]);
+
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+CBF:gatestopposxyz(const playerid, const argumentIdx, const resultIdx) {
+    new value[MAX_VALUE_SIZE],
+        world = GetPlayerVirtualWorld(playerid),
+        arguments[TEXT_FUNCTION_ARGUMENT],
+        gateSlot;
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+
+    if (sscanf(arguments, "d", gateSlot)) {
+        return false;
+    }
+
+    if (gateSlot <= 0 || gateSlot > MAX_WORLD_GATES) {
+        return false;
+    }
+
+    gateSlot--;
+    
+    if (!IsValideGate(world, gateSlot)) {
+        return false;
+    }
+
+    format(value, MAX_VALUE_SIZE, "%.2f %.2f %.2f", worldGate[world][gateSlot][gPosEndX], worldGate[world][gateSlot][gPosEndY], worldGate[world][gateSlot][gPosEndZ]);
+
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+CBF:gateendposxyz(const playerid, const argumentIdx, const resultIdx) {
+	return cbf_gatestopposxyz(playerid, argumentIdx, resultIdx);
+}
+
+CBF:gatestopposx(const playerid, const argumentIdx, const resultIdx) {
+    new value[MAX_VALUE_SIZE],
+        world = GetPlayerVirtualWorld(playerid),
+        arguments[TEXT_FUNCTION_ARGUMENT],
+        gateSlot;
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+
+    if (sscanf(arguments, "d", gateSlot)) {
+        return false;
+    }
+
+    if (gateSlot <= 0 || gateSlot > MAX_WORLD_GATES) {
+        return false;
+    }
+
+    gateSlot--;
+    
+    if (!IsValideGate(world, gateSlot)) {
+        return false;
+    }
+
+    format(value, MAX_VALUE_SIZE, "%.2f", worldGate[world][gateSlot][gPosEndX]);
+
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+CBF:gateendposx(const playerid, const argumentIdx, const resultIdx) {
+	return cbf_gatestopposx(playerid, argumentIdx, resultIdx);
+}
+
+CBF:gatestopposy(const playerid, const argumentIdx, const resultIdx) {
+    new value[MAX_VALUE_SIZE],
+        world = GetPlayerVirtualWorld(playerid),
+        arguments[TEXT_FUNCTION_ARGUMENT],
+        gateSlot;
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+
+    if (sscanf(arguments, "d", gateSlot)) {
+        return false;
+    }
+
+    if (gateSlot <= 0 || gateSlot > MAX_WORLD_GATES) {
+        return false;
+    }
+
+    gateSlot--;
+    
+    if (!IsValideGate(world, gateSlot)) {
+        return false;
+    }
+
+    format(value, MAX_VALUE_SIZE, "%.2f", worldGate[world][gateSlot][gPosEndY]);
+
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+CBF:gateendposy(const playerid, const argumentIdx, const resultIdx) {
+	return cbf_gatestopposy(playerid, argumentIdx, resultIdx);
+}
+
+CBF:gatestopposz(const playerid, const argumentIdx, const resultIdx) {
+    new value[MAX_VALUE_SIZE],
+        world = GetPlayerVirtualWorld(playerid),
+        arguments[TEXT_FUNCTION_ARGUMENT],
+        gateSlot;
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+
+    if (sscanf(arguments, "d", gateSlot)) {
+        return false;
+    }
+
+    if (gateSlot <= 0 || gateSlot > MAX_WORLD_GATES) {
+        return false;
+    }
+
+    gateSlot--;
+    
+    if (!IsValideGate(world, gateSlot)) {
+        return false;
+    }
+
+    format(value, MAX_VALUE_SIZE, "%.2f", worldGate[world][gateSlot][gPosEndZ]);
+
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+CBF:gateendposz(const playerid, const argumentIdx, const resultIdx) {
+	return cbf_gatestopposz(playerid, argumentIdx, resultIdx);
+}
+
+CBF:gatestopposrxyz(const playerid, const argumentIdx, const resultIdx) {
+    new value[MAX_VALUE_SIZE],
+        world = GetPlayerVirtualWorld(playerid),
+        arguments[TEXT_FUNCTION_ARGUMENT],
+        gateSlot;
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+
+    if (sscanf(arguments, "d", gateSlot)) {
+        return false;
+    }
+
+    if (gateSlot <= 0 || gateSlot > MAX_WORLD_GATES) {
+        return false;
+    }
+
+    gateSlot--;
+    
+    if (!IsValideGate(world, gateSlot)) {
+        return false;
+    }
+
+    format(value, MAX_VALUE_SIZE, "%.2f %.2f %.2f", worldGate[world][gateSlot][gPosEndRX], worldGate[world][gateSlot][gPosEndRY], worldGate[world][gateSlot][gPosEndRZ]);
+
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+CBF:gateendposrxyz(const playerid, const argumentIdx, const resultIdx) {
+	return cbf_gatestopposrxyz(playerid, argumentIdx, resultIdx);
+}
+
+CBF:gatestopposrx(const playerid, const argumentIdx, const resultIdx) {
+    new value[MAX_VALUE_SIZE],
+        world = GetPlayerVirtualWorld(playerid),
+        arguments[TEXT_FUNCTION_ARGUMENT],
+        gateSlot;
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+
+    if (sscanf(arguments, "d", gateSlot)) {
+        return false;
+    }
+
+    if (gateSlot <= 0 || gateSlot > MAX_WORLD_GATES) {
+        return false;
+    }
+
+    gateSlot--;
+    
+    if (!IsValideGate(world, gateSlot)) {
+        return false;
+    }
+
+    format(value, MAX_VALUE_SIZE, "%.2f", worldGate[world][gateSlot][gPosEndRX]);
+
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+CBF:gateendposrx(const playerid, const argumentIdx, const resultIdx) {
+	return cbf_gatestopposrx(playerid, argumentIdx, resultIdx);
+}
+
+CBF:gatestopposry(const playerid, const argumentIdx, const resultIdx) {
+    new value[MAX_VALUE_SIZE],
+        world = GetPlayerVirtualWorld(playerid),
+        arguments[TEXT_FUNCTION_ARGUMENT],
+        gateSlot;
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+
+    if (sscanf(arguments, "d", gateSlot)) {
+        return false;
+    }
+
+    if (gateSlot <= 0 || gateSlot > MAX_WORLD_GATES) {
+        return false;
+    }
+
+    gateSlot--;
+    
+    if (!IsValideGate(world, gateSlot)) {
+        return false;
+    }
+
+    format(value, MAX_VALUE_SIZE, "%.2f", worldGate[world][gateSlot][gPosEndRY]);
+
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+CBF:gateendposry(const playerid, const argumentIdx, const resultIdx) {
+	return cbf_gatestopposry(playerid, argumentIdx, resultIdx);
+}
+
+CBF:gatestopposrz(const playerid, const argumentIdx, const resultIdx) {
+    new value[MAX_VALUE_SIZE],
+        world = GetPlayerVirtualWorld(playerid),
+        arguments[TEXT_FUNCTION_ARGUMENT],
+        gateSlot;
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+
+    if (sscanf(arguments, "d", gateSlot)) {
+        return false;
+    }
+
+    if (gateSlot <= 0 || gateSlot > MAX_WORLD_GATES) {
+        return false;
+    }
+
+    gateSlot--;
+    
+    if (!IsValideGate(world, gateSlot)) {
+        return false;
+    }
+
+    format(value, MAX_VALUE_SIZE, "%.2f", worldGate[world][gateSlot][gPosEndRZ]);
+
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+CBF:gateendposrz(const playerid, const argumentIdx, const resultIdx) {
+	return cbf_gatestopposrz(playerid, argumentIdx, resultIdx);
+}
