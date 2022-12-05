@@ -5421,3 +5421,84 @@ CBF:gatestopposrz(const playerid, const argumentIdx, const resultIdx) {
 CBF:gateendposrz(const playerid, const argumentIdx, const resultIdx) {
 	return cbf_gatestopposrz(playerid, argumentIdx, resultIdx);
 }
+
+CBF:pame(const playerid, const argumentIdx, const resultIdx) {
+    new arguments[TEXT_FUNCTION_ARGUMENT],
+        value[MAX_VALUE_SIZE],
+        targetid,
+        pameSlot;
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+
+    if (sscanf(arguments, "p<,>dD(-1)", pameSlot, targetid)) {
+        return false;
+    }
+
+    targetid = getTargetIdOrSelf(playerid, targetid);
+
+    if (pameSlot < 1 || pameSlot > 10) {
+        return false;
+    }
+    pameSlot--;
+
+    format(value, MAX_VALUE_SIZE, "%.144s", pData[targetid][pPame][ 144 * pameSlot ]);
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+
+CBF:customraycast(const playerid, const argumentIdx, const resultIdx) {
+    new value[MAX_VALUE_SIZE],
+        arguments[TEXT_FUNCTION_ARGUMENT],
+        Float:pX, Float:pY, Float:pZ,
+        Float:vX, Float:vY, Float:vZ,
+        Float:atX, Float:atY, Float:atZ,
+        Float: dist,
+        col, coord[4];
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+
+    sscanf(arguments, "ffffF(30)D(0)s[4]", pX, pY, pZ, vZ, dist, col, coord);
+
+    if (isnull(coord)) {
+        format(coord, sizeof(coord), "xyz");
+    }
+
+     vX = pX + (dist * floatsin(-vZ, degrees));
+     vY = pY + (dist * floatcos(-vZ, degrees));
+
+     CA_RayCastLine(pX, pY, pZ, vX, vY, pZ, atX, atY, atZ);
+       
+
+    if (col == 1) {
+        if (atX == 0.0 && atY == 0.0 && atZ == 0.0) {
+            format(value, MAX_VALUE_SIZE, "%.1f %1.f %1.f", vX, vY, pZ);
+        } else {
+            format(value, MAX_VALUE_SIZE, "%.1f %.1f %.1f", atX, atY, atZ);
+        }
+    } else {
+        format(value, MAX_VALUE_SIZE, "%.1f %.1f %.1f", atX, atY, atZ);
+    }
+
+    if (!strcmp(coord, "xyz")) {
+        WriteAmxMemoryArray(resultIdx, value);
+        return true;
+    }
+
+    new Float:cX, Float:cY, Float:cZ;
+
+    if (sscanf(value, "fff", cX, cY, cZ)) {
+        return false;
+    }
+
+    if (!strcmp(coord, "x")) {
+        format(value, MAX_VALUE_SIZE, "%1.f", cX);
+    } else if (!strcmp(coord, "y")) {
+        format(value, MAX_VALUE_SIZE, "%1.f", cY);
+    } else if (!strcmp(coord, "z")) {
+        format(value, MAX_VALUE_SIZE, "%1.f", cZ);
+    }
+
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
