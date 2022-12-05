@@ -4593,14 +4593,13 @@ CB:ChangePame(const playerid, const blockid, const actionid, const world, const 
     return SendMissCBMessage(playerid, blockid, actionid, "slot string");
   }
 
-  if (1 > slot > 10) {
+  if (slot < 1 || slot > 10) {
     return SendErrorCBMessage(playerid, blockid, actionid, "slot", "1-10");
   }
   slot--;
 
   if(!cmBlock[world][blockid][cbMode]) {
-	strdel(pData[playerid][pPame], slot * 144, (slot + 1) * 144);
-    strins(pData[playerid][pPame], str, slot * 144);
+		format(pData[playerid][pPame][ 144 * slot ], 144, "%s", str);
 		return true;
 	}
 
@@ -4609,8 +4608,7 @@ CB:ChangePame(const playerid, const blockid, const actionid, const world, const 
       continue;
     }
 
-	strdel(pData[targetid][pPame], slot * 144, (slot + 1) * 144);
-    strins(pData[targetid][pPame], str, slot * 144);
+	format(pData[targetid][pPame][ 144 * slot ], 144, "%s", str);
   }
 
 
