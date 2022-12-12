@@ -4805,3 +4805,23 @@ CB:ToggleClock(const playerid, const blockid, const actionid, const world, const
 
   return true;
 }
+
+
+CB:StopAudioStream(const playerid, const blockid, const actionid, const world, const argumentIdx) {
+
+  if(!cmBlock[world][blockid][cbMode]) {
+		StopAudioStreamForPlayer(playerid);
+		return true;
+	}
+
+  foreach(new targetid : Player) {
+    if(!cbCompareMode(targetid, blockid, world)) {
+      continue;
+    }
+    
+    StopAudioStreamForPlayer(targetid);
+  }
+
+
+  return true;
+}
