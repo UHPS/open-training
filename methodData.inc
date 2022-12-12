@@ -17,7 +17,8 @@ new blockMethodFolders[][] = {
     "Актеры",
     "Действия с камерами",
     "Команды (/teams)",
-    "RolePlay действия"
+    "RolePlay действия",
+    "Звуки и аудиостримы"
 };
 
 new blockMethodList[][] = {
@@ -37,7 +38,7 @@ new blockMethodList[][] = {
 	{true, 0, "cb_setWanted", 			"Установить уровень розыска",	"Установить уровень розыска игроку: 0 - 6"},
 	{true, 0, "cb_addWanted", 			"Добавить уровень розыска",		"Добавить уровень розыска игроку: 1 - 6\nОтнять уровень розыска игроку: -1 - -6"},
 	{true, 3, "cb_sendMessage", 			"Отправить сообщение",			"Отправить игроку сообщение: Привет мир :)"},
-	{true, 3, "cb_playSound", 			"Воспроизвести звук",			"Воспроизвести игровой звук: 0 - 65535\nСписок звуков: pastebin.com/A1PbQZPd"},
+	{true, 10, "cb_playSound", 			"Воспроизвести звук",			"Воспроизвести игровой звук: 0 - 65535\nСписок звуков: pastebin.com/A1PbQZPd"},
 	{true, 3, "cb_setInterior", 			"Установить интерьер",			"Установить ID интерьера игроку: 0 - 99"},
 	{true, 3, "cb_setChannel", 			"Установить радио канал",		"Установить радио канал игроку: 0 - 999"},
 	{true, 3, "cb_setAnim",				"Воспроизвести анимацию",		"Воспроизвести игроку анимацию: <библиотека> <анимация> <цикл 0/1> <заморозка 0/1>\n- PED SEAT_down 1 1\nСписок анимаций wiki.sa-mp.com/wiki/Animations"},
@@ -107,7 +108,7 @@ new blockMethodList[][] = {
 	{true, 5, "cb_DelObject", 			"Удалить объект", "Удалить объект: < object >"}, // 67
 	{true, 5, "cb_MoveObject", 			"Переместить объект", "Переместить объект: < object > < x > < y > < z > < speed 0.0 - 50.0 > < rx > < ry > < rz >\n* speed - 0.0 ТП моментально.\n* rx ry rz не обязательные параметры"}, // 68
 	{true, 2, "cb_setVehCollision", 		"Коллизия", "Коллизия транспорта: < 0/1 > "}, // 69
-	{true, 3, "cb_playStream", 			"Аудиопоток", "Аудиопоток: < URL > "}, // 70
+	{true, 10, "cb_playStream", 			"Аудиопоток", "Аудиопоток: < URL > "}, // 70
 	{true, 5, "cb_SetModelObject",		"Модель объекта", "Установить модель объекту: < id > < модель >"}, // 71
 	{true, 5, "cb_Create3DText",			"Создать 3D текст", "Создать 3D текст: < x > < y > < z > < текст >"}, // 72
 	{true, 3, "cb_ShowDialog",			"Показать диалог", "Показать диалог: < ID блока который вызвать > < тип диалог 0 - 5 > < текст >\nТипы диалгов:\n0: Информационный\n1:Ввод\n2:Лист\n3:Пароль\n4:Таб-Лист\n5:Таб-Лист заголовки\n*@ перенос строки\n+ отступ"}, // 73
@@ -157,7 +158,7 @@ new blockMethodList[][] = {
 	{true, 5, "cb_ObjectSetColor",		"Изменить oColor", "Изменить oColor: < объект > < слот > < hex >" }, // 116
 	{true, 5, "cb_SetObjectArray",		"Установить массив объекта",	"Установить массив объекта: < объект > < значение >\nВывести: #oarray(<objectid>)#"}, //117
 
-    {true, 3, "cb_PlayCrimeReport", "Звук краймрепорта", "Звук краймрепорта: < SuspectID > < CrimeID> \nСписок краймкодов: https://pro-pawn.ru/showthread.php?6769-PlayCrimeReportForPlayer"}
+    {true, 10, "cb_PlayCrimeReport", "Звук краймрепорта", "Звук краймрепорта: < SuspectID > < CrimeID> \nСписок краймкодов: https://pro-pawn.ru/showthread.php?6769-PlayCrimeReportForPlayer"}
     {true, 7, "cb_InterpolateCamera", "Полёт камеры", "Полёт камеры: < startX > < startY > < startZ > < stopX > < stopY > < stopZ > < time > < method (0/1) >"}
     {true, 7, "cb_AttachCameraToObject", "Прицепить камеру к объекту",  "Прицепить камеру к объекту: < объект >"},
     {false, 7, "cb_UnObjectCamera", "Отцепить камеру от объекта", "Отцепить камеру от объекта."},
@@ -182,4 +183,5 @@ new blockMethodList[][] = {
 	{true, 6, "cb_ClearActorAnimation", "Обнулить анимацию актёру", "Обнуляет анимацию актёру: < actorID >"},
 	{true, 3, "cb_SendDeathMessage", "Информация про смерть", "Отсылает информацию про смерть игрока: < killer > < killee > < weapon (reason) >"},
 	{true, 3, "cb_ToggleClock", "Показать/скрыть игровое время", "Показывает или скрывает игровое время: < 0/1 >"},
+	{false, 10, "cb_StopAudioStream", "Остановить аудиопоток", "Остановить аудиопоток: без параметров"},
 };
