@@ -4593,14 +4593,13 @@ CB:ChangePame(const playerid, const blockid, const actionid, const world, const 
     return SendMissCBMessage(playerid, blockid, actionid, "slot string");
   }
 
-  if (1 > slot > 10) {
+  if (slot < 1 || slot > 10) {
     return SendErrorCBMessage(playerid, blockid, actionid, "slot", "1-10");
   }
   slot--;
 
   if(!cmBlock[world][blockid][cbMode]) {
-	strdel(pData[playerid][pPame], slot * 144, (slot + 1) * 144);
-    strins(pData[playerid][pPame], str, slot * 144);
+		format(pData[playerid][pPame][ 144 * slot ], 144, "%s", str);
 		return true;
 	}
 
@@ -4609,8 +4608,7 @@ CB:ChangePame(const playerid, const blockid, const actionid, const world, const 
       continue;
     }
 
-	strdel(pData[targetid][pPame], slot * 144, (slot + 1) * 144);
-    strins(pData[targetid][pPame], str, slot * 144);
+	format(pData[targetid][pPame][ 144 * slot ], 144, "%s", str);
   }
 
 
@@ -4658,4 +4656,172 @@ CB:setPlyWorldBounds(const playerid, const blockid, const actionid, const world,
 
     SetPlayerWorldBounds(userid, x_max, x_min, y_max, y_min);
     return true;
+}
+
+CB:SetActorCustomAnimation(const playerid, const blockid, const actionid, const world, const argumentIdx) {
+  new actorid,
+      lib[16],
+      anim[32],
+      Float: speed,
+      loop,
+      lockx,
+      locky,
+      freeze,
+      time,
+      arguments[TEXT_FUNCTION_ARGUMENT];
+    
+  ReadAmxMemoryArray(argumentIdx, arguments);
+
+  if (sscanf(arguments, "ds[16]s[32]F(4.1)D(0)D(0)D(0)D(0)D(0)", actorid, lib, anim, speed, loop, lockx, locky, freeze, time)) {
+    return SendMissCBMessage(playerid, blockid, actionid, "actorid lib anim speed(4.1) loop(0/1) lockx(0/1) locky(0/1) freeze(0/1) time(ms)");
+  }
+
+  if (0 > actorid > MAX_ACTOR_SLOT) {
+    return SendErrorCBMessage(playerid, blockid, actionid, "actorid", "0+");
+  }
+
+  if (!IsValidDynamicActor(tempWorld[world][aSlot][actorid])) {
+     return false;
+  }
+
+  if(0 > loop > 1) {
+    return SendErrorCBMessage(playerid, blockid, actionid, "loop", "0/1");
+  }
+  
+  if(0 > lockx > 1) {
+    return SendErrorCBMessage(playerid, blockid, actionid, "lockx", "0/1");
+  }
+  
+  if(0 > locky > 1) {
+    return SendErrorCBMessage(playerid, blockid, actionid, "locky", "0/1");
+  }
+  
+  if(0 > freeze > 1) {
+    return SendErrorCBMessage(playerid, blockid, actionid, "freeze", "0/1");
+  }
+
+  ApplyDynamicActorAnimation(tempWorld[world][aSlot][actorid], lib, anim, speed, loop, lockx, locky, freeze, time);
+  actorSystem[ tempWorld[world][aSlot][actorid] ][UsedAnim] 	= true;
+
+  return true;
+}
+
+CB:ClearActorAnimation(const playerid, const blockid, const actionid, const world, const argumentIdx) {
+  new actorid,
+      arguments[TEXT_FUNCTION_ARGUMENT];
+    
+  ReadAmxMemoryArray(argumentIdx, arguments);
+
+  if (sscanf(arguments, "d", actorid)) {
+    return SendMissCBMessage(playerid, blockid, actionid, "actorid");
+  }
+
+  if (0 > actorid > MAX_ACTOR_SLOT) {
+    return SendErrorCBMessage(playerid, blockid, actionid, "actorid", "0+");
+  }
+
+  if (!IsValidDynamicActor(tempWorld[world][aSlot][actorid])) {
+     return false;
+  }
+
+  ClearDynamicActorAnimations(tempWorld[world][aSlot][actorid]);
+  actorSystem[ tempWorld[world][aSlot][actorid] ][UsedAnim] 	= false;
+  actorSystem[ tempWorld[world][aSlot][actorid] ][AltAnim] 	= false;
+
+  return true;
+}
+
+CB:SendDeathMessage(const playerid, const blockid, const actionid, const world, const argumentIdx) {
+  new killer,
+      killee,
+      weapon,
+      arguments[TEXT_FUNCTION_ARGUMENT];
+    
+  ReadAmxMemoryArray(argumentIdx, arguments);
+
+  if (sscanf(arguments, "ddd", killer, killee, weapon)) {
+    return SendMissCBMessage(playerid, blockid, actionid, "killerid killee weapon(reason)");
+  }
+
+  if (0 > weapon > 255) {
+    return SendErrorCBMessage(playerid, blockid, actionid, "weapon(reason)", "0-255");
+  }
+
+  if(!cmBlock[world][blockid][cbMode]) {
+    if(pData[playerid][pAdmin] != 0 || VW[world][vDev]) {
+      new str[144];
+      format(str, sizeof(str), "[CB:%d]: {FFFFFF}Сообщение о смерти от КБ: %s(%d) - %s(%d).", blockid, GetPlayerName(killer), killer, GetPlayerName(killee), killee);
+      SendClientMessage(playerid, COLOR_ORANGE, str);
+      }
+   SendDeathMessageToPlayer(playerid, killer, killee, weapon);
+   return true;
+   }
+
+  foreach(new targetid : Player) {
+    if(!cbCompareMode(targetid, blockid, world)) {
+      continue;
+    }
+
+    if(pData[targetid][pAdmin] != 0 || VW[world][vDev]) {
+      new str[144];
+      format(str, sizeof(str), "[CB:%d]: {FFFFFF}Сообщение о смерти от КБ: %s(%d) - %s(%d).", blockid, GetPlayerName(killer), killer, GetPlayerName(killee), killee);
+      SendClientMessage(targetid, COLOR_ORANGE, str);
+    }
+
+    SendDeathMessageToPlayer(targetid, killer, killee, weapon);
+  }
+
+
+  return true;
+}
+
+CB:ToggleClock(const playerid, const blockid, const actionid, const world, const argumentIdx) {
+  new toggle,
+      arguments[TEXT_FUNCTION_ARGUMENT];
+    
+  ReadAmxMemoryArray(argumentIdx, arguments);
+
+  if (sscanf(arguments, "d", toggle)) {
+    return SendMissCBMessage(playerid, blockid, actionid, "toggle");
+  }
+
+  if (toggle < 0 || toggle > 1) {
+    return SendErrorCBMessage(playerid, blockid, actionid, "toggle", "0 or 1");
+  }
+
+  if(!cmBlock[world][blockid][cbMode]) {
+		TogglePlayerClock(playerid, toggle);
+		return true;
+	}
+
+  foreach(new targetid : Player) {
+    if(!cbCompareMode(targetid, blockid, world)) {
+      continue;
+    }
+
+		TogglePlayerClock(targetid, toggle);
+  }
+
+
+  return true;
+}
+
+
+CB:StopAudioStream(const playerid, const blockid, const actionid, const world, const argumentIdx) {
+
+  if(!cmBlock[world][blockid][cbMode]) {
+		StopAudioStreamForPlayer(playerid);
+		return true;
+	}
+
+  foreach(new targetid : Player) {
+    if(!cbCompareMode(targetid, blockid, world)) {
+      continue;
+    }
+    
+    StopAudioStreamForPlayer(targetid);
+  }
+
+
+  return true;
 }
