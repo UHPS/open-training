@@ -5532,6 +5532,10 @@ CBF:round(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
+CBF:floatround(const playerid, const argumentIdx, const resultIdx) {
+	return cbf_round(playerid, argumentIdx, resultIdx);
+}
+
 CBF:log(const playerid, const argumentIdx, const resultIdx) {
     new value[MAX_VALUE_SIZE],
         arguments[TEXT_FUNCTION_ARGUMENT],
