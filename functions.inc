@@ -5638,7 +5638,7 @@ CBF:admin(const playerid, const argumentIdx, const resultIdx) {
     new value[MAX_VALUE_SIZE],
         targetid = resolveTargetOrSelf(playerid, argumentIdx);
 
-    valstr(value, pInfo[targetid][pAdmin});
+    valstr(value, pInfo[targetid][pAdmin]);
     WriteAmxMemoryArray(resultIdx, value);
     return true;
 }
