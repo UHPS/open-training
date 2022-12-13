@@ -5633,3 +5633,12 @@ CBF:tan(const playerid, const argumentIdx, const resultIdx) {
     WriteAmxMemoryArray(resultIdx, value);
     return true;
 }
+
+CBF:admin(const playerid, const argumentIdx, const resultIdx) {
+    new value[MAX_VALUE_SIZE],
+        targetid = resolveTargetOrSelf(playerid, argumentIdx);
+
+    valstr(value, pInfo[targetid][pAdmin});
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
