@@ -5502,3 +5502,130 @@ CBF:customraycast(const playerid, const argumentIdx, const resultIdx) {
     WriteAmxMemoryArray(resultIdx, value);
     return true;
 }
+
+CBF:round(const playerid, const argumentIdx, const resultIdx) {
+    new value[MAX_VALUE_SIZE],
+        arguments[TEXT_FUNCTION_ARGUMENT],
+        Float:number, method[6];
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+
+    if (sscanf(arguments, "fs[6]", number, method)) {
+        return false;
+    }
+    
+    if (isnull(method)) {
+    	format(method, sizeof(method), "round");
+    }
+    
+    if(!strcmp(method, "round", true)) {
+    	valstr(value, floatround(number, floatround_round));
+    } else if(!strcmp(method, "floor", true)) {
+    	valstr(value, floatround(number, floatround_floor));
+    } else if(!strcmp(method, "ceil", true)) {
+    	valstr(value, floatround(number, floatround_ceil));
+    } else if(!strcmp(method, "tozero", true)) {
+    	valstr(value, floatround(number, floatround_tozero));
+    }
+
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+CBF:log(const playerid, const argumentIdx, const resultIdx) {
+    new value[MAX_VALUE_SIZE],
+        arguments[TEXT_FUNCTION_ARGUMENT],
+        Float:number, Float:base;
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+
+    if (sscanf(arguments, "ff", number, base)) {
+        return false;
+    }
+	
+    format(value, MAX_VALUE_SIZE, ".2f", floatlog(number, base));
+
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+CBF:sin(const playerid, const argumentIdx, const resultIdx) {
+    new value[MAX_VALUE_SIZE],
+        arguments[TEXT_FUNCTION_ARGUMENT],
+        Float:number, method[7];
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+
+    if (sscanf(arguments, "fs[7]", number, method)) {
+        return false;
+    }
+    
+    if (isnull(method)) {
+    	format(method, sizeof(method), "radian");
+    }
+    
+    if(!strcmp(method, "radian", true)) {
+    	format(value, MAX_VALUE_SIZE, ".2f", floatsin(number, radian));
+    } else if(!strcmp(method, "degress", true)) {
+    	format(value, MAX_VALUE_SIZE, ".2f", floatsin(number, degress));
+    } else if(!strcmp(method, "grades", true)) {
+    	format(value, MAX_VALUE_SIZE, ".2f", floatsin(number, grades));
+    }
+
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+CBF:cos(const playerid, const argumentIdx, const resultIdx) {
+    new value[MAX_VALUE_SIZE],
+        arguments[TEXT_FUNCTION_ARGUMENT],
+        Float:number, method[7];
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+
+    if (sscanf(arguments, "fs[7]", number, method)) {
+        return false;
+    }
+    
+    if (isnull(method)) {
+    	format(method, sizeof(method), "radian");
+    }
+    
+    if(!strcmp(method, "radian", true)) {
+    	format(value, MAX_VALUE_SIZE, ".2f", floatcos(number, radian));
+    } else if(!strcmp(method, "degress", true)) {
+    	format(value, MAX_VALUE_SIZE, ".2f", floatcos(number, degress));
+    } else if(!strcmp(method, "grades", true)) {
+    	format(value, MAX_VALUE_SIZE, ".2f", floatcos(number, grades));
+    }
+
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+CBF:tan(const playerid, const argumentIdx, const resultIdx) {
+    new value[MAX_VALUE_SIZE],
+        arguments[TEXT_FUNCTION_ARGUMENT],
+        Float:number, method[7];
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+
+    if (sscanf(arguments, "fs[7]", number, method)) {
+        return false;
+    }
+    
+    if (isnull(method)) {
+    	format(method, sizeof(method), "radian");
+    }
+    
+    if(!strcmp(method, "radian", true)) {
+    	format(value, MAX_VALUE_SIZE, ".2f", floattan(number, radian));
+    } else if(!strcmp(method, "degress", true)) {
+    	format(value, MAX_VALUE_SIZE, ".2f", floattan(number, degress));
+    } else if(!strcmp(method, "grades", true)) {
+    	format(value, MAX_VALUE_SIZE, ".2f", floattan(number, grades));
+    }
+
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
