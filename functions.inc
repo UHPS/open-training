@@ -5634,6 +5634,46 @@ CBF:tan(const playerid, const argumentIdx, const resultIdx) {
     return true;
 }
 
+CBF:sqroot(const playerid, const argumentIdx, const resultIdx) {
+    new value[MAX_VALUE_SIZE],
+        arguments[TEXT_FUNCTION_ARGUMENT],
+        Float:number;
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+
+    if (sscanf(arguments, "f", number)) {
+        return false;
+    }
+    
+    if (number < 0) {
+    	return false;
+    }
+    
+    formaat(value, MAX_VALUE_SIZE, "%.2f", floatsqroot(number));
+
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+CBF:power(const playerid, const argumentIdx, const resultIdx) {
+    new value[MAX_VALUE_SIZE],
+        arguments[TEXT_FUNCTION_ARGUMENT],
+        Float:number, Float:exponent;
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+
+    if (sscanf(arguments, "ff", number, exponent)) {
+        return false;
+    }
+    
+    
+    formaat(value, MAX_VALUE_SIZE, "%.2f", floatpower(number, exponent));
+
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+
 CBF:admin(const playerid, const argumentIdx, const resultIdx) {
     new value[MAX_VALUE_SIZE],
         targetid = resolveTargetOrSelf(playerid, argumentIdx);
