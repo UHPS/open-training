@@ -4383,7 +4383,7 @@ CBF:strins(const playerid, const argumentIdx, const resultIdx) {
     }
     strins(text, substr, index, 132);
 
-    format(value, MAX_VALUE_SIZE, "%s[132]", text);
+    format(value, MAX_VALUE_SIZE, "%s", text);
 
     WriteAmxMemoryArray(resultIdx, value);
     return true;
@@ -4450,6 +4450,1235 @@ CBF:istrailerattached(const playerid, const argumentIdx, const resultIdx) {
 
     valstr(value, IsTrailerAttachedToVehicle(vehicleid));
 
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+CBF:playerlist(const playerid, const argumentIdx, const resultIdx) {
+    new world,
+    value[MAX_VALUE_SIZE],
+    arguments[TEXT_FUNCTION_ARGUMENT];
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+    world = GetPlayerVirtualWorld(playerid);
+
+    new category[24],
+        categoryType,
+        type[2],
+        playerCount = -1,
+        playerList[500],
+        item;
+
+    sscanf(arguments, "ds[24]D(0)D(0)", item, category, type[0], type[1]);
+    item--;
+
+    if (!isnull(category)) {
+        if (!strcmp(category, "team", true)) {
+            type[0]--;
+            categoryType = 1;
+        } else if (!strcmp(category, "skin", true))
+            categoryType = 2;
+        else if (!strcmp(category, "veh", true))
+            categoryType = 3;
+        else if (!strcmp(category, "data", true))
+            categoryType = 4;
+        else if (!strcmp(category, "wanted", true))
+            categoryType = 5;
+        else if (!strcmp(category, "action", true))
+            categoryType = 6;
+        else if (!strcmp(category, "dead", true))
+            categoryType = 7;
+        else if (!strcmp(category, "alive", true))
+            categoryType = 8;
+        else if (!strcmp(category, "score", true))
+            categoryType = 9;
+        else if (!strcmp(category, "gun", true) || !strcmp(category, "weapon", true))
+            categoryType = 10;
+        else if (!strcmp(category, "channel", true))
+            categoryType = 11;
+        else if (!strcmp(category, "afk", true))
+            categoryType = 12;
+        else if (!strcmp(category, "vip", true))
+            categoryType = 13;
+        else if (!strcmp(category, "taser", true))
+            categoryType = 14;
+        else if (!strcmp(category, "surfingveh", true))
+            categoryType = 15;
+        else if (!strcmp(category, "int", true))
+            categoryType = 16;
+        else if (!strcmp(category, "attach", true))
+            categoryType = 17;
+        else if (!strcmp(category, "attachmodel", true))
+            categoryType = 18;
+        else if (!strcmp(category, "retval", true))
+            categoryType = 19;
+        else if (!strcmp(category, "moder", true))
+            categoryType = 20;
+        else if (!strcmp(category, "vehseat", true))
+            categoryType = 21;
+    }
+
+    foreach(new player : Player) {
+        if (GetPlayerVirtualWorld(player) != world)
+            continue;
+
+        if (categoryType != 0) {
+            if (categoryType == 1) {
+                if (pData[player][pTeam] != type[0])
+                    continue;
+            } else if (categoryType == 2) {
+                if (pData[player][pSkin] != type[0])
+                    continue;
+            } else if (categoryType == 3) {
+                if (GetVehicleModel(GetPlayerVehicleID(player)) != type[0])
+                    continue;
+            } else if (categoryType == 4) {
+                if (type[0] < 0 || type[0] > MAX_PLAYER_ARRAY_SLOT)
+                    continue;
+
+                if (pData[player][cbData][type[0]] != type[1])
+                    continue;
+            } else if (categoryType == 5) {
+                if (GetPlayerWantedLevel(player) != type[0])
+                    continue;
+            } else if (categoryType == 6) {
+                if (GetPlayerSpecialAction(player) != type[0])
+                    continue;
+            } else if (categoryType == 7) {
+                if (!pData[player][pDead])
+                    continue;
+            } else if (categoryType == 8) {
+                if (pData[player][pDead])
+                    continue;
+            } else if (categoryType == 9) {
+                if (GetPlayerScore(player) != type[0])
+                    continue;
+            } else if (categoryType == 10) {
+                if (GetPlayerWeapon(player) != type[0])
+                    continue;
+            } else if (categoryType == 11) {
+                if (pData[player][pChannel] != type[0])
+                    continue;
+            } else if (categoryType == 12) {
+                if (pData[player][pAFK] != type[0])
+                    continue;
+            } else if (categoryType == 13) {
+                if (!pData[player][vip])
+                    continue;
+            } else if (categoryType == 14) {
+                if (!pData[player][pTazer])
+                    continue;
+            } else if (categoryType == 15) {
+                if (GetPlayerSurfingVehicleID(player) != type[0])
+                    continue;
+            } else if (categoryType == 16) {
+                if (pData[player][pInterior] != type[0])
+                    continue;
+            } else if (categoryType == 17) {
+                if (type[0] < 1 || type[0] > 10)
+                    continue;
+
+                if (!pAttach[player][type[0]][0])
+                    continue;
+            } else if (categoryType == 18) {
+                if (type[0] < 1 || type[0] > 10)
+                    continue;
+
+                if (pAttach[player][player][1] != type[1])
+                    continue;
+            } else if (categoryType == 19) {
+                if (type[0] < 0 || type[0] > 9)
+                    continue;
+
+                if (pData[player][pRetVal][type[0]] != type[1])
+                    continue;
+            } else if (categoryType == 20) {
+                if (!pData[player][pModer])
+                    continue;
+            } else if (categoryType == 21) {
+                if (GetPlayerVehicleSeat(player) != type[0])
+                    continue;
+            }
+        }
+
+        playerCount++;
+        playerList[playerCount] = player;
+    }
+
+    if (playerCount != -1)
+        valstr(value, playerList[ item ]);
+    else
+        valstr(value, 0);
+
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+
+CBF:playercount(const playerid, const argumentIdx, const resultIdx) {
+    new world,
+    value[MAX_VALUE_SIZE],
+    arguments[TEXT_FUNCTION_ARGUMENT];
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+    world = GetPlayerVirtualWorld(playerid);
+
+    new category[24],
+        categoryType,
+        type[2],
+        playerCount = -1;
+
+    sscanf(arguments, "s[24]D(0)D(0)", category, type[0], type[1]);
+
+    if (!isnull(category)) {
+        if (!strcmp(category, "team", true)) {
+            type[0]--;
+            categoryType = 1;
+        } else if (!strcmp(category, "skin", true))
+            categoryType = 2;
+        else if (!strcmp(category, "veh", true))
+            categoryType = 3;
+        else if (!strcmp(category, "data", true))
+            categoryType = 4;
+        else if (!strcmp(category, "wanted", true))
+            categoryType = 5;
+        else if (!strcmp(category, "action", true))
+            categoryType = 6;
+        else if (!strcmp(category, "dead", true))
+            categoryType = 7;
+        else if (!strcmp(category, "alive", true))
+            categoryType = 8;
+        else if (!strcmp(category, "score", true))
+            categoryType = 9;
+        else if (!strcmp(category, "gun", true) || !strcmp(category, "weapon", true))
+            categoryType = 10;
+        else if (!strcmp(category, "channel", true))
+            categoryType = 11;
+        else if (!strcmp(category, "afk", true))
+            categoryType = 12;
+        else if (!strcmp(category, "vip", true))
+            categoryType = 13;
+        else if (!strcmp(category, "taser", true))
+            categoryType = 14;
+        else if (!strcmp(category, "surfingveh", true))
+            categoryType = 15;
+        else if (!strcmp(category, "int", true))
+            categoryType = 16;
+        else if (!strcmp(category, "attach", true))
+            categoryType = 17;
+        else if (!strcmp(category, "attachmodel", true))
+            categoryType = 18;
+        else if (!strcmp(category, "retval", true))
+            categoryType = 19;
+        else if (!strcmp(category, "moder", true))
+            categoryType = 20;
+        else if (!strcmp(category, "vehseat", true))
+            categoryType = 21;
+    }
+
+    foreach(new player : Player) {
+        if (GetPlayerVirtualWorld(player) != world)
+            continue;
+
+        if (categoryType != 0) {
+            if (categoryType == 1) {
+                if (pData[player][pTeam] != type[0])
+                    continue;
+            } else if (categoryType == 2) {
+                if (pData[player][pSkin] != type[0])
+                    continue;
+            } else if (categoryType == 3) {
+                if (GetVehicleModel(GetPlayerVehicleID(player)) != type[0])
+                    continue;
+            } else if (categoryType == 4) {
+                if (type[0] < 0 || type[0] > MAX_PLAYER_ARRAY_SLOT)
+                    continue;
+
+                if (pData[player][cbData][type[0]] != type[1])
+                    continue;
+            } else if (categoryType == 5) {
+                if (GetPlayerWantedLevel(player) != type[0])
+                    continue;
+            } else if (categoryType == 6) {
+                if (GetPlayerSpecialAction(player) != type[0])
+                    continue;
+            } else if (categoryType == 7) {
+                if (!pData[player][pDead])
+                    continue;
+            } else if (categoryType == 8) {
+                if (pData[player][pDead])
+                    continue;
+            } else if (categoryType == 9) {
+                if (GetPlayerScore(player) != type[0])
+                    continue;
+            } else if (categoryType == 10) {
+                if (GetPlayerWeapon(player) != type[0])
+                    continue;
+            } else if (categoryType == 11) {
+                if (pData[player][pChannel] != type[0])
+                    continue;
+            } else if (categoryType == 12) {
+                if (pData[player][pAFK] != type[0])
+                    continue;
+            } else if (categoryType == 13) {
+                if (!pData[player][vip])
+                    continue;
+            } else if (categoryType == 14) {
+                if (!pData[player][pTazer])
+                    continue;
+            } else if (categoryType == 15) {
+                if (GetPlayerSurfingVehicleID(player) != type[0])
+                    continue;
+            } else if (categoryType == 16) {
+                if (pData[player][pInterior] != type[0])
+                    continue;
+            } else if (categoryType == 17) {
+                if (type[0] < 1 || type[0] > 10)
+                    continue;
+
+                if (!pAttach[player][type[0]][0])
+                    continue;
+            } else if (categoryType == 18) {
+                if (type[0] < 1 || type[0] > 10)
+                    continue;
+
+                if (pAttach[player][player][1] != type[1])
+                    continue;
+            } else if (categoryType == 19) {
+                if (type[0] < 0 || type[0] > 9)
+                    continue;
+
+                if (pData[player][pRetVal][type[0]] != type[1])
+                    continue;
+            } else if (categoryType == 20) {
+                if (!pData[player][pModer])
+                    continue;
+            } else if (categoryType == 21) {
+                if (GetPlayerVehicleSeat(player) != type[0])
+                    continue;
+            }
+        }
+
+        playerCount++;
+    }
+
+    valstr(value, (playerCount + 1));
+
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+CBF:gatestatus(const playerid, const argumentIdx, const resultIdx) {
+    new value[MAX_VALUE_SIZE],
+        world = GetPlayerVirtualWorld(playerid),
+        arguments[TEXT_FUNCTION_ARGUMENT],
+        gateSlot;
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+
+    if (sscanf(arguments, "d", gateSlot)) {
+        return false;
+    }
+
+    if (gateSlot <= 0 || gateSlot > MAX_WORLD_GATES) {
+        return false;
+    }
+
+    gateSlot--;
+    
+    if (!IsValideGate(world, gateSlot)) {
+        return false;
+    }
+
+    valstr(value, worldGate[world][gateSlot][gStatus]);
+
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+CBF:gatestate(const playerid, const argumentIdx, const resultIdx) {
+    return cbf_gatestatus(playerid, argumentIdx, resultIdx);
+}
+
+CBF:gateid(const playerid, const argumentIdx, const resultIdx) {
+    new value[MAX_VALUE_SIZE],
+        world = GetPlayerVirtualWorld(playerid),
+        arguments[TEXT_FUNCTION_ARGUMENT],
+        gateSlot;
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+
+    if (sscanf(arguments, "d", gateSlot)) {
+        return false;
+    }
+
+    if (gateSlot <= 0 || gateSlot > MAX_WORLD_GATES) {
+        return false;
+    }
+
+    gateSlot--;
+    
+    if (!IsValideGate(world, gateSlot)) {
+        return false;
+    }
+
+    valstr(value, worldGate[world][gateSlot][gID]);
+
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+CBF:gateteam(const playerid, const argumentIdx, const resultIdx) {
+    new value[MAX_VALUE_SIZE],
+        world = GetPlayerVirtualWorld(playerid),
+        arguments[TEXT_FUNCTION_ARGUMENT],
+        gateSlot;
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+
+    if (sscanf(arguments, "d", gateSlot)) {
+        return false;
+    }
+
+    if (gateSlot <= 0 || gateSlot > MAX_WORLD_GATES) {
+        return false;
+    }
+
+    gateSlot--;
+    
+    if (!IsValideGate(world, gateSlot)) {
+        return false;
+    }
+
+    valstr(value, worldGate[world][gateSlot][gTeam]);
+
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+CBF:gatetype(const playerid, const argumentIdx, const resultIdx) {
+    new value[MAX_VALUE_SIZE],
+        world = GetPlayerVirtualWorld(playerid),
+        arguments[TEXT_FUNCTION_ARGUMENT],
+        gateSlot;
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+
+    if (sscanf(arguments, "d", gateSlot)) {
+        return false;
+    }
+
+    if (gateSlot <= 0 || gateSlot > MAX_WORLD_GATES) {
+        return false;
+    }
+
+    gateSlot--;
+    
+    if (!IsValideGate(world, gateSlot)) {
+        return false;
+    }
+
+    valstr(value, worldGate[world][gateSlot][gType]);
+
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+CBF:gatelocal(const playerid, const argumentIdx, const resultIdx) {
+    new value[MAX_VALUE_SIZE],
+        world = GetPlayerVirtualWorld(playerid),
+        arguments[TEXT_FUNCTION_ARGUMENT],
+        gateSlot;
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+
+    if (sscanf(arguments, "d", gateSlot)) {
+        return false;
+    }
+
+    if (gateSlot <= 0 || gateSlot > MAX_WORLD_GATES) {
+        return false;
+    }
+
+    gateSlot--;
+    
+    if (!IsValideGate(world, gateSlot)) {
+        return false;
+    }
+
+    valstr(value, worldGate[world][gateSlot][gLocal]);
+
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+CBF:gatespeed(const playerid, const argumentIdx, const resultIdx) {
+    new value[MAX_VALUE_SIZE],
+        world = GetPlayerVirtualWorld(playerid),
+        arguments[TEXT_FUNCTION_ARGUMENT],
+        gateSlot;
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+
+    if (sscanf(arguments, "d", gateSlot)) {
+        return false;
+    }
+
+    if (gateSlot <= 0 || gateSlot > MAX_WORLD_GATES) {
+        return false;
+    }
+
+    gateSlot--;
+    
+    if (!IsValideGate(world, gateSlot)) {
+        return false;
+    }
+
+    format(value, MAX_VALUE_SIZE, "%.2f", worldGate[world][gateSlot][gSpeed]);
+
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+CBF:gatestartposxyz(const playerid, const argumentIdx, const resultIdx) {
+    new value[MAX_VALUE_SIZE],
+        world = GetPlayerVirtualWorld(playerid),
+        arguments[TEXT_FUNCTION_ARGUMENT],
+        gateSlot;
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+
+    if (sscanf(arguments, "d", gateSlot)) {
+        return false;
+    }
+
+    if (gateSlot <= 0 || gateSlot > MAX_WORLD_GATES) {
+        return false;
+    }
+
+    gateSlot--;
+    
+    if (!IsValideGate(world, gateSlot)) {
+        return false;
+    }
+
+    format(value, MAX_VALUE_SIZE, "%.2f %.2f %.2f", worldGate[world][gateSlot][gPosStartX], worldGate[world][gateSlot][gPosStartY], worldGate[world][gateSlot][gPosStartZ]);
+
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+CBF:gatestartposx(const playerid, const argumentIdx, const resultIdx) {
+    new value[MAX_VALUE_SIZE],
+        world = GetPlayerVirtualWorld(playerid),
+        arguments[TEXT_FUNCTION_ARGUMENT],
+        gateSlot;
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+
+    if (sscanf(arguments, "d", gateSlot)) {
+        return false;
+    }
+
+    if (gateSlot <= 0 || gateSlot > MAX_WORLD_GATES) {
+        return false;
+    }
+
+    gateSlot--;
+    
+    if (!IsValideGate(world, gateSlot)) {
+        return false;
+    }
+
+    format(value, MAX_VALUE_SIZE, "%.2f", worldGate[world][gateSlot][gPosStartX]);
+
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+
+CBF:gatestartposy(const playerid, const argumentIdx, const resultIdx) {
+    new value[MAX_VALUE_SIZE],
+        world = GetPlayerVirtualWorld(playerid),
+        arguments[TEXT_FUNCTION_ARGUMENT],
+        gateSlot;
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+
+    if (sscanf(arguments, "d", gateSlot)) {
+        return false;
+    }
+
+    if (gateSlot <= 0 || gateSlot > MAX_WORLD_GATES) {
+        return false;
+    }
+
+    gateSlot--;
+    
+    if (!IsValideGate(world, gateSlot)) {
+        return false;
+    }
+
+    format(value, MAX_VALUE_SIZE, "%.2f", worldGate[world][gateSlot][gPosStartY]);
+
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+
+CBF:gatestartposz(const playerid, const argumentIdx, const resultIdx) {
+    new value[MAX_VALUE_SIZE],
+        world = GetPlayerVirtualWorld(playerid),
+        arguments[TEXT_FUNCTION_ARGUMENT],
+        gateSlot;
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+
+    if (sscanf(arguments, "d", gateSlot)) {
+        return false;
+    }
+
+    if (gateSlot <= 0 || gateSlot > MAX_WORLD_GATES) {
+        return false;
+    }
+
+    gateSlot--;
+    
+    if (!IsValideGate(world, gateSlot)) {
+        return false;
+    }
+
+    format(value, MAX_VALUE_SIZE, "%.2f", worldGate[world][gateSlot][gPosStartZ]);
+
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+CBF:gatestartposrxyz(const playerid, const argumentIdx, const resultIdx) {
+    new value[MAX_VALUE_SIZE],
+        world = GetPlayerVirtualWorld(playerid),
+        arguments[TEXT_FUNCTION_ARGUMENT],
+        gateSlot;
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+
+    if (sscanf(arguments, "d", gateSlot)) {
+        return false;
+    }
+
+    if (gateSlot <= 0 || gateSlot > MAX_WORLD_GATES) {
+        return false;
+    }
+
+    gateSlot--;
+    
+    if (!IsValideGate(world, gateSlot)) {
+        return false;
+    }
+
+    format(value, MAX_VALUE_SIZE, "%.2f %.2f %.2f", worldGate[world][gateSlot][gPosStartRX], worldGate[world][gateSlot][gPosStartRY], worldGate[world][gateSlot][gPosStartRZ]);
+
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+CBF:gatestartposrx(const playerid, const argumentIdx, const resultIdx) {
+    new value[MAX_VALUE_SIZE],
+        world = GetPlayerVirtualWorld(playerid),
+        arguments[TEXT_FUNCTION_ARGUMENT],
+        gateSlot;
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+
+    if (sscanf(arguments, "d", gateSlot)) {
+        return false;
+    }
+
+    if (gateSlot <= 0 || gateSlot > MAX_WORLD_GATES) {
+        return false;
+    }
+
+    gateSlot--;
+    
+    if (!IsValideGate(world, gateSlot)) {
+        return false;
+    }
+
+    format(value, MAX_VALUE_SIZE, "%.2f", worldGate[world][gateSlot][gPosStartRX]);
+
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+CBF:gatestartposry(const playerid, const argumentIdx, const resultIdx) {
+    new value[MAX_VALUE_SIZE],
+        world = GetPlayerVirtualWorld(playerid),
+        arguments[TEXT_FUNCTION_ARGUMENT],
+        gateSlot;
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+
+    if (sscanf(arguments, "d", gateSlot)) {
+        return false;
+    }
+
+    if (gateSlot <= 0 || gateSlot > MAX_WORLD_GATES) {
+        return false;
+    }
+
+    gateSlot--;
+    
+    if (!IsValideGate(world, gateSlot)) {
+        return false;
+    }
+
+    format(value, MAX_VALUE_SIZE, "%.2f", worldGate[world][gateSlot][gPosStartRY]);
+
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+CBF:gatestartposrz(const playerid, const argumentIdx, const resultIdx) {
+    new value[MAX_VALUE_SIZE],
+        world = GetPlayerVirtualWorld(playerid),
+        arguments[TEXT_FUNCTION_ARGUMENT],
+        gateSlot;
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+
+    if (sscanf(arguments, "d", gateSlot)) {
+        return false;
+    }
+
+    if (gateSlot <= 0 || gateSlot > MAX_WORLD_GATES) {
+        return false;
+    }
+
+    gateSlot--;
+    
+    if (!IsValideGate(world, gateSlot)) {
+        return false;
+    }
+
+    format(value, MAX_VALUE_SIZE, "%.2f", worldGate[world][gateSlot][gPosStartRZ]);
+
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+CBF:gatestopposxyz(const playerid, const argumentIdx, const resultIdx) {
+    new value[MAX_VALUE_SIZE],
+        world = GetPlayerVirtualWorld(playerid),
+        arguments[TEXT_FUNCTION_ARGUMENT],
+        gateSlot;
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+
+    if (sscanf(arguments, "d", gateSlot)) {
+        return false;
+    }
+
+    if (gateSlot <= 0 || gateSlot > MAX_WORLD_GATES) {
+        return false;
+    }
+
+    gateSlot--;
+    
+    if (!IsValideGate(world, gateSlot)) {
+        return false;
+    }
+
+    format(value, MAX_VALUE_SIZE, "%.2f %.2f %.2f", worldGate[world][gateSlot][gPosEndX], worldGate[world][gateSlot][gPosEndY], worldGate[world][gateSlot][gPosEndZ]);
+
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+CBF:gateendposxyz(const playerid, const argumentIdx, const resultIdx) {
+	return cbf_gatestopposxyz(playerid, argumentIdx, resultIdx);
+}
+
+CBF:gatestopposx(const playerid, const argumentIdx, const resultIdx) {
+    new value[MAX_VALUE_SIZE],
+        world = GetPlayerVirtualWorld(playerid),
+        arguments[TEXT_FUNCTION_ARGUMENT],
+        gateSlot;
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+
+    if (sscanf(arguments, "d", gateSlot)) {
+        return false;
+    }
+
+    if (gateSlot <= 0 || gateSlot > MAX_WORLD_GATES) {
+        return false;
+    }
+
+    gateSlot--;
+    
+    if (!IsValideGate(world, gateSlot)) {
+        return false;
+    }
+
+    format(value, MAX_VALUE_SIZE, "%.2f", worldGate[world][gateSlot][gPosEndX]);
+
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+CBF:gateendposx(const playerid, const argumentIdx, const resultIdx) {
+	return cbf_gatestopposx(playerid, argumentIdx, resultIdx);
+}
+
+CBF:gatestopposy(const playerid, const argumentIdx, const resultIdx) {
+    new value[MAX_VALUE_SIZE],
+        world = GetPlayerVirtualWorld(playerid),
+        arguments[TEXT_FUNCTION_ARGUMENT],
+        gateSlot;
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+
+    if (sscanf(arguments, "d", gateSlot)) {
+        return false;
+    }
+
+    if (gateSlot <= 0 || gateSlot > MAX_WORLD_GATES) {
+        return false;
+    }
+
+    gateSlot--;
+    
+    if (!IsValideGate(world, gateSlot)) {
+        return false;
+    }
+
+    format(value, MAX_VALUE_SIZE, "%.2f", worldGate[world][gateSlot][gPosEndY]);
+
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+CBF:gateendposy(const playerid, const argumentIdx, const resultIdx) {
+	return cbf_gatestopposy(playerid, argumentIdx, resultIdx);
+}
+
+CBF:gatestopposz(const playerid, const argumentIdx, const resultIdx) {
+    new value[MAX_VALUE_SIZE],
+        world = GetPlayerVirtualWorld(playerid),
+        arguments[TEXT_FUNCTION_ARGUMENT],
+        gateSlot;
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+
+    if (sscanf(arguments, "d", gateSlot)) {
+        return false;
+    }
+
+    if (gateSlot <= 0 || gateSlot > MAX_WORLD_GATES) {
+        return false;
+    }
+
+    gateSlot--;
+    
+    if (!IsValideGate(world, gateSlot)) {
+        return false;
+    }
+
+    format(value, MAX_VALUE_SIZE, "%.2f", worldGate[world][gateSlot][gPosEndZ]);
+
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+CBF:gateendposz(const playerid, const argumentIdx, const resultIdx) {
+	return cbf_gatestopposz(playerid, argumentIdx, resultIdx);
+}
+
+CBF:gatestopposrxyz(const playerid, const argumentIdx, const resultIdx) {
+    new value[MAX_VALUE_SIZE],
+        world = GetPlayerVirtualWorld(playerid),
+        arguments[TEXT_FUNCTION_ARGUMENT],
+        gateSlot;
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+
+    if (sscanf(arguments, "d", gateSlot)) {
+        return false;
+    }
+
+    if (gateSlot <= 0 || gateSlot > MAX_WORLD_GATES) {
+        return false;
+    }
+
+    gateSlot--;
+    
+    if (!IsValideGate(world, gateSlot)) {
+        return false;
+    }
+
+    format(value, MAX_VALUE_SIZE, "%.2f %.2f %.2f", worldGate[world][gateSlot][gPosEndRX], worldGate[world][gateSlot][gPosEndRY], worldGate[world][gateSlot][gPosEndRZ]);
+
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+CBF:gateendposrxyz(const playerid, const argumentIdx, const resultIdx) {
+	return cbf_gatestopposrxyz(playerid, argumentIdx, resultIdx);
+}
+
+CBF:gatestopposrx(const playerid, const argumentIdx, const resultIdx) {
+    new value[MAX_VALUE_SIZE],
+        world = GetPlayerVirtualWorld(playerid),
+        arguments[TEXT_FUNCTION_ARGUMENT],
+        gateSlot;
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+
+    if (sscanf(arguments, "d", gateSlot)) {
+        return false;
+    }
+
+    if (gateSlot <= 0 || gateSlot > MAX_WORLD_GATES) {
+        return false;
+    }
+
+    gateSlot--;
+    
+    if (!IsValideGate(world, gateSlot)) {
+        return false;
+    }
+
+    format(value, MAX_VALUE_SIZE, "%.2f", worldGate[world][gateSlot][gPosEndRX]);
+
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+CBF:gateendposrx(const playerid, const argumentIdx, const resultIdx) {
+	return cbf_gatestopposrx(playerid, argumentIdx, resultIdx);
+}
+
+CBF:gatestopposry(const playerid, const argumentIdx, const resultIdx) {
+    new value[MAX_VALUE_SIZE],
+        world = GetPlayerVirtualWorld(playerid),
+        arguments[TEXT_FUNCTION_ARGUMENT],
+        gateSlot;
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+
+    if (sscanf(arguments, "d", gateSlot)) {
+        return false;
+    }
+
+    if (gateSlot <= 0 || gateSlot > MAX_WORLD_GATES) {
+        return false;
+    }
+
+    gateSlot--;
+    
+    if (!IsValideGate(world, gateSlot)) {
+        return false;
+    }
+
+    format(value, MAX_VALUE_SIZE, "%.2f", worldGate[world][gateSlot][gPosEndRY]);
+
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+CBF:gateendposry(const playerid, const argumentIdx, const resultIdx) {
+	return cbf_gatestopposry(playerid, argumentIdx, resultIdx);
+}
+
+CBF:gatestopposrz(const playerid, const argumentIdx, const resultIdx) {
+    new value[MAX_VALUE_SIZE],
+        world = GetPlayerVirtualWorld(playerid),
+        arguments[TEXT_FUNCTION_ARGUMENT],
+        gateSlot;
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+
+    if (sscanf(arguments, "d", gateSlot)) {
+        return false;
+    }
+
+    if (gateSlot <= 0 || gateSlot > MAX_WORLD_GATES) {
+        return false;
+    }
+
+    gateSlot--;
+    
+    if (!IsValideGate(world, gateSlot)) {
+        return false;
+    }
+
+    format(value, MAX_VALUE_SIZE, "%.2f", worldGate[world][gateSlot][gPosEndRZ]);
+
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+CBF:gateendposrz(const playerid, const argumentIdx, const resultIdx) {
+	return cbf_gatestopposrz(playerid, argumentIdx, resultIdx);
+}
+
+CBF:pame(const playerid, const argumentIdx, const resultIdx) {
+    new arguments[TEXT_FUNCTION_ARGUMENT],
+        value[MAX_VALUE_SIZE],
+        targetid,
+        pameSlot;
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+
+    if (sscanf(arguments, "p<,>dD(-1)", pameSlot, targetid)) {
+        return false;
+    }
+
+    targetid = getTargetIdOrSelf(playerid, targetid);
+
+    if (pameSlot < 1 || pameSlot > 10) {
+        return false;
+    }
+    pameSlot--;
+
+    format(value, MAX_VALUE_SIZE, "%.144s", pData[targetid][pPame][ 144 * pameSlot ]);
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+
+CBF:customraycast(const playerid, const argumentIdx, const resultIdx) {
+    new value[MAX_VALUE_SIZE],
+        arguments[TEXT_FUNCTION_ARGUMENT],
+        Float:pX, Float:pY, Float:pZ,
+        Float:vX, Float:vY, Float:vZ,
+        Float:atX, Float:atY, Float:atZ,
+        Float: dist,
+        col, coord[4];
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+
+    sscanf(arguments, "ffffF(30)D(0)s[4]", pX, pY, pZ, vZ, dist, col, coord);
+
+    if (isnull(coord)) {
+        format(coord, sizeof(coord), "xyz");
+    }
+
+     vX = pX + (dist * floatsin(-vZ, degrees));
+     vY = pY + (dist * floatcos(-vZ, degrees));
+
+     CA_RayCastLine(pX, pY, pZ, vX, vY, pZ, atX, atY, atZ);
+       
+
+    if (col == 1) {
+        if (atX == 0.0 && atY == 0.0 && atZ == 0.0) {
+            format(value, MAX_VALUE_SIZE, "%.1f %1.f %1.f", vX, vY, pZ);
+        } else {
+            format(value, MAX_VALUE_SIZE, "%.1f %.1f %.1f", atX, atY, atZ);
+        }
+    } else {
+        format(value, MAX_VALUE_SIZE, "%.1f %.1f %.1f", atX, atY, atZ);
+    }
+
+    if (!strcmp(coord, "xyz")) {
+        WriteAmxMemoryArray(resultIdx, value);
+        return true;
+    }
+
+    new Float:cX, Float:cY, Float:cZ;
+
+    if (sscanf(value, "fff", cX, cY, cZ)) {
+        return false;
+    }
+
+    if (!strcmp(coord, "x")) {
+        format(value, MAX_VALUE_SIZE, "%1.f", cX);
+    } else if (!strcmp(coord, "y")) {
+        format(value, MAX_VALUE_SIZE, "%1.f", cY);
+    } else if (!strcmp(coord, "z")) {
+        format(value, MAX_VALUE_SIZE, "%1.f", cZ);
+    }
+
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+CBF:round(const playerid, const argumentIdx, const resultIdx) {
+    new value[MAX_VALUE_SIZE],
+        arguments[TEXT_FUNCTION_ARGUMENT],
+        Float:number, method[6];
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+
+    if (sscanf(arguments, "fs[6]", number, method)) {
+        return false;
+    }
+    
+    if (isnull(method)) {
+    	format(method, sizeof(method), "round");
+    }
+    
+    if(!strcmp(method, "round", true)) {
+    	valstr(value, floatround(number, floatround_round));
+    } else if(!strcmp(method, "floor", true)) {
+    	valstr(value, floatround(number, floatround_floor));
+    } else if(!strcmp(method, "ceil", true)) {
+    	valstr(value, floatround(number, floatround_ceil));
+    } else if(!strcmp(method, "tozero", true)) {
+    	valstr(value, floatround(number, floatround_tozero));
+    }
+
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+CBF:floatround(const playerid, const argumentIdx, const resultIdx) {
+	return cbf_round(playerid, argumentIdx, resultIdx);
+}
+
+CBF:log(const playerid, const argumentIdx, const resultIdx) {
+    new value[MAX_VALUE_SIZE],
+        arguments[TEXT_FUNCTION_ARGUMENT],
+        Float:number, Float:base;
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+
+    if (sscanf(arguments, "ff", number, base)) {
+        return false;
+    }
+	
+    format(value, MAX_VALUE_SIZE, ".2f", floatlog(number, base));
+
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+CBF:sin(const playerid, const argumentIdx, const resultIdx) {
+    new value[MAX_VALUE_SIZE],
+        arguments[TEXT_FUNCTION_ARGUMENT],
+        Float:number, method[7];
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+
+    if (sscanf(arguments, "fs[7]", number, method)) {
+        return false;
+    }
+    
+    if (isnull(method)) {
+    	format(method, sizeof(method), "radian");
+    }
+    
+    if(!strcmp(method, "radian", true)) {
+    	format(value, MAX_VALUE_SIZE, ".2f", floatsin(number, radian));
+    } else if(!strcmp(method, "degress", true)) {
+    	format(value, MAX_VALUE_SIZE, ".2f", floatsin(number, degress));
+    } else if(!strcmp(method, "grades", true)) {
+    	format(value, MAX_VALUE_SIZE, ".2f", floatsin(number, grades));
+    }
+
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+CBF:cos(const playerid, const argumentIdx, const resultIdx) {
+    new value[MAX_VALUE_SIZE],
+        arguments[TEXT_FUNCTION_ARGUMENT],
+        Float:number, method[7];
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+
+    if (sscanf(arguments, "fs[7]", number, method)) {
+        return false;
+    }
+    
+    if (isnull(method)) {
+    	format(method, sizeof(method), "radian");
+    }
+    
+    if(!strcmp(method, "radian", true)) {
+    	format(value, MAX_VALUE_SIZE, ".2f", floatcos(number, radian));
+    } else if(!strcmp(method, "degress", true)) {
+    	format(value, MAX_VALUE_SIZE, ".2f", floatcos(number, degress));
+    } else if(!strcmp(method, "grades", true)) {
+    	format(value, MAX_VALUE_SIZE, ".2f", floatcos(number, grades));
+    }
+
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+CBF:tan(const playerid, const argumentIdx, const resultIdx) {
+    new value[MAX_VALUE_SIZE],
+        arguments[TEXT_FUNCTION_ARGUMENT],
+        Float:number, method[7];
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+
+    if (sscanf(arguments, "fs[7]", number, method)) {
+        return false;
+    }
+    
+    if (isnull(method)) {
+    	format(method, sizeof(method), "radian");
+    }
+    
+    if(!strcmp(method, "radian", true)) {
+    	format(value, MAX_VALUE_SIZE, ".2f", floattan(number, radian));
+    } else if(!strcmp(method, "degress", true)) {
+    	format(value, MAX_VALUE_SIZE, ".2f", floattan(number, degress));
+    } else if(!strcmp(method, "grades", true)) {
+    	format(value, MAX_VALUE_SIZE, ".2f", floattan(number, grades));
+    }
+
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+CBF:sqroot(const playerid, const argumentIdx, const resultIdx) {
+    new value[MAX_VALUE_SIZE],
+        arguments[TEXT_FUNCTION_ARGUMENT],
+        Float:number;
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+
+    if (sscanf(arguments, "f", number)) {
+        return false;
+    }
+    
+    if (number < 0) {
+    	return false;
+    }
+    
+    format(value, MAX_VALUE_SIZE, "%.2f", floatsqroot(number));
+
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+CBF:power(const playerid, const argumentIdx, const resultIdx) {
+    new value[MAX_VALUE_SIZE],
+        arguments[TEXT_FUNCTION_ARGUMENT],
+        Float:number, Float:exponent;
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+
+    if (sscanf(arguments, "ff", number, exponent)) {
+        return false;
+    }
+    
+    
+    format(value, MAX_VALUE_SIZE, "%.2f", floatpower(number, exponent));
+
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+
+CBF:admin(const playerid, const argumentIdx, const resultIdx) {
+    new value[MAX_VALUE_SIZE],
+        targetid = resolveTargetOrSelf(playerid, argumentIdx);
+
+    valstr(value, pInfo[targetid][pAdmin]);
     WriteAmxMemoryArray(resultIdx, value);
     return true;
 }
