@@ -5649,7 +5649,7 @@ CBF:sqroot(const playerid, const argumentIdx, const resultIdx) {
     	return false;
     }
     
-    formaat(value, MAX_VALUE_SIZE, "%.2f", floatsqroot(number));
+    format(value, MAX_VALUE_SIZE, "%.2f", floatsqroot(number));
 
     WriteAmxMemoryArray(resultIdx, value);
     return true;
@@ -5667,7 +5667,7 @@ CBF:power(const playerid, const argumentIdx, const resultIdx) {
     }
     
     
-    formaat(value, MAX_VALUE_SIZE, "%.2f", floatpower(number, exponent));
+    format(value, MAX_VALUE_SIZE, "%.2f", floatpower(number, exponent));
 
     WriteAmxMemoryArray(resultIdx, value);
     return true;
