@@ -4453,3 +4453,51 @@ CBF:istrailerattached(const playerid, const argumentIdx, const resultIdx) {
     WriteAmxMemoryArray(resultIdx, value);
     return true;
 }
+
+CBF:asin(const playerid, const argumentIdx, const resultIdx) {
+    new arguments[TEXT_FUNCTION_ARGUMENT], 
+        value[MAX_VALUE_SIZE], 
+        Float:sin;
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+
+    if (sscanf(arguments, "f", sin)) {
+        return false;
+    }
+
+    format(value, MAX_VALUE_SIZE, "%.1f", asin(sin));
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+CBF:acos(const playerid, const argumentIdx, const resultIdx) {
+    new arguments[TEXT_FUNCTION_ARGUMENT], 
+        value[MAX_VALUE_SIZE], 
+        Float:cos;
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+
+    if (sscanf(arguments, "f", cos)) {
+        return false;
+    }
+
+    format(value, MAX_VALUE_SIZE, "%.1f", acos(cos));
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+CBF:atan(const playerid, const argumentIdx, const resultIdx) {
+    new arguments[TEXT_FUNCTION_ARGUMENT], 
+        value[MAX_VALUE_SIZE], 
+        Float:tan;
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+
+    if (sscanf(arguments, "f", tan)) {
+        return false;
+    }
+
+    format(value, MAX_VALUE_SIZE, "%.1f", atan(tan));
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
