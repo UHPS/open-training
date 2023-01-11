@@ -4453,3 +4453,58 @@ CBF:istrailerattached(const playerid, const argumentIdx, const resultIdx) {
     WriteAmxMemoryArray(resultIdx, value);
     return true;
 }
+
+CBF:min(const playerid, const argumentIdx, const resultIdx) {
+    new value[MAX_VALUE_SIZE],
+        arguments[TEXT_FUNCTION_ARGUMENT],
+        number1,
+        number2;
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+
+    if (sscanf(arguments, "dd", number1, number2)) {
+        return false;
+    }
+
+    valstr(value, min(number1, number2));
+
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+CBF:max(const playerid, const argumentIdx, const resultIdx) {
+    new value[MAX_VALUE_SIZE],
+        arguments[TEXT_FUNCTION_ARGUMENT],
+        number1,
+        number2;
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+
+    if (sscanf(arguments, "dd", number1, number2)) {
+        return false;
+    }
+
+    valstr(value, max(number1, number2));
+
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+CBF:clamp(const playerid, const argumentIdx, const resultIdx) {
+    new value[MAX_VALUE_SIZE],
+        arguments[TEXT_FUNCTION_ARGUMENT],
+        number,
+        minbound,
+        maxbound;
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+
+    if (sscanf(arguments, "ddd", number, minbound, maxbound)) {
+        return false;
+    }
+
+    valstr(value, clamp(number, minbound, maxbound));
+
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
