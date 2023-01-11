@@ -4166,6 +4166,51 @@ CB:SetObjectArray(playerid, blockid, world, params[]) {
 	return true;
 }
 
+CB:SetNitro(playerid, blockid, world, params[])
+{
+	new 
+		status,
+		vehicleid;
+		
+	vehicleid = GetPlayerVehicleID(playerid);
+
+	ReturnCommand(playerid, params, world);
+
+	if(sscanf(params, "d", status))
+		return CBWrongData(playerid, blockid, world);
+
+	if(status < 0 || status > 1)
+		return CBWrongData(playerid, blockid, world);
+	
+	if(cmBlock[world][blockid][cbMode])
+	{
+		foreach(new i : Player)
+		{
+			if(world != GetPlayerVirtualWorld(i))
+				continue;
+
+			if(!cbCompareMode(i, blockid))
+				continue;
+
+			if(!IsPlayerInAnyVehicle(i))
+				continue;
+
+			vData[vehicleid][vNitroMode] = status;
+		}
+
+		return true;
+	}
+
+	if(world != GetPlayerVirtualWorld(playerid))
+		return true;
+
+	if(!IsPlayerInAnyVehicle(playerid))
+		return true;
+
+	vData[vehicleid][vNitroMode] = status;
+	return true;
+}
+
 /*
 CB:donate(playerid, params[])
 {
