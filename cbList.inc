@@ -3980,13 +3980,22 @@ CB:SetPlayerPvar(playerid, blockid, world, params[])
 	ReturnCommand(playerid, params, world);
 	if(sscanf(params, "p<,>ds[32]s[144]", userid, var, data))
 		return CBWrongData(playerid, blockid, world);
-
-	if(world != GetPlayerVirtualWorld(userid))
+		
+	if(cmBlock[world][blockid][cbMode])
+	{
+		foreach(new i : Player)
+		{
+			if(GetPlayerVirtualWorld(i) != world)
+				continue;
+			
+			if(updatePlayerVarData(i, var, data) == INVALID_VECTOR_INDEX)
+				return CBWrongData(playerid, blockid, world);	
+		}
 		return true;
-
+	}
 	if(updatePlayerVarData(userid, var, data) == INVALID_VECTOR_INDEX)
 		return CBWrongData(playerid, blockid, world);
-
+		
 	return true;
 }
 
