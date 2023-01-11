@@ -4659,3 +4659,40 @@ CB:setPlyWorldBounds(const playerid, const blockid, const actionid, const world,
     SetPlayerWorldBounds(userid, x_max, x_min, y_max, y_min);
     return true;
 }
+
+CB:setCarVinyls(const playerid, const blockid, const actionid, const world, const argumentIdx) {
+    new
+        arguments[TEXT_FUNCTION_ARGUMENT],
+        vehicleid,
+	vinylid;
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+
+    if(sscanf(arguments, "dD(0)", vehicleid, vinylid)) {
+        return SendMissCBMessage(playerid, blockid, actionid, "vehicleid vinylid");
+    }
+
+    if (vehicleid < 1 || vehicleid > MAX_VEHICLES) {
+        return SendErrorCBMessage(playerid, blockid, actionid, "1+");
+    }
+
+    if (GetVehicleVirtualWorld(vehicleid) != world) {
+        return false;
+    }
+    
+    switch(GetVehicleModel(vehicleid))
+    {
+        case 483:
+            clamp(vinylid, 0, 1);
+        case 575:
+            clamp(vinylid, 0, 2);
+        case 534, 535, 536, 558, 559, 560, 561, 562, 565, 567, 576:
+            clamp(vinylid, 0, 3);
+	default:
+	    return false;
+    }
+    
+    ChangeVehiclePaintjob(vehicleid, vinylid);
+    
+    return true;
+}
