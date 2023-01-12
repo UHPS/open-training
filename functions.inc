@@ -4453,3 +4453,41 @@ CBF:istrailerattached(const playerid, const argumentIdx, const resultIdx) {
     WriteAmxMemoryArray(resultIdx, value);
     return true;
 }
+
+CBF:cbsscanf(const playerid, const argumentIdx, const resultIdx) {
+    new value[MAX_VALUE_SIZE],
+        arguments[TEXT_FUNCTION_ARGUMENT],
+        data[128],
+        elementindex,
+        separator,
+        sscanf_format[128];
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+    
+    if (sscanf(arguments, "p<,>s[128]dc", data, elementindex, separator)) {
+        if (sscanf(arguments, "p<,>s[128]d", data, elementindex)) {
+            return false;
+        }
+        separator = ' ';
+    }
+
+    if(elementindex < 0 || elementindex > 10)
+    {
+        return false;
+    }
+
+    format(sscanf_format, sizeof(sscanf_format), "p<%c>", separator);
+
+    for(new i = 0; i < elementindex; i++)
+    {
+        strcat(sscanf_format, "{s[128]}");
+    }
+
+    strcat(sscanf_format, "s[128]{s[128]}");
+
+    sscanf(data, sscanf_format, value);
+
+    WriteAmxMemoryArray(resultIdx, value);
+
+    return true;
+}
