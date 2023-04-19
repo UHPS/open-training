@@ -4453,3 +4453,22 @@ CBF:istrailerattached(const playerid, const argumentIdx, const resultIdx) {
     WriteAmxMemoryArray(resultIdx, value);
     return true;
 }
+
+CBF:getangle(const playerid, const argumentIdx, const resultIdx) {
+    new arguments[TEXT_FUNCTION_ARGUMENT],
+    value[MAX_VALUE_SIZE],
+    Float:x1, 
+    Float:y1, 
+    Float:x2, 
+    Float:y2;
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+
+    if (sscanf(arguments, "ffff", x1, y1, x2, y2)) {
+        return false;
+    }
+
+    format(value, MAX_VALUE_SIZE, "%.1f", atan(floatdiv(floatsub(y2, y1), floatsub(x2, x1))));
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
