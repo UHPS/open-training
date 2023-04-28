@@ -4453,3 +4453,461 @@ CBF:istrailerattached(const playerid, const argumentIdx, const resultIdx) {
     WriteAmxMemoryArray(resultIdx, value);
     return true;
 }
+
+CBF:nextplayer(const playerid, const argumentIdx, const resultIdx) {
+    new world,
+        value[MAX_VALUE_SIZE],
+        arguments[TEXT_FUNCTION_ARGUMENT],
+        nextplayerid = -1,
+	reserveid = -1,
+	startid,
+	formatstring[32];
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+    world = GetPlayerVirtualWorld(playerid);
+
+    new category[24],
+        categoryType,
+        type[2];
+        
+    format(formatstring, 32, "D(%i)s[24]D(0)D(0)", playerid);
+    sscanf(arguments, formatstring, startid, category, type[0], type[1]);
+
+    if (!isnull(category)) {
+        if (!strcmp(category, "any", true))
+            categoryType = 0;
+        else if (!strcmp(category, "team", true)) {
+            type[0]--;
+            categoryType = 1;
+        } else if (!strcmp(category, "skin", true))
+            categoryType = 2;
+        else if (!strcmp(category, "veh", true))
+            categoryType = 3;
+        else if (!strcmp(category, "data", true))
+            categoryType = 4;
+        else if (!strcmp(category, "wanted", true))
+            categoryType = 5;
+        else if (!strcmp(category, "action", true))
+            categoryType = 6;
+        else if (!strcmp(category, "dead", true))
+            categoryType = 7;
+        else if (!strcmp(category, "alive", true))
+            categoryType = 8;
+        else if (!strcmp(category, "score", true))
+            categoryType = 9;
+        else if (!strcmp(category, "gun", true) || !strcmp(category, "weapon", true))
+            categoryType = 10;
+        else if (!strcmp(category, "channel", true))
+            categoryType = 11;
+        else if (!strcmp(category, "afk", true))
+            categoryType = 12;
+        else if (!strcmp(category, "vip", true))
+            categoryType = 13;
+        else if (!strcmp(category, "taser", true))
+            categoryType = 14;
+        else if (!strcmp(category, "surfingveh", true))
+            categoryType = 15;
+        else if (!strcmp(category, "int", true))
+            categoryType = 16;
+        else if (!strcmp(category, "attach", true))
+            categoryType = 17;
+        else if (!strcmp(category, "attachmodel", true))
+            categoryType = 18;
+        else if (!strcmp(category, "retval", true))
+            categoryType = 19;
+        else if (!strcmp(category, "moder", true))
+            categoryType = 20;
+        else if (!strcmp(category, "vehseat", true))
+            categoryType = 21;
+    } else {
+    	categoryType = 0;
+    }
+
+    if(categoryType == 4 && (type[0] < 0 || type[0] > MAX_PLAYER_ARRAY_SLOT))
+    {
+        valstr(value, -1);
+        WriteAmxMemoryArray(resultIdx, value);
+        return true;
+    }
+
+    if((categoryType == 17 || categoryType == 18) && (type[0] < 1 || type[0] > 10))
+    {
+        valstr(value, -1);
+        WriteAmxMemoryArray(resultIdx, value);
+        return true;
+    }
+    
+    if(categoryType == 19 && (type[0] < 1 || type[0] > 10))
+    {
+        valstr(value, -1);
+        WriteAmxMemoryArray(resultIdx, value);
+        return true;
+    }
+
+
+    foreach(new player : Player) {
+        if (GetPlayerVirtualWorld(player) != world || player == startid)
+            continue;
+
+        switch(categoryType)
+        {
+            case 0: {
+                nextplayerid = player;
+            }
+
+            case 1: {
+                if (pData[player][pTeam] == type[0])
+                    nextplayerid = player;
+	    }
+
+            case 2: {
+                if (pData[player][pSkin] == type[0])
+                    nextplayerid = player;
+	    }
+
+            case 3: {
+                if (GetVehicleModel(GetPlayerVehicleID(player)) == type[0])
+                    nextplayerid = player;
+	    }
+
+            case 4: {
+                if (pData[player][cbData][type[0]] == type[1])
+                    nextplayerid = player;
+	    }
+
+            case 5: {
+                if (GetPlayerWantedLevel(player) == type[0])
+                    nextplayerid = player;
+	    }
+
+            case 6: {
+                if (GetPlayerSpecialAction(player) == type[0])
+                    nextplayerid = player;
+	    }
+
+            case 7: {
+                if (pData[player][pDead])
+                    nextplayerid = player;
+	    }
+
+            case 8: {
+                if (!pData[player][pDead])
+                	nextplayerid = player;
+	    }
+
+            case 9: {
+                if (GetPlayerScore(player) == type[0])
+                    nextplayerid = player;
+	    }
+
+            case 10: {
+                if (GetPlayerWeapon(player) == type[0])
+                    nextplayerid = player;
+	    }
+
+            case 11: {
+                if (pData[player][pChannel] == type[0])
+                    nextplayerid = player;
+	    }
+
+            case 12: {
+                if (pData[player][pAFK] == type[0])
+                    nextplayerid = player;
+	    }
+
+            case 13: {
+                if (pData[player][vip])
+                    nextplayerid = player;
+	    }
+
+            case 14: {
+                if (pData[player][pTazer])
+                    nextplayerid = player;
+	    }
+
+            case 15: {
+                if (GetPlayerSurfingVehicleID(player) == type[0])
+                    nextplayerid = player;
+	    }
+
+            case 16: {
+                if (pData[player][pInterior] == type[0])
+                    nextplayerid = player;
+	    }
+
+            case 17: {
+                if (pAttach[player][type[0]][0])
+                    nextplayerid = player;
+	    }
+
+            case 18: {
+                if (pAttach[player][player][1] == type[1])
+                    nextplayerid = player;
+	    }
+
+            case 19: {
+                if (pData[player][pRetVal][type[0]] == type[1])
+                    nextplayerid = player;
+	    }
+
+            case 20: {
+                if (pData[player][pModer])
+                    nextplayerid = player;
+            }
+
+            case 21: {
+                if (GetPlayerVehicleSeat(player) == type[0])
+                	nextplayerid = player;
+	    }
+			
+        }
+        
+	if(nextplayerid != -1)
+	{
+            if(player > startid)
+	    {
+	   	valstr(value, nextplayerid);
+            	WriteAmxMemoryArray(resultIdx, value);
+            	return true;
+	    }
+	    else
+	    {
+            if(reserveid == -1)
+		reserveid = nextplayerid;
+		
+		nextplayerid = -1;
+	    }
+	}
+    }
+
+    valstr(value, reserveid);
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
+
+
+CBF:prevplayer(const playerid, const argumentIdx, const resultIdx) {
+    new world,
+        value[MAX_VALUE_SIZE],
+        arguments[TEXT_FUNCTION_ARGUMENT],
+        prevplayerid = -1,
+	reserveid = -1,
+	startid,
+	formatstring[32];
+
+    ReadAmxMemoryArray(argumentIdx, arguments);
+    world = GetPlayerVirtualWorld(playerid);
+
+    new category[24],
+        categoryType,
+        type[2];
+
+format(formatstring, 32, "D(%i)s[24]D(0)D(0)", playerid);
+    sscanf(arguments, formatstring, startid, category, type[0], type[1]);
+
+    if (!isnull(category)) {
+        if (!strcmp(category, "any", true))
+            categoryType = 0;
+        else if (!strcmp(category, "team", true)) {
+            type[0]--;
+            categoryType = 1;
+        } else if (!strcmp(category, "skin", true))
+            categoryType = 2;
+        else if (!strcmp(category, "veh", true))
+            categoryType = 3;
+        else if (!strcmp(category, "data", true))
+            categoryType = 4;
+        else if (!strcmp(category, "wanted", true))
+            categoryType = 5;
+        else if (!strcmp(category, "action", true))
+            categoryType = 6;
+        else if (!strcmp(category, "dead", true))
+            categoryType = 7;
+        else if (!strcmp(category, "alive", true))
+            categoryType = 8;
+        else if (!strcmp(category, "score", true))
+            categoryType = 9;
+        else if (!strcmp(category, "gun", true) || !strcmp(category, "weapon", true))
+            categoryType = 10;
+        else if (!strcmp(category, "channel", true))
+            categoryType = 11;
+        else if (!strcmp(category, "afk", true))
+            categoryType = 12;
+        else if (!strcmp(category, "vip", true))
+            categoryType = 13;
+        else if (!strcmp(category, "taser", true))
+            categoryType = 14;
+        else if (!strcmp(category, "surfingveh", true))
+            categoryType = 15;
+        else if (!strcmp(category, "int", true))
+            categoryType = 16;
+        else if (!strcmp(category, "attach", true))
+            categoryType = 17;
+        else if (!strcmp(category, "attachmodel", true))
+            categoryType = 18;
+        else if (!strcmp(category, "retval", true))
+            categoryType = 19;
+        else if (!strcmp(category, "moder", true))
+            categoryType = 20;
+        else if (!strcmp(category, "vehseat", true))
+            categoryType = 21;
+    } else {
+    	categoryType = 0;
+    }
+
+    if(categoryType == 4 && (type[0] < 0 || type[0] > MAX_PLAYER_ARRAY_SLOT))
+    {
+        valstr(value, -1);
+        WriteAmxMemoryArray(resultIdx, value);
+        return true;
+    }
+
+    if((categoryType == 17 || categoryType == 18) && (type[0] < 1 || type[0] > 10))
+    {
+        valstr(value, -1);
+        WriteAmxMemoryArray(resultIdx, value);
+        return true;
+    }
+
+    if(categoryType == 19 && (type[0] < 1 || type[0] > 10))
+    {
+        valstr(value, -1);
+        WriteAmxMemoryArray(resultIdx, value);
+        return true;
+    }
+
+
+    foreach(new player : Player) {
+        if (GetPlayerVirtualWorld(player) != world || player == startid)
+            continue;
+
+        switch(categoryType)
+        {
+            case 0: {
+                prevplayerid = player;
+	    }
+
+            case 1: {
+                if (pData[player][pTeam] == type[0])
+                    prevplayerid = player;
+   	    }
+
+            case 2: {
+                if (pData[player][pSkin] == type[0])
+                    prevplayerid = player;
+	    }
+
+            case 3: {
+                if (GetVehicleModel(GetPlayerVehicleID(player)) == type[0])
+                    prevplayerid = player;
+	    }
+
+            case 4: {
+                if (pData[player][cbData][type[0]] == type[1])
+                    prevplayerid = player;
+	    }
+
+            case 5: {
+                if (GetPlayerWantedLevel(player) == type[0])
+                    prevplayerid = player;
+	    }
+
+            case 6: {
+                if (GetPlayerSpecialAction(player) == type[0])
+                    prevplayerid = player;
+	    }
+
+            case 7: {
+                if (pData[player][pDead])
+                    prevplayerid = player;
+	    }
+
+            case 8: {
+                if (!pData[player][pDead])
+                	prevplayerid = player;
+	    }
+
+            case 9: {
+                if (GetPlayerScore(player) == type[0])
+                    prevplayerid = player;
+	    }
+
+            case 10: {
+                if (GetPlayerWeapon(player) == type[0])
+                    prevplayerid = player;
+	    }
+
+            case 11: {
+                if (pData[player][pChannel] == type[0])
+                    prevplayerid = player;
+			}
+
+            case 12: {
+                if (pData[player][pAFK] == type[0])
+                    prevplayerid = player;
+            }
+
+            case 13: {
+                if (pData[player][vip])
+                    prevplayerid = player;
+	    }
+
+            case 14: {
+                if (pData[player][pTazer])
+                    prevplayerid = player;
+			}
+
+            case 15: {
+                if (GetPlayerSurfingVehicleID(player) == type[0])
+                    prevplayerid = player;
+	    }
+
+            case 16: {
+                if (pData[player][pInterior] == type[0])
+                    prevplayerid = player;
+	    }
+
+            case 17: {
+                if (pAttach[player][type[0]][0])
+                    prevplayerid = player;
+	    }
+
+            case 18: {
+                if (pAttach[player][player][1] == type[1])
+                    prevplayerid = player;
+			}
+
+            case 19: {
+                if (pData[player][pRetVal][type[0]] == type[1])
+                    prevplayerid = player;
+	    }
+
+            case 20: {
+                if (pData[player][pModer])
+                    prevplayerid = player;
+            }
+
+            case 21: {
+                if (GetPlayerVehicleSeat(player) == type[0])
+                	prevplayerid = player;
+	    }
+
+        }
+
+        if(player > startid && reserveid != -1)
+	{
+            valstr(value, reserveid);
+            WriteAmxMemoryArray(resultIdx, value);
+	    return true;
+	}
+	else
+	{
+	    if(prevplayerid != -1)
+    		reserveid = prevplayerid;
+	}
+    }
+
+    valstr(value, prevplayerid);
+    WriteAmxMemoryArray(resultIdx, value);
+    return true;
+}
