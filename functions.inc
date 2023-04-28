@@ -4904,8 +4904,6 @@ format(formatstring, 32, "D(%i)s[24]D(0)D(0)", playerid);
 	{
 	    if(prevplayerid != -1)
     		reserveid = prevplayerid;
-				
-	    prevplayerid = -1;
 	}
     }
 
